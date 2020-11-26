@@ -15,12 +15,15 @@ export default {
 
             return authService.login(option)
                 .then(body => {
-
+                    debugger
                 })
-                .catch(error => {
+                .catch((result: Types.RequestError) => {
                     toaster.toast({
                         label: 'Login Error',
+                        description: result.error
                     })
+
+                    throw result;
                 })
 
         }
