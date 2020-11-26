@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@mres/web": "../../modular-rest/packages/web-client/",
     "@nuxt/typescript-runtime": "^2.0.0",
     "core-js": "^3.6.5",
     "nouislider": "^14.6.3",
