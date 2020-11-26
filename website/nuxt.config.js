@@ -18,9 +18,9 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '@plugins/argon-kit.js',
-    '@plugins/toaster.js',
-    '@plugins/boot.ts',
+    { src: '@plugins/argon-kit.js', mode: 'client' },
+    { src: '@plugins/toaster.js', mode: 'client' },
+    { src: '@plugins/boot.ts', mode: 'client' },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -40,8 +40,11 @@ export default {
       'nuxt-i18n',
       {
         locales: [
-          { code: 'fa', iso: 'fa-ir', file: '@i18n/fa.js' },
-        ]
+          { code: 'fa', iso: 'fa-IR', file: 'fa-IR.js' },
+        ],
+        lazy: true,
+        langDir: 'lang/',
+        defaultLocale: 'fa'
       }
     ],
   ],
