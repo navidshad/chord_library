@@ -1,5 +1,6 @@
 <template>
     <div class="profile-page">
+
         <section class="section-profile-cover section-shaped my-0">
             <div class="shape shape-style-1 shape-primary shape-skew alpha-4">
                 <span></span>
@@ -11,6 +12,7 @@
                 <span></span>
             </div>
         </section>
+
         <section class="section section-skew">
             <div class="container">
                 <card shadow class="card-profile mt--300" no-body>
@@ -66,6 +68,7 @@
                 </card>
             </div>
         </section>
+
     </div>
 </template>
 <script>
