@@ -15,7 +15,7 @@ export default {
 
             return authService.login(option)
                 .then(body => {
-                    debugger
+        
                 })
                 .catch((result: Types.RequestError) => {
                     toaster.toast({

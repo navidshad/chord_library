@@ -93,7 +93,9 @@ export default {
           id: this.accountID,
           password: this.password,
         })
-        .then(() => {});
+        .then(() => {
+          this.$router.push('/');
+        });
     },
   },
 };

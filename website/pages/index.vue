@@ -29,11 +29,11 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   created() {
     console.log('inside index');
-    
+    this.$router.push('/auth/login');
   }
 }
 </script>
