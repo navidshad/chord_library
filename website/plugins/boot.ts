@@ -1,5 +1,9 @@
 import { GlobalOptions } from '@mres/web'
 
+// Styles
+import '../assets/style/style.scss';
+import 'boxicons/css/boxicons.min.css';
+
 /**
  * Setup mrest-web module
  */

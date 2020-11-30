@@ -42,14 +42,17 @@ export default {
 
   &.error {
     @apply bg-red-500;
+    // background: lightcoral;
   }
 
   &.success {
     @apply bg-green-500;
+    // background: lightgreen;
   }
 
   &.warning {
     @apply bg-yellow-600;
+    // background: yellow;
   }
 
   &-close-container {

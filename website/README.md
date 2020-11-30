@@ -1,4 +1,4 @@
-# chord-library-website
+# chord-library
 
 ## Build Setup
 

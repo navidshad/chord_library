@@ -57,6 +57,10 @@ export default {
 <style lang="scss" scoped>
 .toast-container {
   @apply absolute bottom-0 right-0 pr-20;
+  // position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-right: 20px;
   z-index: 9999;
   width: 400px;
 }

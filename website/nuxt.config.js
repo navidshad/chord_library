@@ -14,11 +14,12 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    'vuesax/dist/vuesax.css'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    { src: '@plugins/argon-kit.js', mode: 'client' },
+    '@/plugins/vuesax',
     { src: '@plugins/toaster.js', mode: 'client' },
     { src: '@plugins/boot.ts', mode: 'client' },
   ],
@@ -30,12 +31,14 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    // https://go.nuxtjs.dev/tailwindcss
+
     '@nuxtjs/tailwindcss',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    // https://go.nuxtjs.dev/pwa
+    '@nuxtjs/pwa',
     [
       'nuxt-i18n',
       {
@@ -47,7 +50,12 @@ export default {
         defaultLocale: 'fa'
       }
     ],
+
   ],
+
+  // router: {
+  //   middleware: ['auth']
+  // },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {

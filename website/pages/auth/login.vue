@@ -1,16 +1,7 @@
 <template>
-  <shape-section hero>
-    <div class="container pt-lg-md">
-      <div class="row justify-content-center">
-        <div class="col-lg-5">
-          <card
-            type="secondary"
-            shadow
-            header-classes="bg-white pb-5"
-            body-classes="px-lg-5 py-lg-5"
-            class="border-0"
-          >
-            <!-- <template>
+  <div>
+    <card class="p-16">
+      <!-- <template>
               <div class="text-muted text-center mb-3">
                 <small>Sign in with</small>
               </div>
@@ -26,79 +17,89 @@
                 </base-button>
               </div>
             </template> -->
-            <template>
-              <div class="text-center text-muted mb-4">
-                <small>{{ $t("auth.with-credentials") }}</small>
-              </div>
-              <form role="form">
-                <base-input
-                  alternative
-                  class="mb-3"
-                  addon-left-icon="ni ni-email-83"
-                  :placeholder="$t('auth.accountID')"
-                  v-model="accountID"
-                />
-
-                <base-input
-                  alternative
-                  type="password"
-                  addon-left-icon="ni ni-lock-circle-open"
-                  :placeholder="$t('auth.password')"
-                  v-model="password"
-                />
-
-                <base-checkbox v-model="rememberMe">
-                  {{ $t("auth.remember-me") }}
-                </base-checkbox>
-                <div class="text-center">
-                  <base-button type="primary" class="my-4" @click="login">{{
-                    $t("auth.sign-in")
-                  }}</base-button>
-                </div>
-              </form>
+      <template>
+        <div class="text-center text-muted mb-4">
+          <small>{{ $t('auth.with-credentials') }}</small>
+        </div>
+        <div>
+          <vs-input
+            alternative
+            class="mb-3"
+            addon-left-icon="ni ni-email-83"
+            :placeholder="$t('auth.accountID')"
+            v-model="form.id"
+          >
+            <template #icon>
+              <i class="bx bx-user" />
             </template>
-          </card>
-          <div class="row mt-3">
-            <div class="col-6">
-              <a href="#" class="text-light">
-                <small>{{ $t("auth.forgot-password") }}</small>
-              </a>
-            </div>
-            <div class="col-6 text-right">
-              <a href="#" class="text-light">
-                <small>{{ $t("auth.create-new-account") }}</small>
-              </a>
-            </div>
+          </vs-input>
+
+          <vs-input
+            alternative
+            type="password"
+            addon-left-icon="ni ni-lock-circle-open"
+            :placeholder="$t('auth.password')"
+            v-model="form.password"
+          >
+            <template #icon>
+              <i class="bx bx-lock-open-alt"></i>
+            </template>
+          </vs-input>
+
+          <!-- <base-checkbox v-model="rememberMe">
+            {{ $t('auth.remember-me') }}
+          </base-checkbox> -->
+          <div class="mt-4">
+            <vs-button block :loading="pending" @click="login">
+              {{ $t('auth.sign-in') }}
+            </vs-button>
           </div>
         </div>
+      </template>
+    </card>
+    <div class="flex flex-row-reverse justify-between items-end mt-2 px-2">
+      <div>
+        <a href="#" class="text-light">
+          <small>{{ $t('auth.forgot-password') }}</small>
+        </a>
+      </div>
+      <div>
+        <a href="#" class="text-light">
+          <small>{{ $t('auth.create-new-account') }}</small>
+        </a>
       </div>
     </div>
-  </shape-section>
+  </div>
 </template>
 
 <script>
 export default {
+  namd: 'Login',
+  layout: 'hero',
   data() {
     return {
-      accountID: "",
-      password: "",
+      form: {
+        idType: 'email',
+        id: '',
+        password: '',
+      },
+      pending: false,
       rememberMe: false,
-    };
+    }
   },
   methods: {
     login() {
+      this.pending = true
+
       this.$store
-        .dispatch("auth/login", {
-          idType: "email",
-          id: this.accountID,
-          password: this.password,
-        })
+        .dispatch('auth/login', this.form)
         .then(() => {
-          this.$router.push('/');
-        });
+          this.$router.push('/')
+        })
+        .finally(() => (this.pending = false))
     },
   },
-};
+}
 </script>
 
 <style>
