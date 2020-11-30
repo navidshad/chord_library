@@ -59,14 +59,14 @@
     </card>
     <div class="flex flex-row-reverse justify-between items-end mt-2 px-2">
       <div>
-        <a href="#" class="text-light">
+        <NuxtLink to="/auth/forgot-password">
           <small>{{ $t('auth.forgot-password') }}</small>
-        </a>
+        </NuxtLink>
       </div>
       <div>
-        <a href="#" class="text-light">
+        <NuxtLink to="/auth/register">
           <small>{{ $t('auth.create-new-account') }}</small>
-        </a>
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -74,7 +74,7 @@
 
 <script>
 export default {
-  namd: 'Login',
+  name: 'Login',
   layout: 'hero',
   data() {
     return {

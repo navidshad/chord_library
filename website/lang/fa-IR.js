@@ -5,7 +5,12 @@ export default {
         'password': 'رمز عبور',
         'remember-me': 'منو بخاطر بسپار',
         'sign-in': 'ورود',
+        'submit':'ثبت',
         'forgot-password':'رمز عبورت رو فراموش کردی؟',
-        'create-new-account': 'ایجاد حساب جدید'
+        'recover-password':'بازنشانی رمز عبور',
+        'create-new-account': 'ایجاد حساب جدید',
+        'verify-code':'ثبت کد تایید',
+        'code': 'کد',
+        'choose-password': 'انتخاب رمز',
     }
 }

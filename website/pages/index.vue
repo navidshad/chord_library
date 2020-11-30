@@ -67,7 +67,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Logo from '~/components/Logo.vue'
 import VuesaxLogo from '~/components/VuesaxLogo.vue'
 
