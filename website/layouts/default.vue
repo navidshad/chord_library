@@ -1,8 +1,52 @@
 <template>
   <div>
+    <!-- NAVBAR -->
+    <vs-navbar>
+      <vs-button slot="left" flat v-if="!isLogin" to="/auth/login">
+        {{ $t('auth.sign-in') }}
+      </vs-button>
+
+      <vs-button
+        slot="left"
+        v-if="isLogin"
+        @click="activeSidebar = !activeSidebar"
+        flat
+        icon
+      >
+        <i class="bx bx-menu"></i>
+      </vs-button>
+
+      <vs-navbar-item to="/">{{ $t('navbar.home') }}</vs-navbar-item>
+    </vs-navbar>
+
+    <!-- SIDEBAR -->
+    <vs-sidebar 
+      :open.sync="activeSidebar"
+      absolute
+    >
+    
+    </vs-sidebar>
+
+    <!-- CONTENT -->
     <Nuxt />
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      activeSidebar: false,
+    }
+  },
+  computed: {
+    isLogin() {
+      // return authService.isLogin
+      return this.$store.getters['auth/isLogin']
+    },
+  },
+}
+</script>
 
 <style lang="scss">
 // html {

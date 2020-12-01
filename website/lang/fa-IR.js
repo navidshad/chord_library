@@ -12,5 +12,8 @@ export default {
         'verify-code':'ثبت کد تایید',
         'code': 'کد',
         'choose-password': 'انتخاب رمز',
+    },
+    navbar: {
+        home: 'صفحه اصلی'
     }
 }
