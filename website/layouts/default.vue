@@ -28,7 +28,9 @@
     </vs-sidebar>
 
     <!-- CONTENT -->
-    <Nuxt />
+    <div class="page-content">
+      <Nuxt />
+    </div>
   </div>
 </template>
 
@@ -49,6 +51,9 @@ export default {
 </script>
 
 <style lang="scss">
+.page-content {
+  @apply px-4 pt-16;
+}
 // html {
 //   font-family:
 //     'Source Sans Pro',

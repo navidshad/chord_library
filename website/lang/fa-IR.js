@@ -15,5 +15,11 @@ export default {
     },
     navbar: {
         home: 'صفحه اصلی'
+    },
+
+    artist: {
+        title: 'هنرمندان',
+        add: 'افزودن',
+        
     }
 }
