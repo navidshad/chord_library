@@ -14,7 +14,14 @@ export default {
         'choose-password': 'انتخاب رمز',
     },
     navbar: {
-        home: 'صفحه اصلی'
+        home: 'صفحه اصلی',
+        admin: {
+            title: 'مدیریت',
+            artists: 'هنرمندان',
+            genres: 'سبک ها',
+            songs: 'ترانه ها',
+            'new-song': 'آکورد جدید',
+        }
     },
 
     artist: {

@@ -1,5 +1,10 @@
 <template>
-  <collection-viewer database="chord" collection="artist" :fields="fields" />
+  <collection-viewer
+    database="chord"
+    collection="artist"
+    :fields="fields"
+    :title="$t('artist.title')"
+  />
 </template>
 
 <script>
@@ -7,20 +12,17 @@ export default {
   data() {
     return {
       fields: [
-        { 
+        {
           key: 'name',
           type: 'string',
-        }, 
-        { 
+        },
+        {
           key: 'chords',
           type: 'string',
           hideInform: true,
-        }
+        },
       ],
     }
   },
 }
 </script>
-
-<style>
-</style>

@@ -2,8 +2,8 @@
   <div>
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
-      <h2 class="text-lg">{{ $t('artist.title') }}</h2>
-      <vs-button @click="activeForm = true">{{ $t('artist.add') }}</vs-button>
+      <h2 class="text-lg">{{ title }}</h2>
+      <vs-button @click="activeForm = true">{{ $t('add') }}</vs-button>
     </div>
 
     <!-- Content -->
@@ -51,6 +51,7 @@ const dataProvider = DataProvider.getInstance()
 
 export default {
   props: {
+    title: String,
     database: { type: String, required: true },
     collection: { type: String, required: true },
     /**
