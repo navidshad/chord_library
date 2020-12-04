@@ -6,7 +6,10 @@
           <i class="gg-close" />
         </span>
       </div>
-      <span>{{ label }}</span>
+      <div>
+        <span>{{ label }}</span>
+        <p>{{ description }}</p>
+      </div>
       <div v-if="!rtl">
         <span class="toast-close-container" @click="onClose">
           <i class="gg-close" />
@@ -20,10 +23,10 @@
 export default {
   props: {
     label: String,
-    message: String,
+    description: String,
     id: {},
     lifeTime: { type: Number, default: 2 },
-    rtl: { type: Boolean, default: true }
+    rtl: { type: Boolean, default: true },
   },
   created() {
     setTimeout(this.onClose, this.lifeTime * 1000)
@@ -31,8 +34,8 @@ export default {
   methods: {
     onClose() {
       this.$emit('remove', this.id)
-    }
-  }
+    },
+  },
 }
 </script>
 

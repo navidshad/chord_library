@@ -41,7 +41,7 @@ export default {
       this.toastStack.push({
         id: new Date().getMilliseconds(),
         toast: label,
-        description: description,
+        description: description.toString(),
         type: type
       })
     },
