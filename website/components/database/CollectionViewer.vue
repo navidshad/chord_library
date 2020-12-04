@@ -40,14 +40,14 @@
         :database="database"
         :collection="collection"
         :fields="fields"
+        @created="onNewItem"
       />
     </vs-dialog>
   </div>
 </template>
 
 <script>
-import { DataProvider } from '@mres/web'
-const dataProvider = DataProvider.getInstance()
+import { dataProvider } from '@mres/web'
 
 export default {
   props: {
@@ -90,6 +90,10 @@ export default {
         .find(this.findOption)
         .then((list) => (this.list = list))
         .finally(() => (this.pending = false))
+    },
+    onNewItem() {
+      this.activeForm = false
+      this.find()
     },
   },
 }

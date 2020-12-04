@@ -19,14 +19,16 @@
       <vs-button class="mt-16" v-if="!edit" @click="create">{{
         $t('create')
       }}</vs-button>
-      <vs-button class="mt-16" v-else @click="update">{{ $t('update') }}</vs-button>
+      <vs-button class="mt-16" v-else @click="update">{{
+        $t('update')
+      }}</vs-button>
     </div>
   </div>
 </template>
 
 <script>
-import { DataProvider } from '@mres/web'
-const dataProvider = DataProvider.getInstance()
+import { dataProvider } from '@mres/web'
+import toaster from '../../utilities/toaster'
 
 export default {
   props: {
@@ -75,7 +77,15 @@ export default {
         .insertOne({
           database: this.database,
           collection: this.collection,
-          document: this.form,
+          doc: this.form,
+        })
+        .then(() => this.$emit('created'))
+        .catch((result) => {
+          toaster.toast({
+            label: `Create ${this.collection} error`,
+            description: result.error,
+            type: 'error',
+          })
         })
         .finally(() => (this.pending = false))
     },
