@@ -1,7 +1,5 @@
-import { Types, Authentication } from '@mres/web';
+import { Types, authentication } from '@mres/web';
 import toaster from '../utilities/toaster';
-
-const authService = Authentication.getInstance();
 
 interface Context {
     commit: any,
@@ -39,7 +37,7 @@ export default {
     actions: {
         login({ commit }: Context, option: Types.LoginOptions) {
 
-            return authService.login(option, true)
+            return authentication.login(option, true)
                 .then(user => {
                     commit('SET_USER', user);
                 })
@@ -57,7 +55,7 @@ export default {
 
         submitIdentity({ commit }: Context, option: Types.Identity) {
 
-            return authService.registerIdentity(option)
+            return authentication.registerIdentity(option)
                 .catch((result: Types.RequestError) => {
                     toaster.toast({
                         label: 'Register error',
@@ -71,7 +69,7 @@ export default {
 
         verifyId({ commit }: Context, option: { code: string, id: string }) {
 
-            return authService.validateCode(option)
+            return authentication.validateCode(option)
                 .catch((result: Types.RequestError) => {
                     toaster.toast({
                         label: 'Verify code error',
@@ -85,7 +83,7 @@ export default {
 
         submitPassword({ commit }: Context, option: { code: string, id: string, password: string }) {
 
-            return authService.submitPassword(option)
+            return authentication.submitPassword(option)
                 .catch((result: Types.RequestError) => {
                     toaster.toast({
                         label: 'Submit password error',
@@ -99,7 +97,7 @@ export default {
 
         changePassword({ commit }: Context, option: { code: string, id: string, password: string }) {
 
-            return authService.changePassword(option)
+            return authentication.changePassword(option)
                 .catch((result: Types.RequestError) => {
                     toaster.toast({
                         label: 'Change password error',
