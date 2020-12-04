@@ -26,8 +26,8 @@ module.exports = [
         db: 'chord',
         collection: 'artist',
         schema: new Schema({
-            title: String,
-            songs: Number,
+            name: { type: String, required: true },
+            chords: { type: Number, default: 0 },
         }),
         permissions: [
             new Permission({
@@ -46,7 +46,7 @@ module.exports = [
         db: 'chord',
         collection: 'song',
         schema: new Schema({
-            title: String,
+            title: { type: String, required: true },
         }),
         permissions: [
             new Permission({
