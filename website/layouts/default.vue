@@ -20,11 +20,30 @@
     </vs-navbar>
 
     <!-- SIDEBAR -->
-    <vs-sidebar 
-      :open.sync="activeSidebar"
-      absolute
-    >
-    
+    <vs-sidebar :open.sync="activeSidebar" absolute>
+      <!-- Admin section -->
+      <vs-sidebar-group v-if="user && user.type == 'administrator'">
+        <template #header>
+          <vs-sidebar-item arrow>
+            <template #icon>
+              <i class="bx bx-terminal"></i>
+            </template>
+            {{ $t('navbar.admin.title') }}
+          </vs-sidebar-item>
+        </template>
+
+        <vs-sidebar-item to="/admin/artists">
+          {{$t('navbar.admin.artists')}}
+        </vs-sidebar-item>
+
+        <vs-sidebar-item to="/admin/genres">
+          {{$t('navbar.admin.genres')}}
+        </vs-sidebar-item>
+
+        <vs-sidebar-item to="/admin/songs">
+          {{$t('navbar.admin.songs')}}
+        </vs-sidebar-item>
+      </vs-sidebar-group>
     </vs-sidebar>
 
     <!-- CONTENT -->
@@ -45,6 +64,9 @@ export default {
     isLogin() {
       // return authService.isLogin
       return this.$store.getters['auth/isLogin']
+    },
+    user() {
+      return this.$store.state.auth.user
     },
   },
 }
