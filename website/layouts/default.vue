@@ -33,15 +33,15 @@
         </template>
 
         <vs-sidebar-item to="/admin/artists">
-          {{$t('navbar.admin.artists')}}
+          {{ $t('navbar.admin.artists') }}
         </vs-sidebar-item>
 
         <vs-sidebar-item to="/admin/genres">
-          {{$t('navbar.admin.genres')}}
+          {{ $t('navbar.admin.genres') }}
         </vs-sidebar-item>
 
         <vs-sidebar-item to="/admin/songs">
-          {{$t('navbar.admin.songs')}}
+          {{ $t('navbar.admin.songs') }}
         </vs-sidebar-item>
       </vs-sidebar-group>
     </vs-sidebar>
@@ -50,6 +50,8 @@
     <div class="page-content">
       <Nuxt />
     </div>
+
+    <dialog-presentor />
   </div>
 </template>
 

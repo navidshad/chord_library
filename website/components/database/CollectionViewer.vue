@@ -3,12 +3,14 @@
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
       <h2 class="text-lg">{{ title }}</h2>
-      <vs-button @click="activeForm = true">{{ $t('add') }}</vs-button>
+      <vs-button v-if="allowAdd" @click="showAddForm">{{
+        $t('add')
+      }}</vs-button>
     </div>
 
     <!-- Content -->
     <card class="p-8 mt-4">
-      <vs-table>
+      <vs-table striped :key="list.length">
         <!-- Search -->
         <template slot="header">
           <vs-input border block placeholder="Search" type="search" />
@@ -29,25 +31,40 @@
             <vs-td v-for="(field, i) in fields" :key="i">
               {{ row[field.key] }}
             </vs-td>
+
+            <!-- Row Actions -->
+            <template #expand>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">_id: {{ row._id }}</span>
+                <div class="flex">
+                  <vs-button
+                    warn
+                    border
+                    v-if="allowEdit"
+                    @click="showEditForm(row)"
+                    >{{ $t('edit') }}</vs-button
+                  >
+                  <vs-button
+                    danger
+                    border
+                    v-if="allowRemove"
+                    @click="showRemoveDialog(row)"
+                    >{{ $t('remove') }}</vs-button
+                  >
+                </div>
+              </div>
+            </template>
           </vs-tr>
         </template>
       </vs-table>
     </card>
-
-    <!-- Ceate/Edit form -->
-    <vs-dialog prevent-close :value="activeForm" @input="activeForm = $event">
-      <collection-form
-        :database="database"
-        :collection="collection"
-        :fields="fields"
-        @created="onNewItem"
-      />
-    </vs-dialog>
   </div>
 </template>
 
 <script>
 import { dataProvider } from '@mres/web'
+import notifier from '../../utilities/notifier'
+import CollectionForm from './CollectionForm'
 
 export default {
   props: {
@@ -56,16 +73,18 @@ export default {
     collection: { type: String, required: true },
     /**
      * An array of
-     * {type, title, key, placeholder, icon}
+     * {type, title, key, placeholder, icon, disable}
      */
     fields: { type: Array, default: () => [] },
+    allowAdd: { type: Boolean, default: true },
+    allowEdit: { type: Boolean, default: true },
+    allowRemove: { type: Boolean, default: true },
   },
 
   data() {
     return {
       list: [],
       pending: false,
-      activeForm: false,
     }
   },
 
@@ -91,9 +110,72 @@ export default {
         .then((list) => (this.list = list))
         .finally(() => (this.pending = false))
     },
-    onNewItem() {
-      this.activeForm = false
-      this.find()
+    showAddForm() {
+      notifier.showDialog({
+        component: CollectionForm,
+        props: {
+          database: this.database,
+          collection: this.collection,
+          fields: this.fields,
+        },
+        events: {
+          created: this.find,
+        },
+        modal: {
+          'prevent-close': true,
+        },
+      })
+    },
+    showEditForm(row) {
+      notifier.showDialog({
+        component: CollectionForm,
+        props: {
+          database: this.database,
+          collection: this.collection,
+          fields: this.fields,
+          document: row,
+          edit: true,
+        },
+        events: {
+          updated: this.find,
+        },
+        modal: {
+          'prevent-close': true,
+        },
+      })
+    },
+    showRemoveDialog(row) {
+      let find = this.find
+      let database = this.database
+      let collection = this.collection
+
+      notifier.showAlertDialog({
+        title: this.$t('database.remove-title'),
+        description: this.$t('database.remove-question'),
+        actions: ['yes', 'no'],
+        onAction(label, action, close) {
+          if (label == 'no') {
+            close()
+            return
+          }
+          action.pending = true
+          dataProvider
+            .removeOne({
+              database: database,
+              collection: collection,
+              query: { _id: row._id },
+            })
+            .then(find)
+            .catch((result) => {
+              notifier.toast({
+                label: `Update ${collection} error`,
+                description: result.error,
+                type: 'error',
+              })
+            })
+            .finally(close)
+        },
+      })
     },
   },
 }

@@ -1,5 +1,5 @@
 import { Types, authentication } from '@mres/web';
-import toaster from '../utilities/toaster';
+import toaster from '../utilities/notifier';
 
 interface Context {
     commit: any,

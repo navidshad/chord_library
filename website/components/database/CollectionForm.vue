@@ -28,7 +28,7 @@
 
 <script>
 import { dataProvider } from '@mres/web'
-import toaster from '../../utilities/toaster'
+import notifier from '../../utilities/notifier'
 
 export default {
   props: {
@@ -36,7 +36,7 @@ export default {
     collection: { type: String, required: true },
     /**
      * An array of
-     * {type, title, key, placeholder, icon}
+     * {type, title, key, placeholder, icon, disable}
      */
     fields: { type: Array, default: () => [] },
     /**
@@ -45,15 +45,16 @@ export default {
      */
     edit: Boolean,
     /**
-     * Document id to edit it
+     * The document to edit it
      * when edit is true.
      */
-    id: String,
+    document: Object,
   },
 
   data() {
     return {
       form: {},
+      id: null,
       pending: false,
     }
   },
@@ -61,8 +62,21 @@ export default {
   computed: {
     fieldsToShow() {
       return this.fields.filter(
-        (item) => item.hideInform == undefined || item.hideInform == false
+        (item) => item.disable == undefined || item.disable == false
       )
+    },
+  },
+
+  watch: {
+    document: {
+      immediate: true,
+      handler(value) {
+        if (this.edit) {
+          this.id = value._id
+          delete value._id
+          this.form = value
+        }
+      },
     },
   },
 
@@ -79,10 +93,37 @@ export default {
           collection: this.collection,
           doc: this.form,
         })
-        .then(() => this.$emit('created'))
+        .then(() => {
+          this.$emit('created')
+          this.$emit('close')
+        })
         .catch((result) => {
-          toaster.toast({
+          notifier.toast({
             label: `Create ${this.collection} error`,
+            description: result.error,
+            type: 'error',
+          })
+        })
+        .finally(() => (this.pending = false))
+    },
+
+    update() {
+      this.pending = true
+
+      dataProvider
+        .updateOne({
+          database: this.database,
+          collection: this.collection,
+          query: { _id: this.id },
+          update: this.form,
+        })
+        .then(() => {
+          this.$emit('updated')
+          this.$emit('close')
+        })
+        .catch((result) => {
+          notifier.toast({
+            label: `Update ${this.collection} error`,
             description: result.error,
             type: 'error',
           })

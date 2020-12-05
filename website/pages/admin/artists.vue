@@ -20,7 +20,7 @@ export default {
         {
           key: 'chords',
           type: 'string',
-          hideInform: true,
+          disable: true,
         },
       ],
     }
