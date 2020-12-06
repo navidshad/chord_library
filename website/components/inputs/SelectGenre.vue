@@ -6,7 +6,8 @@
     :label="label"
     :block="block"
     :placehoder="$t('genre.select-genre')"
-    v-model="tempValue"
+    :value="value"
+    @input="tempValue = $event"
   >
     <vs-option
       v-for="(item, i) in list"

@@ -6,7 +6,8 @@
     :label="label"
     :placehoder="$t('artist.select-artist')"
     :block="block"
-    v-model="tempValue"
+    :value="value"
+    @input="tempValue = $event"
   >
     <vs-option
       v-for="(item, i) in list"
