@@ -19,6 +19,7 @@
     "nuxt": "^2.14.6",
     "nuxt-i18n": "^6.15.4",
     "sass-loader": "^10.1.0",
+    "vue2-editor": "^2.10.2",
     "vuesax": "^4.0.1-alpha.25"
   },
   "devDependencies": {
