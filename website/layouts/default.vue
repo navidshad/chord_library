@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="rtl">
     <!-- NAVBAR -->
     <vs-navbar>
       <vs-button slot="left" flat v-if="!isLogin" to="/auth/login">
