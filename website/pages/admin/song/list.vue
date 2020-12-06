@@ -3,21 +3,30 @@
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
       <h2 class="text-lg">{{ $t('song.songs') }}</h2>
-      <vs-button to="/admin/new-song">{{ $t('add') }}</vs-button>
+      <vs-button to="/admin/song/new">{{ $t('add') }}</vs-button>
     </div>
 
     <!-- Content -->
-    <card class="p-8 mt-4">
-      
-    </card>
+    <div class="mt-8 flex flex-wrap justify-between">
+      <card-song
+        v-for="(song, i) in list"
+        allowRemove
+        :key="i"
+        :song="song"
+        :to="'/admin/song/' + song._id"
+        @remove="showRemoveDialog(song)"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { dataProvider } from '@mres/web'
-import notifier from '../../utilities/notifier'
+import notifier from '../../../utilities/notifier'
 
 export default {
+  name: 'Songs',
+  middleware: ['auth'],
   data() {
     return {
       list: [],
@@ -35,6 +44,7 @@ export default {
         database: 'chord',
         collection: 'song',
         query: {},
+        populates: ['artists', 'genres'],
       }
     },
   },
@@ -47,12 +57,11 @@ export default {
         .then((list) => (this.list = list))
         .finally(() => (this.pending = false))
     },
-    showAddForm() {},
-    showEditForm(row) {},
-    showRemoveDialog(row) {
+
+    showRemoveDialog(song) {
       let find = this.find
-      let database = this.database
-      let collection = this.collection
+      let database = 'chord'
+      let collection = 'song'
 
       notifier.showAlertDialog({
         title: this.$t('database.remove-title'),
@@ -68,13 +77,13 @@ export default {
             .removeOne({
               database: database,
               collection: collection,
-              query: { _id: row._id },
+              query: { _id: song._id },
             })
             .then(find)
-            .catch((result) => {
+            .catch(({ error }) => {
               notifier.toast({
                 label: `Update ${collection} error`,
-                description: result.error,
+                description: JSON.stringify(error),
                 type: 'error',
               })
             })

@@ -38,7 +38,7 @@
 
 <script>
 import { dataProvider } from '@mres/web'
-import notifier from '../../utilities/notifier'
+import notifier from '../../../utilities/notifier'
 
 export default {
   middleware: ['auth'],
@@ -62,7 +62,7 @@ export default {
           collection: 'song',
           doc: this.form,
         })
-        .then(() => this.$router.push('/admin/songs'))
+        .then(() => this.$router.push('/admin/song'))
         .catch(({ error }) => {
           notifier.toast({
             label: 'Create song error',

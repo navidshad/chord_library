@@ -40,7 +40,7 @@
           {{ $t('navbar.admin.genres') }}
         </vs-sidebar-item>
 
-        <vs-sidebar-item to="/admin/songs">
+        <vs-sidebar-item to="/admin/song/list">
           {{ $t('navbar.admin.songs') }}
         </vs-sidebar-item>
       </vs-sidebar-group>

@@ -38,7 +38,9 @@ export default {
 
     song: {
         songs: 'ترانه ها',
-        'new-song': 'ترانه جدید'
+        title: 'عنوان ترانه',
+        'new-song': 'ترانه جدید',
+        'edit-song': 'ویرایش ترانه',
     },
 
     database: {
