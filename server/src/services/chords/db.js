@@ -6,8 +6,6 @@ module.exports = [
         collection: 'genre',
         schema: new Schema({
             title: String,
-            parentId: String,
-            sku: { type: String, unique: true },
         }),
         permissions: [
             new Permission({
@@ -47,9 +45,9 @@ module.exports = [
         collection: 'song',
         schema: new Schema({
             title: { type: String, required: true },
-		artists: {type: [String], required: true},
-		genres:	{type: [String], default: []},
-		content: String,
+            artists: [{ type: Schema.Types.ObjectId, ref: 'artist', default: [] }],
+            genres: [{ type: Schema.Types.ObjectId, ref: 'genre', default: [] }],
+            content: String,
         }),
         permissions: [
             new Permission({
