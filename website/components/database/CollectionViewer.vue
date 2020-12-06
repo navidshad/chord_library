@@ -20,7 +20,7 @@
         <template slot="thead">
           <vs-tr>
             <vs-th v-for="(field, i) in fields" :key="i">
-              {{ field.key }}
+              {{ field.label || field.key }}
             </vs-th>
           </vs-tr>
         </template>
