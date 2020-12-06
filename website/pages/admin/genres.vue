@@ -1,13 +1,25 @@
 <template>
-  
+  <collection-viewer
+    database="chord"
+    collection="genre"
+    :fields="fields"
+    :title="$t('genre.genres')"
+  />
 </template>
 
 <script>
 export default {
-    middleware: ['auth'],
+  middleware: ['auth'],
+  data() {
+    return {
+      fields: [
+        {
+          key: 'title',
+          label: this.$t('genre.title'),
+          type: 'string',
+        },
+      ],
+    }
+  },
 }
 </script>
-
-<style>
-
-</style>

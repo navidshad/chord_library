@@ -3,7 +3,7 @@
     database="chord"
     collection="artist"
     :fields="fields"
-    :title="$t('artist.title')"
+    :title="$t('artist.artists')"
   />
 </template>
 
@@ -15,10 +15,12 @@ export default {
       fields: [
         {
           key: 'name',
+          label: this.$t('artist.artists'),
           type: 'string',
         },
         {
           key: 'chords',
+          label: this.$t('artist.chords'),
           type: 'string',
           disable: true,
         },
