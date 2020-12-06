@@ -48,7 +48,8 @@ module.exports = [
         schema: new Schema({
             title: { type: String, required: true },
 		artists: {type: [String], required: true},
-		genres:	{type: [String], default: []}
+		genres:	{type: [String], default: []},
+		content: String,
         }),
         permissions: [
             new Permission({
