@@ -3,7 +3,7 @@ const { CollectionDefinition, Schema, Permission, PermissionTypes, DatabaseTrigg
 module.exports = [
     new CollectionDefinition({
         db: 'chord',
-        collection: 'genres',
+        collection: 'genre',
         schema: new Schema({
             title: String,
             parentId: String,
@@ -47,6 +47,8 @@ module.exports = [
         collection: 'song',
         schema: new Schema({
             title: { type: String, required: true },
+		artists: {type: [String], required: true},
+		genres:	{type: [String], default: []}
         }),
         permissions: [
             new Permission({
