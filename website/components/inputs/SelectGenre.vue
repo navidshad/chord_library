@@ -4,16 +4,17 @@
     :multiple="multiple"
     :key="list.length"
     :label="label"
-    :placehoder="$t('genre.select-artist')"
+    :block="block"
+    :placehoder="$t('genre.select-genre')"
     v-model="tempValue"
   >
     <vs-option
       v-for="(item, i) in list"
       :key="i"
-      :label="item.name"
+      :label="item.title"
       :value="item._id"
     >
-      {{ item.name }}
+      {{ item.title }}
     </vs-option>
   </vs-select>
 </template>
@@ -27,6 +28,7 @@ export default {
     multiple: { type: Boolean, default: true },
     value: { default: () => [] },
     label: String,
+    block: Boolean,
   },
   data() {
     return {
@@ -44,7 +46,12 @@ export default {
       },
     },
     tempValue(value) {
-      this.$emit('input', value)
+      if (this.multiple) {
+        this.$emit(
+          'input',
+          value.filter((item) => item.length > 0)
+        )
+      } else this.$emit('input', value)
     },
   },
   created() {

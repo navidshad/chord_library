@@ -5,6 +5,7 @@
     :key="list.length"
     :label="label"
     :placehoder="$t('artist.select-artist')"
+    :block="block"
     v-model="tempValue"
   >
     <vs-option
@@ -25,6 +26,7 @@ import notifier from '../../utilities/notifier'
 export default {
   props: {
     multiple: { type: Boolean, default: true },
+    block: Boolean,
     value: { default: () => [] },
     label: String,
   },
@@ -44,7 +46,12 @@ export default {
       },
     },
     tempValue(value) {
-      this.$emit('input', value)
+      if (this.multiple) {
+        this.$emit(
+          'input',
+          value.filter((item) => item.length > 0)
+        )
+      } else this.$emit('input', value)
     },
   },
   created() {

@@ -25,7 +25,20 @@ export default {
     },
 
     artist: {
-        title: 'هنرمندان',
+        artists: 'هنرمندان',
+        name: 'نام / نام مستعار',
+        chords: 'تعداد آکورد',
+        'select-artist': 'انتخواب هنرمند'
+    },
+
+    genre: {
+        genres: 'سبک ها',
+        title: 'عنوان'
+    },
+
+    song: {
+        songs: 'ترانه ها',
+        'new-song': 'ترانه جدید'
     },
 
     database: {
