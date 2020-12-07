@@ -1,17 +1,17 @@
 <template>
-  <vs-card class="card-song" @click="push">
+  <vs-card class="card-chord" @click="push">
     <template #title>
-      <h2>{{ song.title }}</h2>
+      <h2>{{ chord.title }}</h2>
     </template>
     <template #text>
       <div class="flex justify-between">
         <div class="flex flex-wrap">
-          <span v-for="(artist, i) in song.artists" :key="i">{{
+          <span v-for="(artist, i) in chord.artists" :key="i">{{
             artist.name
           }}</span>
         </div>
         <div class="flex flex-wrap">
-          <span v-for="(genre, i) in song.genres" :key="i">{{
+          <span v-for="(genre, i) in chord.genres" :key="i">{{
             genre.title
           }}</span>
         </div>
@@ -39,9 +39,9 @@
 
 <script>
 export default {
-  name: 'card-song',
+  name: 'card-chord',
   props: {
-    song: Object,
+    chord: Object,
     allowRemove: Boolean,
     to: String,
   },
@@ -62,7 +62,7 @@ export default {
 </script>
 
 <style>
-.card-song {
+.card-chord {
   width: 250px;
   margin: 10px;
 }

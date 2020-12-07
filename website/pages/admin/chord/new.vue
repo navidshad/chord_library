@@ -2,14 +2,14 @@
   <div>
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
-      <h2 class="text-lg">{{ $t('song.edit-song') }}</h2>
-      <!-- <vs-button to="/admin/new-song">{{ $t('add') }}</vs-button> -->
+      <h2 class="text-lg">{{ $t('chord.new-chord') }}</h2>
+      <!-- <vs-button to="/admin/new-chord">{{ $t('add') }}</vs-button> -->
     </div>
     <card class="p-4 mt-4">
       <vs-input
         class="my-4"
         block
-        :label="$t('song.title')"
+        :label="$t('chord.title')"
         v-model="form.title"
       />
       <div class="my-6 flex items-center flex-row-reverse">
@@ -28,8 +28,8 @@
       <chord-editor v-model="form.content" />
 
       <div class="mt-4">
-        <vs-button :loading="pending" @click="update">{{
-          $t('update')
+        <vs-button :loading="pending" @click="create">{{
+          $t('create')
         }}</vs-button>
       </div>
     </card>
@@ -42,22 +42,6 @@ import notifier from '../../../utilities/notifier'
 
 export default {
   middleware: ['auth'],
-  async asyncData({ params, error }) {
-    let data = await dataProvider
-      .findOne({
-        database: 'chord',
-        collection: 'song',
-        query: { _id: params.id },
-      })
-      .catch(({ error }) => null)
-
-    if (data) {
-      delete data._id
-      return {
-        form: data,
-      }
-    } else error("Song doesn't found")
-  },
   data() {
     return {
       pending: false,
@@ -69,27 +53,21 @@ export default {
       },
     }
   },
-  computed: {
-    id() {
-      return this.$route.params.id
-    },
-  },
   methods: {
-    update() {
+    create() {
       this.pending = true
       dataProvider
-        .updateOne({
+        .insertOne({
           database: 'chord',
           collection: 'song',
-          query: { _id: this.id },
-          update: this.form,
+          doc: this.form,
         })
-        // .then(() => this.$router.push('/admin/song'))
+        .then(() => this.$router.push('/admin/chord'))
         .catch(({ error }) => {
           notifier.toast({
-            label: 'Update song error',
+            label: 'Create chord error',
             description: JSON.stringify(error),
-            type: 'error',
+            typr: 'error',
           })
         })
         .finally(() => (this.pending = false))

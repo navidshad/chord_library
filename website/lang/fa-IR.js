@@ -19,8 +19,8 @@ export default {
             title: 'مدیریت',
             artists: 'هنرمندان',
             genres: 'سبک ها',
-            songs: 'ترانه ها',
-            'new-song': 'آکورد جدید',
+            chords: 'ترانه ها',
+            'new-chord': 'آکورد جدید',
         }
     },
 
@@ -36,11 +36,11 @@ export default {
         title: 'عنوان'
     },
 
-    song: {
-        songs: 'ترانه ها',
+    chord: {
+        chords: 'ترانه ها',
         title: 'عنوان ترانه',
-        'new-song': 'ترانه جدید',
-        'edit-song': 'ویرایش ترانه',
+        'new-chord': 'ترانه جدید',
+        'edit-chord': 'ویرایش ترانه',
     },
 
     database: {

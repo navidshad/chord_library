@@ -98,6 +98,7 @@ export default {
         database: this.database,
         collection: this.collection,
         query: {},
+        options: { sort: '-_id' },
       }
     },
   },
