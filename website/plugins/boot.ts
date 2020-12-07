@@ -1,4 +1,4 @@
-import { GlobalOptions } from '@mres/web'
+import { GlobalOptions, authentication } from '@mres/web'
 
 // Styles
 import '../assets/style/style.scss';
@@ -11,3 +11,6 @@ GlobalOptions.set({
     host: 'http://localhost:3001'
 })
 
+export default async function () {
+    await authentication.loginAsAnonymous()
+}
