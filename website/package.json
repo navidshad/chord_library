@@ -13,13 +13,13 @@
     "@mres/web": "../../modular-rest/packages/web-client/",
     "@nuxt/typescript-runtime": "^2.0.0",
     "@nuxtjs/pwa": "^3.0.2",
+    "@syncfusion/ej2-vue-richtexteditor": "^18.3.52",
     "boxicons": "^2.0.7",
     "core-js": "^3.6.5",
     "node-sass": "^5.0.0",
     "nuxt": "^2.14.6",
     "nuxt-i18n": "^6.15.4",
     "sass-loader": "^10.1.0",
-    "vue2-editor": "^2.10.2",
     "vuesax": "^4.0.1-alpha.25"
   },
   "devDependencies": {

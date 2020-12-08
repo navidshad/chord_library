@@ -1,40 +1,57 @@
 <template>
-  <!-- <div
-    id="editor"
-    class="bg-gray-200"
-    contenteditable="true"
-    v-text="value"
-    @input="content = $event.target.innerText"
-  ></div> -->
-  <!-- <textarea
-    class="w-full rounded-lg bg-gray-200"
-    id="editor"
-    :value="value"
-    @input="content = $event"
-  /> -->
-  <VueEditor
-    :value="value"
-    @input="content = $event"
-  />
+  <ejs-richtexteditor
+    ref="defaultRTE"
+    :height="height"
+    v-model="content"
+    :toolbarSettings="toolbarSettings"
+  >
+  </ejs-richtexteditor>
 </template>
 
 <script>
+import {
+  RichTextEditorPlugin,
+  Toolbar,
+  Link,
+  Image,
+  Count,
+  HtmlEditor,
+  QuickToolbar,
+} from '@syncfusion/ej2-vue-richtexteditor'
+
+import '@syncfusion/ej2-base/styles/material.css'
+import '@syncfusion/ej2-inputs/styles/material.css'
+import '@syncfusion/ej2-lists/styles/material.css'
+import '@syncfusion/ej2-popups/styles/material.css'
+import '@syncfusion/ej2-buttons/styles/material.css'
+import '@syncfusion/ej2-navigations/styles/material.css'
+import '@syncfusion/ej2-splitbuttons/styles/material.css'
+import '@syncfusion/ej2-vue-richtexteditor/styles/material.css'
+
 export default {
   props: {
     value: String,
+    height: { type: Number, default: 400 },
+  },
+  provide: {
+    richtexteditor: [Toolbar, Link, Image, Count, HtmlEditor, QuickToolbar],
   },
   data() {
     return {
       content: '',
+      toolbarSettings: {
+        items: ['Formats', 'Alignments', '|', 'preview', '|', 'Undo', 'Redo'],
+      },
     }
   },
+
   watch: {
-    // value: {
-    //   immediate: true,
-    //   handler(value) {
-    //     if (value) this.content = value
-    //   },
-    // },
+    value: {
+      immediate: true,
+      handler(value) {
+        if (value) this.content = value
+      },
+    },
     content() {
       this.$emit('input', this.content)
     },

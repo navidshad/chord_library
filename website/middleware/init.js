@@ -9,6 +9,6 @@ GlobalOptions.set({
 
 export default function ({ fetch }) {
     
-    // if (!authentication.isLogin)
+    if (!authentication.isLogin)
         return authentication.loginAsAnonymous();
 }
