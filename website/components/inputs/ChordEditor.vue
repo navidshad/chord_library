@@ -2,8 +2,8 @@
   <ejs-richtexteditor
     ref="defaultRTE"
     :height="height"
-    v-model="content"
     :toolbarSettings="toolbarSettings"
+    v-model="content"
   >
   </ejs-richtexteditor>
 </template>
@@ -40,7 +40,21 @@ export default {
     return {
       content: '',
       toolbarSettings: {
-        items: ['Formats', 'Alignments', '|', 'preview', '|', 'Undo', 'Redo'],
+        items: [
+          'Formats',
+          'Alignments',
+          '|',
+          'FontColor',
+          'BackgroundColor',
+          '|',
+          'Undo',
+          'Redo',
+          '|',
+          'preview',
+        ],
+      },
+      colorSetting: {
+        modeSwitcher: true,
       },
     }
   },

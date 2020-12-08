@@ -62,7 +62,7 @@ export default {
           collection: 'song',
           doc: this.form,
         })
-        .then(() => this.$router.push('/admin/chord'))
+        .then(() => this.$router.push('/admin/chord/list'))
         .catch(({ error }) => {
           notifier.toast({
             label: 'Create chord error',
