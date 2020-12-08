@@ -4,8 +4,8 @@
     <div class="flex justify-between items-center flex-row-reverse">
       <h2 class="text-lg">{{ chord.title }}</h2>
     </div>
-
-    <card class="p-4">
+    
+    <card class="p-4 mt-4">
       <div v-html="chord.content" />
     </card>
   </div>

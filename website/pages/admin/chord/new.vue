@@ -3,8 +3,11 @@
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
       <h2 class="text-lg">{{ $t('chord.new-chord') }}</h2>
-      <!-- <vs-button to="/admin/new-chord">{{ $t('add') }}</vs-button> -->
+      <vs-button :loading="pending" @click="create">{{
+        $t('create')
+      }}</vs-button>
     </div>
+
     <card class="p-4 mt-4">
       <vs-input
         class="my-4"
@@ -26,12 +29,6 @@
         />
       </div>
       <chord-editor v-model="form.content" />
-
-      <div class="mt-4">
-        <vs-button :loading="pending" @click="create">{{
-          $t('create')
-        }}</vs-button>
-      </div>
     </card>
   </div>
 </template>
@@ -49,7 +46,7 @@ export default {
         title: '',
         artists: [],
         genres: [],
-        content: 'enter something',
+        content: '',
       },
     }
   },
@@ -62,7 +59,9 @@ export default {
           collection: 'song',
           doc: this.form,
         })
-        .then(() => this.$router.push('/admin/chord/list'))
+        .then((newSong) =>
+          this.$router.push('/admin/chord/' + newSong._id)
+        )
         .catch(({ error }) => {
           notifier.toast({
             label: 'Create chord error',

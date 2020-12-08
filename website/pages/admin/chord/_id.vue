@@ -3,7 +3,14 @@
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
       <h2 class="text-lg">{{ $t('chord.edit-chord') }}</h2>
-      <!-- <vs-button to="/admin/new-chord">{{ $t('add') }}</vs-button> -->
+      <div class="flex">
+        <vs-button :loading="pending" @click="update">{{
+          $t('update')
+        }}</vs-button>
+        <vs-button transparent icon blank :href="'/chord/' + id">
+          <i class="bx bx-desktop"></i>
+        </vs-button>
+      </div>
     </div>
     <card class="p-4 mt-4">
       <vs-input
@@ -26,12 +33,6 @@
         />
       </div>
       <chord-editor v-model="form.content" />
-
-      <div class="mt-4">
-        <vs-button :loading="pending" @click="update">{{
-          $t('update')
-        }}</vs-button>
-      </div>
     </card>
   </div>
 </template>

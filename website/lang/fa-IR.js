@@ -20,7 +20,6 @@ export default {
             artists: 'هنرمندان',
             genres: 'سبک ها',
             chords: 'ترانه ها',
-            'new-chord': 'آکورد جدید',
         }
     },
 
@@ -39,8 +38,9 @@ export default {
     chord: {
         chords: 'ترانه ها',
         title: 'عنوان ترانه',
-        'new-chord': 'ترانه جدید',
-        'edit-chord': 'ویرایش ترانه',
+        'new-chord': 'آکورد جدید',
+        'edit-chord': 'ویرایش آکورد',
+        'chord-view': 'نمای آکورد'
     },
 
     database: {
@@ -51,5 +51,6 @@ export default {
     add: 'افزودن',
     edit: 'ویرایش',
     remove: 'حذف',
-    update: 'بروز رسانی'
+    update: 'بروز رسانی',
+    create: 'ایجاد'
 }
