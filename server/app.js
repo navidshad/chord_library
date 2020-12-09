@@ -1,4 +1,4 @@
-const ModularRest = require('modular-rest');
+const ModularRest = require('@modular-rest/server');
 const Path = require('path');
 
 ModularRest.createRest({

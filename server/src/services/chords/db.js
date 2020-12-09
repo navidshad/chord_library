@@ -1,4 +1,4 @@
-const { CollectionDefinition, Schema, Permission, PermissionTypes, DatabaseTrigger, } = require('modular-rest');
+const { CollectionDefinition, Schema, Permission, PermissionTypes, DatabaseTrigger, } = require('@modular-rest/server');
 
 module.exports = [
     new CollectionDefinition({
