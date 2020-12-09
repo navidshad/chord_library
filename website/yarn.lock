@@ -1090,8 +1090,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@mres/web@../../modular-rest/packages/web-client/":
+"@modular-rest/client@^1.0.0":
   version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@modular-rest/client/-/client-1.0.0.tgz#48309aeb6e85b63f26ce53928c2517f939b2e7cd"
+  integrity sha512-5B+8YiLRHojM6ILkGRiJlDpM34qB/83ApKqT48GSIV8nGdxgHiuZybWKMjguLuTrFkVVqc4gUpiVcy0jvT/N7A==
   dependencies:
     axios "^0.21.0"
     ts-bus "^2.3.1"

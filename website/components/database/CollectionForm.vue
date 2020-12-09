@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { dataProvider } from '@mres/web'
+import { dataProvider } from '@modular-rest/client'
 import notifier from '../../utilities/notifier'
 
 export default {

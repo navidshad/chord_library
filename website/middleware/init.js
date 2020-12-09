@@ -1,4 +1,4 @@
-import { GlobalOptions, authentication } from '@mres/web';
+import { GlobalOptions, authentication } from '@modular-rest/client';
 
 /**
  * Setup mrest-web module

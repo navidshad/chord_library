@@ -1,6 +1,6 @@
 {
   "name": "chord-library",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "private": true,
   "scripts": {
     "dev": "nuxt-ts",
@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@mres/web": "../../modular-rest/packages/web-client/",
+    "@modular-rest/client": "^1.0.0",
     "@nuxt/typescript-runtime": "^2.0.0",
     "@nuxtjs/pwa": "^3.0.2",
     "@syncfusion/ej2-vue-richtexteditor": "^18.3.52",

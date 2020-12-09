@@ -1,4 +1,4 @@
-import { Types, authentication } from '@mres/web';
+import { Types, authentication } from '@modular-rest/client';
 import toaster from '../utilities/notifier';
 
 interface Context {
