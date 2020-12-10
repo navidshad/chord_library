@@ -1,7 +1,15 @@
+// read .env file
+const dotenv = require('dotenv');
+dotenv.config({ path: require('path').join(__dirname, '.env') });
+
 module.exports = {
+  env: {
+    BASE_URL: process.env.BASE_URL
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'chord-library-website',
+    title: 'آکورد گورانی کوردی',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
