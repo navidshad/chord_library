@@ -9,6 +9,7 @@
   "author": "Navid Shad",
   "license": "GPL-3.0",
   "dependencies": {
-    "@modular-rest/server": "^1.0.0"
+    "@modular-rest/server": "^1.0.0",
+    "vhostess": "^1.0.0"
   }
 }

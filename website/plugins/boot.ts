@@ -8,7 +8,7 @@ import 'boxicons/css/boxicons.min.css';
  * Setup mrest-web module
  */
 GlobalOptions.set({
-    host: 'http://localhost:3001'
+    host: process.env.VUE_APP_BASE_URL || ''
 })
 
 export default async function () {
