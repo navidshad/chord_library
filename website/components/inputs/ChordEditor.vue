@@ -1,12 +1,14 @@
 <template>
-  <ejs-richtexteditor
-    ref="defaultRTE"
-    :height="height"
-    :fontFamily="fontFamily" 
-    :toolbarSettings="toolbarSettings"
-    v-model="content"
-  >
-  </ejs-richtexteditor>
+  <div>
+    <ejs-richtexteditor
+      ref="defaultRTE"
+      :enableRtl="true"
+      :height="height"
+      :fontFamily="fontFamily"
+      :toolbarSettings="toolbarSettings"
+      v-model="content"
+    />
+  </div>
 </template>
 
 <script>
@@ -23,7 +25,7 @@ import {
 export default {
   props: {
     value: String,
-    height: { type: Number, default: 400 },
+    height: { type: Number, default: 500 },
   },
   provide: {
     richtexteditor: [Toolbar, Link, Image, Count, HtmlEditor, QuickToolbar],

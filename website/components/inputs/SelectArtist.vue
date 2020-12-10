@@ -1,23 +1,25 @@
 <template>
-  <vs-select
-    :loading="pending"
-    :multiple="multiple"
-    :key="list.length"
-    :label="label"
-    :placehoder="$t('artist.select-artist')"
-    :block="block"
-    :value="value"
-    @input="tempValue = $event"
-  >
-    <vs-option
-      v-for="(item, i) in list"
-      :key="i"
-      :label="item.name"
-      :value="item._id"
+  <div>
+    <vs-select
+      :loading="pending"
+      :multiple="multiple"
+      :key="list.length"
+      :label="label"
+      :placehoder="$t('artist.select-artist')"
+      :block="block"
+      :value="value"
+      @input="tempValue = $event"
     >
-      {{ item.name }}
-    </vs-option>
-  </vs-select>
+      <vs-option
+        v-for="(item, i) in list"
+        :key="i"
+        :label="item.name"
+        :value="item._id"
+      >
+        {{ item.name }}
+      </vs-option>
+    </vs-select>
+  </div>
 </template>
 
 <script>

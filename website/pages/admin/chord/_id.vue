@@ -12,27 +12,29 @@
         </vs-button>
       </div>
     </div>
-    <card class="p-4 mt-4">
-      <vs-input
-        class="my-4"
-        block
-        :label="$t('chord.title')"
-        v-model="form.title"
-      />
-      <div class="my-6 flex items-center flex-row-reverse">
+
+    <card class="p-4 mt-4 flex flex-wrap">
+      <div class="w-1/3 pr-4">
+        <vs-input
+          class="mt-4"
+          block
+          :label="$t('chord.title')"
+          v-model="form.title"
+        />
         <select-artist
+          class="mt-6"
           block
           :label="$t('artist.artists')"
           v-model="form.artists"
         />
         <select-genre
-          class="mr-4"
+          class="mt-6"
           block
           :label="$t('genre.genres')"
           v-model="form.genres"
         />
       </div>
-      <chord-editor v-model="form.content" />
+      <chord-editor class="w-2/3" v-model="form.content" />
     </card>
   </div>
 </template>
