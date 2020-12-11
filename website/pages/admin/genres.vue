@@ -1,6 +1,6 @@
 <template>
   <collection-viewer
-    database="chord"
+    database="song"
     collection="genre"
     :fields="fields"
     :title="$t('genre.genres')"

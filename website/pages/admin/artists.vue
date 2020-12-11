@@ -1,6 +1,6 @@
 <template>
   <collection-viewer
-    database="chord"
+    database="song"
     collection="artist"
     :fields="fields"
     :title="$t('artist.artists')"
@@ -19,8 +19,8 @@ export default {
           type: 'string',
         },
         {
-          key: 'chords',
-          label: this.$t('artist.chords'),
+          key: 'songs',
+          label: this.$t('artist.songs'),
           type: 'string',
           disable: true,
         },

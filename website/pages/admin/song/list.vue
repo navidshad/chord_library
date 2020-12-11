@@ -2,19 +2,19 @@
   <div>
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
-      <h2 class="text-lg">{{ $t('chord.chords') }}</h2>
-      <vs-button to="/admin/chord/new">{{ $t('chord.new-chord') }}</vs-button>
+      <h2 class="text-lg">{{ $t('song.songs') }}</h2>
+      <vs-button to="/admin/song/new">{{ $t('song.new-song') }}</vs-button>
     </div>
 
     <!-- Content -->
     <div class="mt-8 flex flex-wrap justify-between">
-      <card-chord
-        v-for="(chord, i) in list"
+      <card-song
+        v-for="(song, i) in list"
         allowRemove
         :key="i"
-        :chord="chord"
-        :to="'/admin/chord/' + chord._id"
-        @remove="showRemoveDialog(chord)"
+        :song="song"
+        :to="'/admin/song/' + song._id"
+        @remove="showRemoveDialog(song)"
       />
     </div>
   </div>
@@ -25,7 +25,7 @@ import { dataProvider } from '@modular-rest/client'
 import notifier from '../../../utilities/notifier'
 
 export default {
-  name: 'Chords',
+  name: 'Songs',
   middleware: ['auth'],
   data() {
     return {
@@ -61,10 +61,10 @@ export default {
         .finally(() => (this.pending = false))
     },
 
-    showRemoveDialog(chord) {
+    showRemoveDialog(song) {
       let find = this.find
-      let database = 'chord'
-      let collection = 'chord'
+      let database = 'song'
+      let collection = 'song'
 
       notifier.showAlertDialog({
         title: this.$t('database.remove-title'),
@@ -80,7 +80,7 @@ export default {
             .removeOne({
               database: database,
               collection: collection,
-              query: { _id: chord._id },
+              query: { _id: song._id },
             })
             .then(find)
             .catch(({ error }) => {
