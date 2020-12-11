@@ -2,7 +2,7 @@ const { CollectionDefinition, Schema, Permission, PermissionTypes, DatabaseTrigg
 
 module.exports = [
     new CollectionDefinition({
-        db: 'chord',
+        db: 'song',
         collection: 'genre',
         schema: new Schema({
             title: String,
@@ -21,7 +21,7 @@ module.exports = [
     }),
 
     new CollectionDefinition({
-        db: 'chord',
+        db: 'song',
         collection: 'artist',
         schema: new Schema({
             name: { type: String, required: true },
@@ -41,7 +41,7 @@ module.exports = [
     }),
 
     new CollectionDefinition({
-        db: 'chord',
+        db: 'song',
         collection: 'song',
         schema: new Schema({
             title: { type: String, required: true },
