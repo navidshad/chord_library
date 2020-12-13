@@ -1,6 +1,6 @@
 <template>
   <collection-viewer
-    database="song"
+    database="tab"
     collection="artist"
     :fields="fields"
     :title="$t('artist.artists')"

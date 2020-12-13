@@ -8,11 +8,21 @@
         :placeholder="field.placeholder"
         :value="form[field.key]"
         @input="form[field.key] = $event"
+        v-if="!field.inputComponent"
       >
         <template #icon v-if="field.icon">
           <i :class="[field.icon]" />
         </template>
       </vs-input>
+
+      <component
+        v-else
+        :is="field.inputComponent"
+        :label="field.title || field.key"
+        :placeholder="field.placeholder"
+        :value="form[field.key] || ''"
+        @input="form[field.key] = $event"
+      />
     </div>
 
     <div class="mt-8">
@@ -49,6 +59,7 @@ export default {
      * when edit is true.
      */
     document: Object,
+    docId: String,
   },
 
   data() {
@@ -71,10 +82,30 @@ export default {
     document: {
       immediate: true,
       handler(value) {
+        if (!value) return
         if (this.edit) {
           this.id = value._id
           delete value._id
           this.form = value
+        }
+      },
+    },
+    docId: {
+      immediate: true,
+      handler(value) {
+        if (!value) return
+        if (this.edit) {
+          dataProvider
+            .findOne({
+              database: this.database,
+              collection: this.collection,
+              query: { _id: value },
+            })
+            .then((doc) => {
+              this.id = doc._id
+              delete doc._id
+              this.form = doc
+            })
         }
       },
     },
@@ -100,7 +131,7 @@ export default {
         .catch((result) => {
           notifier.toast({
             label: `Create ${this.collection} error`,
-            description: result.error,
+            description: JSON.stringify(result.error),
             type: 'error',
           })
         })
@@ -124,7 +155,7 @@ export default {
         .catch((result) => {
           notifier.toast({
             label: `Update ${this.collection} error`,
-            description: result.error,
+            description: JSON.stringify(result.error),
             type: 'error',
           })
         })

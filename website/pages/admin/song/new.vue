@@ -56,7 +56,7 @@ export default {
       this.pending = true
       dataProvider
         .insertOne({
-          database: 'chord',
+          database: 'tab',
           collection: 'song',
           doc: this.form,
         })

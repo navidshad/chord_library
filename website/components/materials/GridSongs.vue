@@ -41,7 +41,7 @@ export default {
   computed: {
     findOption() {
       return {
-        database: 'chord',
+        database: 'tab',
         collection: 'song',
         query: this.query || {},
         populates: ['genres', { path: 'artists', select: 'name' }],
@@ -65,4 +65,5 @@ export default {
 </script>
 
 <style>
+
 </style>

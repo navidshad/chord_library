@@ -1,31 +1,18 @@
 <template>
-  <div>
-    <vs-select
-      :loading="pending"
-      :multiple="multiple"
-      :key="list.length"
-      :label="label"
-      :placehoder="$t('artist.select-artist')"
-      :block="block"
-      :value="value"
-      @input="tempValue = $event"
-    >
-      <vs-option
-        v-for="(item, i) in list"
-        :key="i"
-        :label="item.name"
-        :value="item._id"
-      >
-        {{ item.name }}
-      </vs-option>
-    </vs-select>
-  </div>
+  <Select
+    database="tab"
+    collection="artist"
+    optionLabelKey="name"
+    :multiple="multiple"
+    :block="block"
+    :label="label"
+    :placehoder="$t('artist.select-artist')"
+    :value="value"
+    @input="tempValue = $event"
+  />
 </template>
 
 <script>
-import { dataProvider } from '@modular-rest/client'
-import notifier from '../../utilities/notifier'
-
 export default {
   props: {
     multiple: { type: Boolean, default: true },
@@ -35,53 +22,13 @@ export default {
   },
   data() {
     return {
-      list: [],
-      pending: false,
       tempValue: '',
     }
   },
   watch: {
-    value: {
-      immediate: true,
-      deep: true,
-      handler(newValue) {
-        this.value = newValue
-      },
-    },
     tempValue(value) {
-      if (this.multiple) {
-        this.$emit(
-          'input',
-          value.filter((item) => item.length > 0)
-        )
-      } else this.$emit('input', value)
-    },
-  },
-  created() {
-    this.loadItems()
-  },
-  methods: {
-    loadItems() {
-      this.pending = true
-      dataProvider
-        .find({
-          database: 'chord',
-          collection: 'artist',
-          query: {},
-        })
-        .then((list) => (this.list = list))
-        .catch(({ error }) => {
-          notifier.toast({
-            label: 'Load artists error',
-            description: error,
-            type: 'error',
-          })
-        })
-        .finally(() => (this.pending = false))
+      this.$emit('input', value)
     },
   },
 }
 </script>
-
-<style>
-</style>
