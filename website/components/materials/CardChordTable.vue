@@ -2,7 +2,7 @@
   <card class="p-4" :style="{'max-width':'550px'}">
     <!-- Header -->
     <div class="flex justify-between items-center">
-      <h3>{{ table.degree.major + ' ' + table.degree.minor }}</h3>
+      <h3>{{ table.keySignature.major + ' ' + table.keySignature.minor }}</h3>
       <span>{{ table.type.title }}</span>
 
       <div class="flex">

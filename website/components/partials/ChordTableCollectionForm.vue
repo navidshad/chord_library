@@ -7,11 +7,11 @@
         :label="$t('chord.select-type')"
         v-model="form.type"
       />
-      <select-chord-degree
+      <select-key-signature
         class="mt-6 lg:w-1/2"
         block
-        :label="$t('chord.select-degree')"
-        v-model="form.degree"
+        :label="$t('chord.select-keySignature')"
+        v-model="form.keySignature"
       />
     </div>
 
@@ -70,7 +70,7 @@ export default {
     return {
       form: {
         type: '',
-        degree: '',
+        keySignature: '',
         rows: this.createTableArray(),
       },
       chords: [],
@@ -177,6 +177,9 @@ export default {
           database: 'chord',
           collection: 'chord',
           query: {},
+          options: {
+            sort: 'title'
+          }
         })
         .then((list) => (this.chords = list))
         .finally(() => (this.chordPending = false))

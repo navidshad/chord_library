@@ -26,7 +26,7 @@ export default {
 
     chord: {
         type: 'گروه ها',
-        degree: 'گام ها',
+        keySignature: 'سر کلید ها',
         chord: 'آکورد ها',
         table: 'جدول ها'
     },

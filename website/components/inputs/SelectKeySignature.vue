@@ -1,12 +1,12 @@
 <template>
   <Select
     database="chord"
-    collection="degree"
+    collection="keySignature"
     optionLabelKey="title"
     :multiple="false"
     :block="block"
     :label="label"
-    :placehoder="$t('chord.select-degree')"
+    :placehoder="$t('chord.select-keySignature')"
     :value="value"
     @input="tempValue = $event"
   >
@@ -14,10 +14,10 @@
       <vs-option
         v-for="(item, i) in list"
         :key="i"
-        :label="item.minor + ' ' + item.major"
+        :label="item.major + ' ' + item.minor"
         :value="item._id"
       >
-        {{ item.minor + ' ' + item.major }}
+        {{ item.major + ' ' + item.minor }}
       </vs-option>
     </template>
   </Select>

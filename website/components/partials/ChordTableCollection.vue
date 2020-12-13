@@ -7,7 +7,7 @@
     </div>
 
     <!-- Content -->
-    <div class="p-8 mt-4 flex">
+    <div class="p-8 mt-4 flex justify-between flex-wrap space-y-4">
       <card-chord-table
         v-for="(table, i) in list"
         :key="i"
@@ -50,7 +50,7 @@ export default {
         query: {},
         options: { sort: '-_id' },
         populates: [
-          'degree',
+          'keySignature',
           'type',
           'rows.major',
           'rows.naturalMinor',
@@ -92,7 +92,7 @@ export default {
           database: this.database,
           collection: this.collection,
           fields: this.fields,
-          document: row,
+          id: row._id,
           edit: true,
         },
         events: {

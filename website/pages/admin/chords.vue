@@ -10,14 +10,14 @@
       <vs-button flat :active="page == 'chord'" @click="page = 'chord'">{{
         $t('chord.chord')
       }}</vs-button>
-      <vs-button flat :active="page == 'degree'" @click="page = 'degree'">{{
-        $t('chord.degree')
+      <vs-button flat :active="page == 'keySignature'" @click="page = 'keySignature'">{{
+        $t('chord.keySignature')
       }}</vs-button>
     </vs-button-group>
 
     <sequence-presentor
       class="mt-4"
-      :slots="['type', 'chord', 'degree', 'table']"
+      :slots="['type', 'chord', 'keySignature', 'table']"
       :active="page"
     >
       <collection-viewer
@@ -32,17 +32,17 @@
         slot="chord"
         database="chord"
         collection="chord"
-        :fields="degreeChord"
+        :fields="chordFields"
         :title="$t('chord.chord')"
         :populates="['type']"
       />
 
       <collection-viewer
-        slot="degree"
+        slot="keySignature"
         database="chord"
-        collection="degree"
-        :fields="degreeFields"
-        :title="$t('chord.degree')"
+        collection="keySignature"
+        :fields="keySignatureFields"
+        :title="$t('chord.keySignature')"
       />
 
       <chord-table-collection slot="table" />
@@ -68,7 +68,7 @@ export default {
           type: 'string',
         },
       ],
-      degreeChord: [
+      chordFields: [
         {
           key: 'title',
           type: 'string',
@@ -79,7 +79,7 @@ export default {
           mutate: (row) => row.type.title,
         },
       ],
-      degreeFields: [
+      keySignatureFields: [
         {
           key: 'major',
           type: 'string',
