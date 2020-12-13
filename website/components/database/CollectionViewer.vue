@@ -29,7 +29,7 @@
         <template slot="tbody">
           <vs-tr v-for="(row, i) in list" :key="i">
             <vs-td v-for="(field, i) in fields" :key="i">
-              {{ row[field.key] }}
+              {{ field.mutate ? field.mutate(row) : row[field.key] }}
             </vs-td>
 
             <!-- Row Actions -->
@@ -71,9 +71,10 @@ export default {
     title: String,
     database: { type: String, required: true },
     collection: { type: String, required: true },
+    populates: Array,
     /**
      * An array of
-     * {type, title, key, placeholder, icon, disable}
+     * {type, title, key, placeholder, icon, disable, mutate, inputComponent}
      */
     fields: { type: Array, default: () => [] },
     allowAdd: { type: Boolean, default: true },
@@ -94,12 +95,16 @@ export default {
 
   computed: {
     findOption() {
-      return {
+      let query = {
         database: this.database,
         collection: this.collection,
         query: {},
         options: { sort: '-_id' },
       }
+
+      if (this.populates) query['populates'] = this.populates
+
+      return query
     },
   },
 
@@ -128,15 +133,19 @@ export default {
       })
     },
     showEditForm(row) {
+      let props = {
+        database: this.database,
+        collection: this.collection,
+        fields: this.fields,
+        edit: true,
+      }
+
+      if (this.populates) props['docId'] = row._id
+      else props['document'] = row
+
       notifier.showDialog({
         component: CollectionForm,
-        props: {
-          database: this.database,
-          collection: this.collection,
-          fields: this.fields,
-          document: row,
-          edit: true,
-        },
+        props: props,
         events: {
           updated: this.find,
         },

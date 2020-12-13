@@ -9,8 +9,9 @@ function run() {
         // cors: {
         //     origin: 'http://localhost:3000'
         // },
-        dontListen: true,
+        dontListen: false,
     })
 }
 
+run();
 module.exports = run;

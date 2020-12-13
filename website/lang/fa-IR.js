@@ -19,15 +19,23 @@ export default {
             title: 'مدیریت',
             artists: 'هنرمندان',
             genres: 'سبک ها',
-            chords: 'ترانه ها',
+            songs: 'ترانه ها',
+            chords: 'آکورد ها',
         }
+    },
+
+    chord: {
+        type: 'گروه ها',
+        keySignature: 'سر کلید ها',
+        chord: 'آکورد ها',
+        table: 'جدول ها'
     },
 
     artist: {
         artists: 'هنرمندان',
         name: 'نام / نام مستعار',
-        chords: 'تعداد آکورد',
-        'select-artist': 'انتخواب هنرمند'
+        songs: 'تعداد آکورد',
+        'select-artist': 'انتخواب هنرمند',
     },
 
     genre: {
@@ -35,12 +43,12 @@ export default {
         title: 'عنوان'
     },
 
-    chord: {
-        chords: 'ترانه ها',
+    song: {
+        songs: 'ترانه ها',
         title: 'عنوان ترانه',
-        'new-chord': 'آکورد جدید',
-        'edit-chord': 'ویرایش آکورد',
-        'chord-view': 'نمای آکورد'
+        'new-song': 'آکورد جدید',
+        'edit-song': 'ویرایش آکورد',
+        'song-view': 'نمای آکورد'
     },
 
     database: {

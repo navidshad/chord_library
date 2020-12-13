@@ -2,11 +2,11 @@
   <div>
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
-      <h2 class="text-lg">{{ chord.title }}</h2>
+      <h2 class="text-lg">{{ song.title }}</h2>
     </div>
     
     <card class="p-4 mt-4">
-      <div v-html="chord.content" />
+      <div v-html="song.content" />
     </card>
   </div>
 </template>
@@ -16,7 +16,7 @@ import { dataProvider } from '@modular-rest/client'
 
 export default {
   async asyncData({ error, params }) {
-    let chord = await dataProvider
+    let song = await dataProvider
       .findOne({
         database: 'chord',
         collection: 'song',
@@ -25,10 +25,10 @@ export default {
       })
       .catch(() => null)
 
-    if (chord) {
-      return { chord }
+    if (song) {
+      return { song }
     } else {
-      error("This chord dosen't found")
+      error("This song dosen't found")
     }
   },
   computed: {
@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     lines() {
-        this.chord.content.split('\n\n')
+        this.song.content.split('\n\n')
     }
   },
 }

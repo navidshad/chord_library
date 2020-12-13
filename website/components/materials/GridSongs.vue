@@ -2,16 +2,16 @@
   <div>
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
-      <h2 class="text-lg">{{ $t('chord.chords') }}</h2>
+      <h2 class="text-lg">{{ $t('song.songs') }}</h2>
     </div>
 
     <!-- Content -->
     <div class="mt-8 flex flex-wrap justify-between">
-      <card-chord
-        v-for="(chord, i) in list"
+      <card-song
+        v-for="(song, i) in list"
         :key="i"
-        :chord="chord"
-        :to="'/chord/' + chord._id"
+        :song="song"
+        :to="'/song/' + song._id"
       />
     </div>
   </div>
@@ -21,7 +21,7 @@
 import { dataProvider } from '@modular-rest/client'
 
 export default {
-  name: 'GridChords',
+  name: 'GridSongs',
 
   props: {
     query: Object,
@@ -41,7 +41,7 @@ export default {
   computed: {
     findOption() {
       return {
-        database: 'chord',
+        database: 'tab',
         collection: 'song',
         query: this.query || {},
         populates: ['genres', { path: 'artists', select: 'name' }],
@@ -65,4 +65,5 @@ export default {
 </script>
 
 <style>
+
 </style>

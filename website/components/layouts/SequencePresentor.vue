@@ -7,7 +7,7 @@
       :class="[{'actived-page' : isSlotAllowToShow(slotName)}]"
     >
       <!-- <transition name="fade"> -->
-        <div v-show="isSlotAllowToShow(slotName)">
+        <div v-if="isSlotAllowToShow(slotName)">
           <!-- each slot of slots -->
           <slot :name="slotName" />
         </div>

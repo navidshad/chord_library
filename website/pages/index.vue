@@ -1,6 +1,6 @@
 <template>
   <div>
-    <grid-chords :queryOptions="{limit: 20, sort: '-_id'}" />
+    <grid-songs :queryOptions="{limit: 20, sort: '-_id'}" />
   </div>
 </template>
 
