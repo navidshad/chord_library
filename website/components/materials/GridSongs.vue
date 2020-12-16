@@ -11,7 +11,7 @@
         v-for="(song, i) in list"
         :key="i"
         :song="song"
-        :to="'/song/' + song._id"
+        :to="'/tab/' + song._id"
       />
     </div>
   </div>

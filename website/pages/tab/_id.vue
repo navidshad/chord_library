@@ -18,7 +18,7 @@ export default {
   async asyncData({ error, params }) {
     let song = await dataProvider
       .findOne({
-        database: 'chord',
+        database: 'tab',
         collection: 'song',
         query: { _id: params.id },
         populates: ['artists', 'genres'],

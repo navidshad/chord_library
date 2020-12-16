@@ -92,6 +92,15 @@ export default {
     isActive(rowIndex, column) {
       return this.getSelectIndex(rowIndex, column) > -1
     },
+    removeChordByTitile(title) {
+      let stackIndex = -1
+
+      this.selecteds.forEach((chord, i) => {
+        if (chord.title == title) stackIndex = i
+      })
+
+      if (stackIndex > -1) this.selecteds.splice(stackIndex, 1)
+    },
     toggleChord(rowIndex, column, title) {
       if (!this.allowChoose) return
 
@@ -100,12 +109,20 @@ export default {
         column,
         title,
         table: this.table._id,
+        chord: this.table.rows[rowIndex][column]._id,
+        keySignature: this.table.keySignature._id,
       }
 
       let stackIndex = this.getSelectIndex(rowIndex, column)
 
-      if (stackIndex > -1) this.selecteds.splice(stackIndex, 1)
-      else this.selecteds.push(newChord)
+      if (stackIndex > -1) {
+        this.selecteds.splice(stackIndex, 1)
+      } else {
+        // remove other same chord
+        this.removeChordByTitile(title)
+        // add this new chord
+        this.selecteds.push(newChord)
+      }
 
       this.$emit('input', this.selecteds)
     },

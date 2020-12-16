@@ -1,8 +1,11 @@
 <template>
   <card class="p-2 flex items-center space-x-1 scroll">
     <!-- loop -->
-    <div class="chord-box" v-for="(chord, i) in selecteds" :key="i">
+    <div class="chord-box relative" v-for="(chord, i) in chords.list" :key="i">
       <span class="text-lg">{{ chord.title }}</span>
+      <div v-if="i == 0" class="key-signature">
+        <span>{{ chords.keySignature }}</span>
+      </div>
     </div>
     <!-- Add -->
     <div class="box box-hover cursor-pointer" @click="showTables">
@@ -16,20 +19,36 @@ import notifier from '../../utilities/notifier'
 import ChordPickerDialog from './ChordPickerDialog'
 
 export default {
+  props: {
+    value: Object,
+  },
   data() {
     return {
-      selecteds: [],
+      chords: {
+        keySignature: '',
+        list: [],
+      },
     }
+  },
+  watch: {
+    value: {
+      immediate: true,
+      deep: true,
+      handler(value) {
+        if (value) this.chords = value
+      },
+    },
   },
   methods: {
     onSelectChord(chords) {
-      this.selecteds = chords
+      this.chords = chords
+      this.$emit('input', chords)
     },
     showTables() {
       notifier.showDialog({
         component: ChordPickerDialog,
         props: {
-          value: this.selecteds,
+          value: this.chords,
         },
         events: {
           input: this.onSelectChord,
@@ -42,21 +61,32 @@ export default {
 
 <style lang="scss" scoped>
 .scroll {
-
   overflow-x: auto;
 }
+
 .box {
   @apply flex items-center justify-center bg-blue-300 text-gray-100 rounded;
   width: 80px;
   height: 80px;
 }
+
 .box-hover {
   &:hover {
     @apply bg-blue-400;
   }
 }
+
 .chord-box {
   @extend .box;
   @apply bg-orange-300;
+}
+
+.key-signature {
+  @apply flex items-center justify-center;
+  position: absolute;
+  width: 80px;
+  bottom: 5px;
+  font-size: 13px;
+  color: theme('colors.gray.700')
 }
 </style>

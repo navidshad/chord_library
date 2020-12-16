@@ -13,14 +13,29 @@
         >
       </vs-button-group>
     </div>
-    <sequence-presentor class="mt-6" :slots="signatures" :active="activeTable">
+
+    <vs-select
+      class="mt-6"
+      :value="keySignature"
+      @input="keySignature = $event"
+      label-placeholder="Key Signature"
+    >
+      <vs-option label="major" value="major">major</vs-option>
+      <vs-option label="minor" value="minor">minor</vs-option>
+    </vs-select>
+
+    <sequence-presentor class="mt-2" :slots="signatures" :active="activeTable">
       <card-chord-table
         v-for="(signature, i) in signatures"
+        allowChoose
         :key="i"
         :table="tables[i]"
         :slot="signature"
-        allowChoose
-        v-model="selecteds"
+        :value="selecteds"
+        @input="
+          selecteds = $event
+          selectKeySignature()
+        "
       />
     </sequence-presentor>
   </div>
@@ -31,20 +46,22 @@ import { dataProvider } from '@modular-rest/client'
 export default {
   props: {
     closeModal: Function,
-    value: Array,
+    value: Object,
   },
   data() {
     return {
       tables: [],
       activeTable: '',
       selecteds: [],
+      keySignature: '',
     }
   },
   watch: {
     value: {
       immediate: true,
-      handler(value) {
-        if (value) this.selecteds = value
+      handler({ keySignature, list }) {
+        if (list) this.selecteds = list
+        if (keySignature) this.keySignature = keySignature
       },
     },
   },
@@ -59,8 +76,17 @@ export default {
     this.getTables()
   },
   methods: {
+    selectKeySignature() {
+      if (!this.selecteds.length) return
+
+      let firstChord = this.selecteds[0]
+      this.keySignature = firstChord.column == 'major' ? 'major' : 'minor'
+    },
     submitChords() {
-      this.$emit('input', this.selecteds)
+      this.$emit('input', {
+        keySignature: this.keySignature,
+        list: this.selecteds,
+      })
       this.closeModal()
     },
     getTables() {
