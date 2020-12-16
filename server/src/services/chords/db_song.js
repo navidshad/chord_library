@@ -1,5 +1,14 @@
 const { CollectionDefinition, Schema, Permission, PermissionTypes, DatabaseTrigger, } = require('@modular-rest/server');
 
+let SongChordSchema = new Schema({
+    rowIndex: Number,
+    column: String,
+    title: String,
+    table: String,
+    chord: String,
+    keySignature: String,
+})
+
 module.exports = [
     new CollectionDefinition({
         db: 'tab',
@@ -47,6 +56,10 @@ module.exports = [
             title: { type: String, required: true },
             artists: [{ type: Schema.Types.ObjectId, ref: 'artist', default: [] }],
             genres: [{ type: Schema.Types.ObjectId, ref: 'genre', default: [] }],
+            chords: {
+                keySignature: { type: String, enum: ['major', 'minor'] },
+                list: [SongChordSchema]
+            },
             content: String,
         }),
         permissions: [
