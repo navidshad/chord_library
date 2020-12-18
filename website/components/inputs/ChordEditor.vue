@@ -53,7 +53,7 @@ export default {
         ],
       },
       fontFamily: {
-        default: 'Tahoma', // to define default font-family
+        default: 'Dana', // to define default font-family
         items: [
           // {
           //   text: 'Segoe UI',
@@ -76,9 +76,9 @@ export default {
           //   subCommand: 'FontName',
           // },
           {
-            text: 'Tahoma',
-            value: 'Tahoma,Geneva,sans-serif',
-            class: 'e-tahoma',
+            text: 'Dana',
+            value: 'Dana',
+            // class: 'e-tahoma',
             command: 'Font',
             subCommand: 'FontName',
           },

@@ -2,6 +2,7 @@ import { GlobalOptions, authentication } from '@modular-rest/client'
 
 // Styles
 import '../assets/style/style.scss';
+import '../assets/style/fonts.css';
 import 'boxicons/css/boxicons.min.css';
 
 /**
