@@ -35,6 +35,7 @@
         :fields="chordFields"
         :title="$t('chord.chord')"
         :populates="['type']"
+        :sort="'title'"
       />
 
       <collection-viewer

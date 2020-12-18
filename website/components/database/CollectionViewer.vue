@@ -72,6 +72,7 @@ export default {
     database: { type: String, required: true },
     collection: { type: String, required: true },
     populates: Array,
+    sort: {},
     /**
      * An array of
      * {type, title, key, placeholder, icon, disable, mutate, inputComponent}
@@ -99,7 +100,7 @@ export default {
         database: this.database,
         collection: this.collection,
         query: {},
-        options: { sort: '-_id' },
+        options: { sort: this.sort || '-_id' },
       }
 
       if (this.populates) query['populates'] = this.populates
