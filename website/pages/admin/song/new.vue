@@ -8,7 +8,7 @@
       }}</vs-button>
     </div>
 
-    <picker-chord class="mt-4"></picker-chord>
+    <chord-picker class="mt-4" v-model="form.chords" />
 
     <card class="p-4 mt-4 flex flex-wrap">
       <div class="w-full lg:w-1/3 lg:pr-4">
@@ -49,6 +49,10 @@ export default {
         title: '',
         artists: [],
         genres: [],
+        chords: {
+          keySignature: '',
+          list: []
+        },
         content: '',
       },
     }

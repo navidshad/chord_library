@@ -4,7 +4,7 @@ function toast(option: { label: string, description?: string, type?: string }) {
     eventBus.fire('toast', option);
 }
 
-function showDialog(option: { component: any, props: object, event: object, modal: object }) {
+function showDialog(option: { component: any, props: object, events: object, modal: object }) {
     eventBus.fire('show-dialog', option)
 }
 

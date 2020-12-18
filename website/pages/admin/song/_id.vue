@@ -7,11 +7,17 @@
         <vs-button :loading="pending" @click="update">{{
           $t('update')
         }}</vs-button>
-        <vs-button transparent icon blank :href="'/song/' + id">
+        <vs-button transparent icon blank :href="'/tab/' + id">
           <i class="bx bx-desktop"></i>
         </vs-button>
       </div>
     </div>
+
+    <chord-picker
+      class="mt-4"
+      :value="form.chords"
+      @input="form.chords = $event"
+    />
 
     <card class="p-4 mt-4 flex flex-wrap">
       <div class="w-full lg:w-1/3 lg:pr-4">
@@ -34,7 +40,10 @@
           v-model="form.genres"
         />
       </div>
-      <chord-editor class="w-full mt-4 lg:w-2/3 lg:mt-0" v-model="form.content" />
+      <chord-editor
+        class="w-full mt-4 lg:w-2/3 lg:mt-0"
+        v-model="form.content"
+      />
     </card>
   </div>
 </template>
@@ -68,6 +77,10 @@ export default {
         title: '',
         artists: [],
         genres: [],
+        chords: {
+          keySignature: '',
+          list: []
+        },
         content: 'enter something',
       },
     }
@@ -82,7 +95,7 @@ export default {
       this.pending = true
       dataProvider
         .updateOne({
-          database: 'chord',
+          database: 'tab',
           collection: 'song',
           query: { _id: this.id },
           update: this.form,

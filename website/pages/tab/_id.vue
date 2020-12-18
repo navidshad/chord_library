@@ -4,9 +4,17 @@
     <div class="flex justify-between items-center flex-row-reverse">
       <h2 class="text-lg">{{ song.title }}</h2>
     </div>
-    
+
+    <client-only placeholder="Loading transpose...">
+      <Transpose
+        :chords="song.chords"
+        :originalContent="song.content"
+        @transposed="transposedContent = $event"
+      />
+    </client-only>
+
     <card class="p-4 mt-4">
-      <div v-html="song.content" />
+      <div v-html="transposedContent" />
     </card>
   </div>
 </template>
@@ -18,7 +26,7 @@ export default {
   async asyncData({ error, params }) {
     let song = await dataProvider
       .findOne({
-        database: 'chord',
+        database: 'tab',
         collection: 'song',
         query: { _id: params.id },
         populates: ['artists', 'genres'],
@@ -26,20 +34,24 @@ export default {
       .catch(() => null)
 
     if (song) {
-      return { song }
+      return {
+        song,
+        transposedContent: song.content,
+      }
     } else {
       error("This song dosen't found")
     }
   },
+  data() {
+    return {
+      transposedContent: '',
+    }
+  },
+  mounted() {},
   computed: {
     id() {
       this.$route.params.id
     },
-  },
-  computed: {
-    lines() {
-        this.song.content.split('\n\n')
-    }
   },
 }
 </script>

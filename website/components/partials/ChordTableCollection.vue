@@ -10,6 +10,7 @@
     <div class="p-8 mt-4 flex justify-between flex-wrap space-y-4">
       <card-chord-table
         v-for="(table, i) in list"
+        allowEdite
         :key="i"
         :table="table"
         @edit="showEditForm(table)"
