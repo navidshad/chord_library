@@ -17,4 +17,11 @@ $ yarn start
 $ yarn generate
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+## Change log
+* 0.7.0
+    - add Transpose ability for tabs.
+    - add TabViewport for rendering song content.
+* 0.6.0
+    - add ability to add and organize chords on admin side.
+* 0.5.0
+    - starter point.

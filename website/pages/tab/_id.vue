@@ -14,7 +14,7 @@
     </client-only>
 
     <card class="p-4 mt-4">
-      <div v-html="transposedContent" />
+      <TabViewport :content="transposedContent" />
     </card>
   </div>
 </template>
