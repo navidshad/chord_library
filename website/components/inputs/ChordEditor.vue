@@ -3,7 +3,6 @@
     <ejs-richtexteditor
       ref="defaultRTE"
       :enableRtl="true"
-      :height="height"
       :fontFamily="fontFamily"
       :toolbarSettings="toolbarSettings"
       v-model="content"
@@ -25,7 +24,6 @@ import {
 export default {
   props: {
     value: String,
-    height: { type: Number, default: 500 },
   },
   provide: {
     richtexteditor: [Toolbar, Link, Image, Count, HtmlEditor, QuickToolbar],
@@ -34,6 +32,7 @@ export default {
     return {
       content: '',
       toolbarSettings: {
+        type: 'MultiRow',
         items: [
           'Formats',
           'ClearFormat',
