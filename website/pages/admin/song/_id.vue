@@ -19,31 +19,33 @@
       @input="form.chords = $event"
     />
 
-    <card class="p-4 mt-4 flex flex-wrap">
-      <div class="w-full lg:w-1/3 lg:pr-4">
-        <vs-input
-          class="mt-4"
-          block
-          :label="$t('song.title')"
-          v-model="form.title"
-        />
-        <select-artist
-          class="mt-6"
-          block
-          :label="$t('artist.artists')"
-          v-model="form.artists"
-        />
-        <select-genre
-          class="mt-6"
-          block
-          :label="$t('genre.genres')"
-          v-model="form.genres"
-        />
+    <card class="p-4 mt-4 flex space-x-4">
+      <chord-editor class="w-1/2 pt-10" v-model="form.content" />
+      <div class="w-1/2 pr-4">
+        <div>
+          <vs-input
+            class="mt-4"
+            block
+            :label="$t('song.title')"
+            v-model="form.title"
+          />
+          <div class="flex justify-between w-full">
+            <select-artist
+            class="mt-6"
+            block
+            :label="$t('artist.artists')"
+            v-model="form.artists"
+          />
+          <select-genre
+            class="mt-6"
+            block
+            :label="$t('genre.genres')"
+            v-model="form.genres"
+          />
+          </div>
+        </div>
+        <tab-viewport class="mt-6" :content="form.content" />
       </div>
-      <chord-editor
-        class="w-full mt-4 lg:w-2/3 lg:mt-0"
-        v-model="form.content"
-      />
     </card>
   </div>
 </template>
@@ -79,7 +81,7 @@ export default {
         genres: [],
         chords: {
           keySignature: '',
-          list: []
+          list: [],
         },
         content: 'enter something',
       },
