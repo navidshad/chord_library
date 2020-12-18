@@ -36,6 +36,7 @@ export default {
       toolbarSettings: {
         items: [
           'Formats',
+          'ClearFormat',
           'Alignments',
           '|',
           'FontColor',

@@ -7,6 +7,10 @@ module.exports = {
     BASE_URL: process.env.BASE_URL
   },
 
+  server: {
+    host: '0'
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'آکورد گورانی کوردی',
