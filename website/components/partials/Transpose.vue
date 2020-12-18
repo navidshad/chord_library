@@ -78,10 +78,14 @@ export default {
 
       this.chords.list.forEach((chord) => {
         let hash = this.hashCode(chord.title)
-        originalContent = originalContent.replaceAll(
-          chord.title,
-          `<span name="${hash}">${chord.title}</span>`
-        )
+        let wordForms = [` ${chord.title}`, `${chord.title} `]
+
+        wordForms.forEach((word) => {
+          originalContent = originalContent.replaceAll(
+            word,
+            `<span name="${hash}">${word.trim()}</span>`
+          )
+        })
       })
 
       div.innerHTML = originalContent
@@ -89,9 +93,7 @@ export default {
     },
     replaceChordByOriginalTitle(originalTitle, newTitle) {
       let hash = this.hashCode(originalTitle)
-      let selecteds = this.HtmlContent.querySelectorAll(
-        `[name='${hash}']`
-      )
+      let selecteds = this.HtmlContent.querySelectorAll(`[name='${hash}']`)
       selecteds.forEach((tag) => {
         tag.textContent = newTitle
       })
