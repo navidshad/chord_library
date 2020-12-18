@@ -78,13 +78,18 @@ export default {
 
       this.chords.list.forEach((chord) => {
         let hash = this.hashCode(chord.title)
-        let wordForms = [` ${chord.title}`, `${chord.title} `]
+        let wordForms = [
+          `>${chord.title}<`,
+          `${chord.title} &`,
+          `; ${chord.title}`,
+        ]
 
         wordForms.forEach((word) => {
-          originalContent = originalContent.replaceAll(
-            word,
-            `<span name="${hash}">${word.trim()}</span>`
-          )
+          let replacement = word
+            .toString()
+            .replace(chord.title, `<span name="${hash}">${word.trim()}</span>`);
+            
+          originalContent = originalContent.replaceAll(word, replacement)
         })
       })
 
