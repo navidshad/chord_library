@@ -34,7 +34,7 @@ module.exports = {
     '@/plugins/vuesax',
     { src: '@plugins/toaster.js', mode: 'client' },
     { src: '@plugins/boot.ts', mode: 'client' },
-    { src: '@plugins/vue-editor.js', mode: 'client' },
+    
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

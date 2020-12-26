@@ -14,7 +14,7 @@
     </client-only>
 
     <card class="p-4 mt-4">
-      <TabViewport :content="transposedContent" />
+      <tabview :sections="song.sections" />
     </card>
   </div>
 </template>

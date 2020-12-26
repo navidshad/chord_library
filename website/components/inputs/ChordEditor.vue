@@ -1,92 +1,35 @@
 <template>
   <div>
-    <ejs-richtexteditor
-      ref="defaultRTE"
-      :enableRtl="true"
-      :fontFamily="fontFamily"
-      :toolbarSettings="toolbarSettings"
-      v-model="content"
-    />
+    <!-- Header -->
+    <div class="flex items-center border">
+      <vs-button flat @click="createNewSection">New Section</vs-button>
+    </div>
+    <!-- Sections -->
+    <div class="border mt-2" :key="componentKey">
+      <chord-editor-section
+        v-for="(section, i) in sections"
+        :key="i"
+        :index="i"
+        v-model="sections[i]"
+        @up="offset('up', i)"
+        @down="offset('down', i)"
+        @duplicate="duplicateSection(i)"
+        @remove="removeSection(i)"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import {
-  RichTextEditorPlugin,
-  Toolbar,
-  Link,
-  Image,
-  Count,
-  HtmlEditor,
-  QuickToolbar,
-} from '@syncfusion/ej2-vue-richtexteditor'
-
+const _ = require('lodash')
 export default {
   props: {
-    value: String,
-  },
-  provide: {
-    richtexteditor: [Toolbar, Link, Image, Count, HtmlEditor, QuickToolbar],
+    value: Array,
   },
   data() {
     return {
-      content: '',
-      toolbarSettings: {
-        type: 'MultiRow',
-        items: [
-          'Formats',
-          'ClearFormat',
-          'Alignments',
-          '|',
-          'FontColor',
-          'FontName',
-          'FontSize',
-          'FontColor',
-          'BackgroundColor',
-          'LowerCase',
-          'UpperCase',
-          '|',
-          'Undo',
-          'Redo',
-          '|',
-          'preview',
-        ],
-      },
-      fontFamily: {
-        default: 'Dana', // to define default font-family
-        items: [
-          // {
-          //   text: 'Segoe UI',
-          //   value: 'Segoe UI',
-          //   class: 'e-segoe-ui',
-          //   command: 'Font',
-          //   subCommand: 'FontName',
-          // },
-          // {
-          //   text: 'Noto Sans',
-          //   value: 'Noto Sans',
-          //   command: 'Font',
-          //   subCommand: 'FontName',
-          // },
-          // {
-          //   text: 'Impact',
-          //   value: 'Impact,Charcoal,sans-serif',
-          //   class: 'e-impact',
-          //   command: 'Font',
-          //   subCommand: 'FontName',
-          // },
-          {
-            text: 'Dana',
-            value: 'Dana',
-            // class: 'e-tahoma',
-            command: 'Font',
-            subCommand: 'FontName',
-          },
-        ],
-      },
-      colorSetting: {
-        modeSwitcher: true,
-      },
+      sections: [],
+      componentKey: '',
     }
   },
 
@@ -94,11 +37,49 @@ export default {
     value: {
       immediate: true,
       handler(value) {
-        if (value) this.content = value
+        if (value) this.sections = value
+        if (!this.sections.length) this.createNewSection()
       },
     },
-    content() {
-      this.$emit('input', this.content)
+    sections: {
+      deep: true,
+      immediate: true,
+      handler() {
+        this.$emit('input', this.sections)
+      },
+    },
+  },
+  methods: {
+    duplicateSection(index) {
+      let duplicated = _.cloneDeep(this.sections[index])
+      this.sections.splice(index, 0, duplicated)
+      this.generateNewKey()
+    },
+    removeSection(index) {
+      this.sections.splice(index, 1)
+    },
+    createNewSection() {
+      let index = this.sections.length
+      this.sections.push({
+        index,
+        title: 'New Section',
+        direction: 'rtl',
+        lines: [],
+      })
+    },
+    offset(mode, index) {
+      let section = this.sections[index]
+      this.sections.splice(index, 1)
+
+      if (mode == 'up') {
+        this.sections.splice(index - 1, 0, section)
+      } else if (mode == 'down') {
+        this.sections.splice(index + 1, 0, section)
+      }
+      this.generateNewKey()
+    },
+    generateNewKey() {
+      this.componentKey = new Date().getUTCMilliseconds()
     },
   },
 }
@@ -113,12 +94,4 @@ export default {
 </style>
 
 <style>
-@import '../../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../../node_modules/@syncfusion/ej2-inputs/styles/material.css';
-@import '../../node_modules/@syncfusion/ej2-lists/styles/material.css';
-@import '../../node_modules/@syncfusion/ej2-popups/styles/material.css';
-@import '../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
-@import '../../node_modules/@syncfusion/ej2-navigations/styles/material.css';
-@import '../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
-@import '../../node_modules/@syncfusion/ej2-vue-richtexteditor/styles/material.css';
 </style>

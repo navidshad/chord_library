@@ -80,6 +80,7 @@ export default {
         let hash = this.hashCode(chord.title)
         let wordForms = [
           `>${chord.title}<`,
+          `>${chord.title}&`,
           `${chord.title} &`,
           `; ${chord.title}`,
         ]
