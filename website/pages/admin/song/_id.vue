@@ -20,8 +20,7 @@
     />
 
     <card class="p-4 mt-4 flex space-x-4">
-      <chord-editor class="w-1/2 pt-10" v-model="form.content" />
-      <div class="w-1/2 pr-4">
+      <div class="w-1/3 pr-4">
         <div>
           <vs-input
             class="mt-4"
@@ -29,8 +28,7 @@
             :label="$t('song.title')"
             v-model="form.title"
           />
-          <div class="flex justify-between w-full">
-            <select-artist
+          <select-artist
             class="mt-6"
             block
             :label="$t('artist.artists')"
@@ -42,10 +40,9 @@
             :label="$t('genre.genres')"
             v-model="form.genres"
           />
-          </div>
         </div>
-        <tab-viewport class="mt-6" :content="form.content" />
       </div>
+      <chord-editor class="w-2/3" v-model="form.sections" />
     </card>
   </div>
 </template>
@@ -83,7 +80,7 @@ export default {
           keySignature: '',
           list: [],
         },
-        content: 'enter something',
+        sections: [],
       },
     }
   },

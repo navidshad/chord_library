@@ -63,7 +63,7 @@ export default {
 
     showRemoveDialog(song) {
       let find = this.find
-      let database = 'song'
+      let database = 'tab'
       let collection = 'song'
 
       notifier.showAlertDialog({

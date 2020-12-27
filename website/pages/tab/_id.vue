@@ -8,13 +8,13 @@
     <client-only placeholder="Loading transpose...">
       <Transpose
         :chords="song.chords"
-        :originalContent="song.content"
+        v-model="song.sections"
         @transposed="transposedContent = $event"
       />
     </client-only>
 
     <card class="p-4 mt-4">
-      <TabViewport :content="transposedContent" />
+      <tabview :sections="song.sections" />
     </card>
   </div>
 </template>

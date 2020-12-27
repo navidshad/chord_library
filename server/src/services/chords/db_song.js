@@ -9,6 +9,12 @@ let SongChordSchema = new Schema({
     keySignature: String,
 })
 
+let SongSectionSchema = new Schema({
+    title: String,
+    direction: String,
+    lines: [{ chords: String, text: String }]
+})
+
 module.exports = [
     new CollectionDefinition({
         db: 'tab',
@@ -60,7 +66,7 @@ module.exports = [
                 keySignature: { type: String, enum: ['major', 'minor'] },
                 list: [SongChordSchema]
             },
-            content: String,
+            sections: [SongSectionSchema],
         }),
         permissions: [
             new Permission({
