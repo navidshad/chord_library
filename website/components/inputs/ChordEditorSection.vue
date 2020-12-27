@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="section">
     <!-- header -->
     <div class="flex flex-row-reverse items-center justify-between p-2">
       <div class="text-center" :dir="content.direction">
@@ -213,5 +213,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.section {
+  font-family: dana;
+}
 </style>
