@@ -8,7 +8,7 @@
     <client-only placeholder="Loading transpose...">
       <Transpose
         :chords="song.chords"
-        :originalContent="song.content"
+        v-model="song.sections"
         @transposed="transposedContent = $event"
       />
     </client-only>

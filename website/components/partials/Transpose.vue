@@ -14,15 +14,44 @@
 </template>
 
 <script>
+import _ from 'lodash'
+function padEnd(str, length, char) {
+  for (let index = 0; index < length; index++) {
+    str += char
+  }
+  return str
+}
+
+function padStart(str, length, char) {
+  for (let index = 0; index < length; index++) {
+    str = char + str
+  }
+  return str
+}
+
+function getPaddedTitles(original, newTitle, lengthDifference, padMethod) {
+  let padLength = Math.abs(lengthDifference)
+  if (lengthDifference > 0) {
+    newTitle = padMethod(newTitle, padLength, ' ')
+  } else if (lengthDifference < 0) {
+    original = padMethod(original, padLength, ' ')
+  }
+
+  return { original, new: newTitle }
+}
 export default {
   props: {
-    originalContent: { type: String, required: true },
+    sections: { type: Array, required: true },
     chords: { type: Object, required: true },
+  },
+  model: {
+    prop: 'sections',
+    event: 'transposed',
   },
   data() {
     return {
-      HtmlContent: '',
       currentTableIndex: null,
+      tempSections: [],
       tempChords: {
         keySignature: '',
         list: [],
@@ -30,18 +59,17 @@ export default {
     }
   },
   watch: {
-    originalContent: {
+    sections: {
       immediate: true,
       deep: true,
       handler(value) {
-        if (value) this.convertOriginalContentTohtml()
+        if (value) this.tempSections = value
       },
     },
     chords: {
       immediate: true,
       deep: true,
       handler({ keySignature, list }) {
-        console.log('chords wacher')
         this.tempChords = { keySignature, list }
         this.findMainTable(this.chords)
       },
@@ -58,51 +86,46 @@ export default {
   },
   created() {
     this.$store.dispatch('chordTables/getTables').then(() => {
-      console.log('after got tables')
       this.findMainTable(this.chords)
     })
   },
   methods: {
-    hashCode(str) {
-      return str
-        .split('')
-        .reduce(
-          (prevHash, currVal) =>
-            ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0,
-          0
-        )
-    },
-    convertOriginalContentTohtml() {
-      let div = document.createElement('div')
-      let originalContent = this.originalContent
-
-      this.chords.list.forEach((chord) => {
-        let hash = this.hashCode(chord.title)
-        let wordForms = [
-          `>${chord.title}<`,
-          `>${chord.title}&`,
-          `${chord.title} &`,
-          `; ${chord.title}`,
-        ]
-
-        wordForms.forEach((word) => {
-          let replacement = word
-            .toString()
-            .replace(chord.title, `<span name="${hash}">${word.trim()}</span>`);
-            
-          originalContent = originalContent.replaceAll(word, replacement)
-        })
-      })
-
-      div.innerHTML = originalContent
-      this.HtmlContent = div
-    },
     replaceChordByOriginalTitle(originalTitle, newTitle) {
-      let hash = this.hashCode(originalTitle)
-      let selecteds = this.HtmlContent.querySelectorAll(`[name='${hash}']`)
-      selecteds.forEach((tag) => {
-        tag.textContent = newTitle
-      })
+      let originallength = originalTitle.length
+      let newLength = newTitle.length
+      let lengthDifference = originalTitle.length - newTitle.length
+
+      for (let index = 0; index < this.tempSections.length; index++) {
+        let section = this.tempSections[index]
+
+        section.lines.forEach((line) => {
+          let paddedTitles = getPaddedTitles(
+            originalTitle,
+            newTitle,
+            lengthDifference,
+            padEnd
+          )
+
+          line.chords = line.chords.replaceAll(
+            paddedTitles.original,
+            paddedTitles.new
+          )
+
+          if (line.chords.endsWith(originalTitle.trim())) {
+            let paddedTitlesForLastChord = getPaddedTitles(
+              originalTitle,
+              newTitle,
+              lengthDifference,
+              padStart
+            )
+
+            line.chords = line.chords.replaceAll(
+              paddedTitlesForLastChord.original,
+              paddedTitlesForLastChord.new
+            )
+          }
+        })
+      }
     },
     /**
      * The table index of first chord
@@ -130,6 +153,7 @@ export default {
     },
     changeChordOffset(newIndex) {
       let keySignatureOffset = this.getKeySignatureOffset()
+      //this.tempChords = _.cloneDeep(this.chords);
       this.tempChords.list.forEach((chord, chordIndex) => {
         /**
          * Find new offset for chord
@@ -148,7 +172,10 @@ export default {
         }
 
         /**
-         * make loop the offset
+         * loop the offset
+         *
+         * if offset is the last the next one is the first chord
+         * and if the osffset is the first the befor chord is the last.
          */
         let totalTables = this.tables.length
         if (newOffset > totalTables - 1) {
@@ -164,7 +191,7 @@ export default {
         let rowIndex = chord.rowIndex
         let column = chord.column
 
-        chord = {
+        let newChord = {
           ...chord,
           title: table.rows[rowIndex][column].title,
           table: table._id,
@@ -173,17 +200,19 @@ export default {
         }
 
         /**
-         * Change song HtmlContent
+         * Change sections chords
          */
-        let originalTitle = this.chords.list[chordIndex].title
-        let newTitle = chord.title
+        let originalTitle = this.tempChords.list[chordIndex].title
+        let newTitle = newChord.title
+
+        this.tempChords.list[chordIndex] = newChord
         this.replaceChordByOriginalTitle(originalTitle, newTitle)
       })
 
       /**
        * Stream the song HtmlContent to upper level
        */
-      this.$emit('transposed', this.HtmlContent.innerHTML)
+      this.$emit('transposed', this.tempSections)
     },
   },
 }

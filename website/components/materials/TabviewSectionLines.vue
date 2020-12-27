@@ -1,5 +1,5 @@
 <template>
-  <div class="whitespace-pre-wrap">
+  <div class="lines whitespace-pre-wrap">
     <p v-for="(line, i) in lines" :key="i" :dir="direction">
       <span>{{ line.chords }}</span>
       <br /><span>{{ line.text }}</span>
@@ -16,5 +16,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.lines {
+  font-family: dana;
+}
 </style>
