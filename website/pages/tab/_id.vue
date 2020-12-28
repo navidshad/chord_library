@@ -8,13 +8,13 @@
     <client-only placeholder="Loading transpose...">
       <Transpose
         :chords="song.chords"
-        v-model="song.sections"
-        @transposed="transposedContent = $event"
+        :sections="song.sections"
+        @transposed="onReceivedTranspose"
       />
     </client-only>
 
     <card class="p-4 mt-4">
-      <tabview :sections="song.sections" />
+      <tabview :key="componentKey" :sections="transposedSections" />
     </card>
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
     if (song) {
       return {
         song,
-        transposedContent: song.content,
+        transposedSections: song.sections,
       }
     } else {
       error("This song dosen't found")
@@ -44,13 +44,19 @@ export default {
   },
   data() {
     return {
-      transposedContent: '',
+      transposedSections: [],
+      componentKey: '',
     }
   },
-  mounted() {},
   computed: {
     id() {
       this.$route.params.id
+    },
+  },
+  methods: {
+    onReceivedTranspose(sections) {
+      this.transposedSections = sections
+      this.componentKey = new Date().getUTCMilliseconds()
     },
   },
 }
