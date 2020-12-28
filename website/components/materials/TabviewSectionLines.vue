@@ -1,8 +1,9 @@
 <template>
   <div class="lines whitespace-pre-wrap">
-    <p v-for="(line, i) in lines" :key="i" :dir="direction">
-      <span>{{ line.chords }}</span>
-      <br /><span>{{ line.text }}</span>
+    <p v-for="(line, i) in lines" :key="i" :style="{'text-align':align}">
+      <span dir="ltr">{{ line.chords }}</span>
+      <br />
+      <span :dir="direction">{{ line.text }}</span>
     </p>
   </div>
 </template>
@@ -13,6 +14,11 @@ export default {
     lines: Array,
     direction: String,
   },
+  computed: {
+    align() {
+      return this.direction == 'rtl' ? 'right' : 'left'
+    }
+  }
 }
 </script>
 
