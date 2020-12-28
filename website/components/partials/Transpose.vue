@@ -42,6 +42,7 @@ function getPaddedTitles(original, newTitle, lengthDifference, padMethod) {
 export default {
   props: {
     sections: { type: Array, required: true },
+    // {keySignature, list}
     chords: { type: Object, required: true },
   },
   model: {
@@ -52,10 +53,6 @@ export default {
     return {
       currentTableIndex: null,
       tempSections: [],
-      tempChords: {
-        keySignature: '',
-        list: [],
-      },
     }
   },
   watch: {
@@ -70,13 +67,14 @@ export default {
       immediate: true,
       deep: true,
       handler({ keySignature, list }) {
-        this.tempChords = { keySignature, list }
+        // this.chords = { keySignature, list }
         this.findMainTable(this.chords)
       },
     },
     currentTableIndex(index, old) {
       if (old == null) return
       this.changeChordOffset(index)
+      this.key01 = new Date().getUTCMilliseconds()
     },
   },
   computed: {
@@ -96,9 +94,9 @@ export default {
       let lengthDifference = originalTitle.length - newTitle.length
 
       for (let index = 0; index < this.tempSections.length; index++) {
-        let section = this.tempSections[index]
+        // let section = this.tempSections[index]
 
-        section.lines.forEach((line) => {
+        this.tempSections[index].lines.forEach((line) => {
           let paddedTitles = getPaddedTitles(
             originalTitle,
             newTitle,
@@ -131,7 +129,7 @@ export default {
      * The table index of first chord
      */
     getKeySignatureOffset() {
-      let firstChord = this.tempChords.list[0]
+      let firstChord = this.chords.list[0]
       return this.getChordOffset(firstChord)
     },
     findMainTable({ keySignature, list }) {
@@ -151,38 +149,16 @@ export default {
 
       return offset
     },
-    changeChordOffset(newIndex) {
+    changeChordOffset(newOffset) {
       let keySignatureOffset = this.getKeySignatureOffset()
-      //this.tempChords = _.cloneDeep(this.chords);
-      this.tempChords.list.forEach((chord, chordIndex) => {
+      // this.chords = _.cloneDeep(this.chords)
+      this.tempSections = _.cloneDeep(this.sections)
+
+      this.chords.list.forEach((chord, chordIndex) => {
         /**
          * Find new offset for chord
          */
         let offset = this.getChordOffset(chord)
-        let newOffset, difference
-
-        if (offset == keySignatureOffset) {
-          newOffset = newIndex
-        } else if (offset > keySignatureOffset) {
-          difference = offset - keySignatureOffset
-          newOffset = newIndex + difference
-        } else if (offset < keySignatureOffset) {
-          difference = keySignatureOffset - offset
-          newOffset = newIndex - difference
-        }
-
-        /**
-         * loop the offset
-         *
-         * if offset is the last the next one is the first chord
-         * and if the osffset is the first the befor chord is the last.
-         */
-        let totalTables = this.tables.length
-        if (newOffset > totalTables - 1) {
-          newOffset = 0
-        } else if (newOffset < 0) {
-          newOffset = this.tables.length - 1
-        }
 
         /**
          * Chand chord to new offset
@@ -202,10 +178,9 @@ export default {
         /**
          * Change sections chords
          */
-        let originalTitle = this.tempChords.list[chordIndex].title
+        let originalTitle = this.chords.list[chordIndex].title
         let newTitle = newChord.title
 
-        this.tempChords.list[chordIndex] = newChord
         this.replaceChordByOriginalTitle(originalTitle, newTitle)
       })
 
