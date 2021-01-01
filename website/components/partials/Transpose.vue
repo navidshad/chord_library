@@ -29,16 +29,69 @@ function padStart(str, length, char) {
   return str
 }
 
-function getPaddedTitles(original, newTitle, lengthDifference, padMethod) {
-  let padLength = Math.abs(lengthDifference)
-  if (lengthDifference > 0) {
-    newTitle = padMethod(newTitle, padLength, ' ')
-  } else if (lengthDifference < 0) {
-    original = padMethod(original, padLength, ' ')
+// function getPaddedTitles(original, newTitle, lengthDifference, padMethod) {
+//   let padLength = Math.abs(lengthDifference)
+//   if (lengthDifference > 0) {
+//     newTitle = padMethod(newTitle, padLength, ' ')
+//   } else if (lengthDifference < 0) {
+//     original = padMethod(original, padLength, ' ')
+//   }
+
+//   return { original, new: newTitle }
+// }
+
+function injectString(newString, text, from, offset = 0) {
+  let end = from + newString.length
+  let before = text.slice(0 + (offset < 0 ? offset : 0), from)
+  let after = text.slice(end + (offset > 0 ? offset : 0), text.length)
+
+  let newtext = before + newString + after
+  return newtext
+}
+
+/**
+ * @param string word the string you want find its positions.
+ * @param string text the text you want to find word positions in it.
+ */
+function findWordPosition(word, text, lastLength = 0) {
+  let positions = []
+
+  let from = text.search(word)
+
+  if (from == -1) {
+    return positions
   }
 
-  return { original, new: newTitle }
+  let to = from + word.length
+  positions.push({
+    from: from + lastLength,
+    to: to + lastLength - 1,
+  })
+
+  let rest = text.slice(to, text.length)
+  let restPositions = []
+  if (rest.length) {
+    restPositions = findWordPosition(word, rest, to)
+  }
+
+  return [...positions, ...restPositions]
 }
+
+function shiftWordPositions(list, from = 0, offset, lineLength) {
+  for (let index = from; index < list.length; index++) {
+    let position = list[index]
+
+    if (position.to + offset < lineLength) {
+      position.from -= offset
+      position.to -= offset
+    } else {
+      position.from -= offset 
+    }
+  }
+
+  return list
+}
+
 export default {
   props: {
     sections: { type: Array, required: true },
@@ -90,38 +143,57 @@ export default {
   methods: {
     replaceChordByOriginalTitle(originalTitle, newTitle) {
       let originallength = originalTitle.length
-      let newLength = newTitle.length
-      let lengthDifference = originalTitle.length - newTitle.length
+      let newLength = newTitle.length - 1
+      let lengthDifference = newTitle.length - originalTitle.length
 
       for (let index = 0; index < this.tempSections.length; index++) {
         // let section = this.tempSections[index]
 
-        this.tempSections[index].lines.forEach((line) => {
-          let paddedTitles = getPaddedTitles(
-            originalTitle,
-            newTitle,
-            lengthDifference,
-            padEnd
-          )
+        this.tempSections[index].lines.forEach((line, lineIndex) => {
+          let originalChordLine = this.sections[index].lines[lineIndex].chords
+          let positions = findWordPosition(originalTitle, originalChordLine)
 
-          line.chords = line.chords.replaceAll(
-            paddedTitles.original,
-            paddedTitles.new
-          )
+          // let paddedTitles = getPaddedTitles(
+          //   originalTitle,
+          //   newTitle,یی
+          //   lengthDifference,
+          //   padEnd
+          // )
 
-          if (line.chords.endsWith(originalTitle.trim())) {
-            let paddedTitlesForLastChord = getPaddedTitles(
-              originalTitle,
-              newTitle,
+      
+          for (let index = 0; index < positions.length; index++) {
+            const position = positions[index]
+
+            line.chords = injectString(newTitle, line.chords, position.from)
+
+            let lineLength = line.chords.length
+            positions = shiftWordPositions(
+              positions,
+              index + 1,
               lengthDifference,
-              padStart
+              lineLength
             )
-
-            line.chords = line.chords.replaceAll(
-              paddedTitlesForLastChord.original,
-              paddedTitlesForLastChord.new
-            )
+        
           }
+
+          // line.chords = line.chords.replaceAll(
+          //   paddedTitles.original,
+          //   paddedTitles.new
+          // )
+
+          // if (line.chords.endsWith(originalTitle.trim())) {
+          //   let paddedTitlesForLastChord = getPaddedTitles(
+          //     originalTitle,
+          //     newTitle,
+          //     lengthDifference,
+          //     padStart
+          //   )
+
+          //   line.chords = line.chords.replaceAll(
+          //     paddedTitlesForLastChord.original,
+          //     paddedTitlesForLastChord.new
+          //   )
+          // }
         })
       }
     },
