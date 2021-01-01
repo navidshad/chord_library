@@ -80,10 +80,12 @@ function findWordPosition(word, text, lastLength = 0) {
 
   let rest = text.slice(to, text.length)
   let restPositions = []
+  debugger
   if (rest.length) {
-    restPositions = findWordPosition(word, rest, to)
+    lastLength = to + lastLength
+    debugger
+    restPositions = findWordPosition(word, rest, lastLength)
   }
-
   return [...positions, ...restPositions]
 }
 
@@ -153,6 +155,7 @@ export default {
   methods: {
     replaceChordByOriginalTitle(originalTitle, newTitle) {
       let originallength = originalTitle.length
+      console.log(originallength)
       let newLength = newTitle.length - 1
       let lengthDifference = newTitle.length - originalTitle.length
 
@@ -179,6 +182,8 @@ export default {
               position.from,
               position.to
             )
+
+            console.log(line.chords)
 
             let lineLength = line.chords.length
             debugger
