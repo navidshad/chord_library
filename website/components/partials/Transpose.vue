@@ -40,12 +40,22 @@ function padStart(str, length, char) {
 //   return { original, new: newTitle }
 // }
 
-function injectString(newString, text, from, offset = 0) {
-  let end = from + newString.length
-  let before = text.slice(0 + (offset < 0 ? offset : 0), from)
-  let after = text.slice(end + (offset > 0 ? offset : 0), text.length)
+function injectString(newString, text, from, to, offset = 0) {
+  let oldlength = to - from + 1
+  let end
+  let textLength = text.length
+
+  if (oldlength > newString.length) {
+    end = from + oldlength
+  } else {
+    end = from + newString.length
+  }
+
+  let before = text.slice(0, from)
+  let after = text.slice(end, text.length)
 
   let newtext = before + newString + after
+  // debugger
   return newtext
 }
 
@@ -85,7 +95,7 @@ function shiftWordPositions(list, from = 0, offset, lineLength) {
       position.from -= offset
       position.to -= offset
     } else {
-      position.from -= offset 
+      position.from -= offset
     }
   }
 
@@ -160,20 +170,24 @@ export default {
           //   padEnd
           // )
 
-      
           for (let index = 0; index < positions.length; index++) {
             const position = positions[index]
 
-            line.chords = injectString(newTitle, line.chords, position.from)
+            line.chords = injectString(
+              newTitle,
+              line.chords,
+              position.from,
+              position.to
+            )
 
             let lineLength = line.chords.length
+            debugger
             positions = shiftWordPositions(
               positions,
               index + 1,
               lengthDifference,
               lineLength
             )
-        
           }
 
           // line.chords = line.chords.replaceAll(
