@@ -15,48 +15,12 @@
 
 <script>
 import _ from 'lodash'
-function padEnd(str, length, char) {
-  for (let index = 0; index < length; index++) {
-    str += char
+function generateSpace(total) {
+  let text = ''
+  for (let index = 0; index < total; index++) {
+    text += ' '
   }
-  return str
-}
-
-function padStart(str, length, char) {
-  for (let index = 0; index < length; index++) {
-    str = char + str
-  }
-  return str
-}
-
-// function getPaddedTitles(original, newTitle, lengthDifference, padMethod) {
-//   let padLength = Math.abs(lengthDifference)
-//   if (lengthDifference > 0) {
-//     newTitle = padMethod(newTitle, padLength, ' ')
-//   } else if (lengthDifference < 0) {
-//     original = padMethod(original, padLength, ' ')
-//   }
-
-//   return { original, new: newTitle }
-// }
-
-function injectString(newString, text, from, to, offset = 0) {
-  let oldlength = to - from + 1
-  let end
-  let textLength = text.length
-
-  if (oldlength > newString.length) {
-    end = from + oldlength
-  } else {
-    end = from + newString.length
-  }
-
-  let before = text.slice(0, from)
-  let after = text.slice(end, text.length)
-
-  let newtext = before + newString + after
-  // debugger
-  return newtext
+  return text
 }
 
 /**
@@ -65,44 +29,57 @@ function injectString(newString, text, from, to, offset = 0) {
  */
 function findWordPosition(word, text, lastLength = 0) {
   let positions = []
+  let textLength = text.length
 
-  let from = text.search(word)
+  let from = text.indexOf(word)
 
   if (from == -1) {
     return positions
   }
 
-  let to = from + word.length
+  let to = from + word.length - 1
   positions.push({
-    from: from + lastLength,
-    to: to + lastLength - 1,
+    from: from + (lastLength > 0 ? lastLength : 0),
+    to: to + (lastLength > 0 ? lastLength : 0),
+    word: word,
   })
 
-  let rest = text.slice(to, text.length)
+  let rest = text.slice(to + 1, text.length)
   let restPositions = []
-  debugger
+
+  // debugger
   if (rest.length) {
-    lastLength = to + lastLength
-    debugger
+    lastLength = to + lastLength + 1
     restPositions = findWordPosition(word, rest, lastLength)
   }
+
   return [...positions, ...restPositions]
 }
 
-function shiftWordPositions(list, from = 0, offset, lineLength) {
-  for (let index = from; index < list.length; index++) {
-    let position = list[index]
+// function sperateSpaces(lineChords="") {
+//   let list = [];
+//   for (let index = 0; index < lineChords.length; index++) {
+//     const char = lineChords[index];
 
-    if (position.to + offset < lineLength) {
-      position.from -= offset
-      position.to -= offset
-    } else {
-      position.from -= offset
-    }
-  }
+//     if()
+//   }
 
-  return list
-}
+// }
+
+// function shiftWordPositions(list, from = 0, offset, lineLength) {
+//   for (let index = from; index < list.length; index++) {
+//     let position = list[index]
+
+//     if (position.to + offset < lineLength) {
+//       position.from -= offset
+//       position.to -= offset
+//     } else {
+//       position.from -= offset
+//     }
+//   }
+
+//   return list
+// }
 
 export default {
   props: {
@@ -118,6 +95,10 @@ export default {
     return {
       currentTableIndex: null,
       tempSections: [],
+      tempChords: {
+        keySignature: '',
+        list: [],
+      },
     }
   },
   watch: {
@@ -139,7 +120,12 @@ export default {
     currentTableIndex(index, old) {
       if (old == null) return
       this.changeChordOffset(index)
+      this.putTempChordsIntoTempSections()
       this.key01 = new Date().getUTCMilliseconds()
+      /**
+       * Stream the song HtmlContent to upper level
+       */
+      this.$emit('transposed', this.tempSections)
     },
   },
   computed: {
@@ -164,14 +150,10 @@ export default {
 
         this.tempSections[index].lines.forEach((line, lineIndex) => {
           let originalChordLine = this.sections[index].lines[lineIndex].chords
+          let lineLength = originalChordLine.length
           let positions = findWordPosition(originalTitle, originalChordLine)
 
-          // let paddedTitles = getPaddedTitles(
-          //   originalTitle,
-          //   newTitle,یی
-          //   lengthDifference,
-          //   padEnd
-          // )
+          if (lineIndex == 2 && newTitle == 'Am') debugger
 
           for (let index = 0; index < positions.length; index++) {
             const position = positions[index]
@@ -186,7 +168,7 @@ export default {
             console.log(line.chords)
 
             let lineLength = line.chords.length
-            debugger
+            // debugger
             positions = shiftWordPositions(
               positions,
               index + 1,
@@ -194,25 +176,6 @@ export default {
               lineLength
             )
           }
-
-          // line.chords = line.chords.replaceAll(
-          //   paddedTitles.original,
-          //   paddedTitles.new
-          // )
-
-          // if (line.chords.endsWith(originalTitle.trim())) {
-          //   let paddedTitlesForLastChord = getPaddedTitles(
-          //     originalTitle,
-          //     newTitle,
-          //     lengthDifference,
-          //     padStart
-          //   )
-
-          //   line.chords = line.chords.replaceAll(
-          //     paddedTitlesForLastChord.original,
-          //     paddedTitlesForLastChord.new
-          //   )
-          // }
         })
       }
     },
@@ -241,9 +204,8 @@ export default {
       return offset
     },
     changeChordOffset(newOffset) {
-      let keySignatureOffset = this.getKeySignatureOffset()
-      // this.chords = _.cloneDeep(this.chords)
-      this.tempSections = _.cloneDeep(this.sections)
+      // let keySignatureOffset = this.getKeySignatureOffset()
+      this.tempChords = _.cloneDeep(this.chords)
 
       this.chords.list.forEach((chord, chordIndex) => {
         /**
@@ -266,19 +228,116 @@ export default {
           keySignature: table.keySignature._id,
         }
 
-        /**
-         * Change sections chords
-         */
-        let originalTitle = this.chords.list[chordIndex].title
-        let newTitle = newChord.title
+        this.tempChords.list[chordIndex] = newChord
+      })
+    },
 
-        this.replaceChordByOriginalTitle(originalTitle, newTitle)
+    seperateChords(chordsLine) {
+      /**
+       * Extract chord positions as a list
+       */
+      let positions = []
+      this.chords.list.forEach((chord) => {
+        positions = positions.concat(findWordPosition(chord.title, chordsLine))
       })
 
+      positions.sort((a, b) => a.from - b.from)
+
+      return positions
+    },
+
+    injectSpaceBetweenChords(positions = []) {
       /**
-       * Stream the song HtmlContent to upper level
+       * Generate spaces between chords
+       * and inject both chords and spaces into a new list
        */
-      this.$emit('transposed', this.tempSections)
+      let newPositionListWithSpaces = []
+      positions.reduce((before, current, index) => {
+        newPositionListWithSpaces.push(before)
+
+        let currentLengthDifference =
+          current.word.length - current.newWord.length
+        let beforeLengthDifference = before.word.length - before.newWord.length
+
+        // if (index == positions.length - 1) {
+        // currentLengthDifference =
+        // } else {
+        // transposeLengthDifference = before.word.length - before.newWord.length
+        // }
+
+        let totalSpace = current.from - (before.to + 1)
+
+        if (index == positions.length - 2) {
+          totalSpace += currentLengthDifference < 0 ? currentLengthDifference * 2 : currentLengthDifference 
+        } else {
+          totalSpace += beforeLengthDifference < 0 ? beforeLengthDifference * 2 : beforeLengthDifference
+        }
+
+        let spacePosition = {
+          from: before.to + 1,
+          to: current.from - 1,
+          word: generateSpace(totalSpace > 0 ? totalSpace : 1),
+        }
+
+        newPositionListWithSpaces.push(spacePosition)
+
+        if (index == positions.length - 1)
+          newPositionListWithSpaces.push(current)
+
+        debugger
+        return current
+      })
+
+      return newPositionListWithSpaces
+    },
+
+    putTempChordsIntoTempSections() {
+      this.tempSections = _.cloneDeep(this.sections)
+
+      this.sections.forEach((section, sectionIndex) => {
+        for (let lineIndex = 0; lineIndex < section.lines.length; lineIndex++) {
+          const line = section.lines[lineIndex]
+
+          // seperate chords and spaces
+          let speratedChordsFromLine = this.seperateChords(line.chords)
+
+          /**
+           * Put transposed chord as a new property
+           * for each member of the list
+           */
+          for (
+            let chordIndex = 0;
+            chordIndex < this.chords.list.length;
+            chordIndex++
+          ) {
+            const chord = this.chords.list[chordIndex]
+
+            speratedChordsFromLine.forEach((position) => {
+              if (position.word == chord.title)
+                position.newWord = this.tempChords.list[chordIndex].title
+            })
+          }
+
+          let normalizedList = this.injectSpaceBetweenChords(
+            speratedChordsFromLine
+          )
+
+          /**
+           * Join normalized array into one single line
+           */
+          let transposeChordLine = ''
+          normalizedList.forEach((position) => {
+            if (position.newWord) transposeChordLine += position.newWord
+            else transposeChordLine += position.word
+          })
+
+          this.tempSections[sectionIndex].lines[
+            lineIndex
+          ].chords = transposeChordLine
+
+          // debugger
+        }
+      })
     },
   },
 }
