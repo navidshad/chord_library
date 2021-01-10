@@ -56,31 +56,6 @@ function findWordPosition(word, text, lastLength = 0) {
   return [...positions, ...restPositions]
 }
 
-// function sperateSpaces(lineChords="") {
-//   let list = [];
-//   for (let index = 0; index < lineChords.length; index++) {
-//     const char = lineChords[index];
-
-//     if()
-//   }
-
-// }
-
-// function shiftWordPositions(list, from = 0, offset, lineLength) {
-//   for (let index = from; index < list.length; index++) {
-//     let position = list[index]
-
-//     if (position.to + offset < lineLength) {
-//       position.from -= offset
-//       position.to -= offset
-//     } else {
-//       position.from -= offset
-//     }
-//   }
-
-//   return list
-// }
-
 export default {
   props: {
     sections: { type: Array, required: true },
@@ -139,46 +114,6 @@ export default {
     })
   },
   methods: {
-    replaceChordByOriginalTitle(originalTitle, newTitle) {
-      let originallength = originalTitle.length
-      console.log(originallength)
-      let newLength = newTitle.length - 1
-      let lengthDifference = newTitle.length - originalTitle.length
-
-      for (let index = 0; index < this.tempSections.length; index++) {
-        // let section = this.tempSections[index]
-
-        this.tempSections[index].lines.forEach((line, lineIndex) => {
-          let originalChordLine = this.sections[index].lines[lineIndex].chords
-          let lineLength = originalChordLine.length
-          let positions = findWordPosition(originalTitle, originalChordLine)
-
-          if (lineIndex == 2 && newTitle == 'Am') debugger
-
-          for (let index = 0; index < positions.length; index++) {
-            const position = positions[index]
-
-            line.chords = injectString(
-              newTitle,
-              line.chords,
-              position.from,
-              position.to
-            )
-
-            console.log(line.chords)
-
-            let lineLength = line.chords.length
-            // debugger
-            positions = shiftWordPositions(
-              positions,
-              index + 1,
-              lengthDifference,
-              lineLength
-            )
-          }
-        })
-      }
-    },
     /**
      * The table index of first chord
      */
@@ -234,59 +169,155 @@ export default {
 
     seperateChords(chordsLine) {
       /**
+       * Separate chords in this line
+       */
+      let list = []
+      let sparatedBySpace = chordsLine
+        .split(' ')
+        .filter((item) => item != ' ' && item != '')
+
+      // remove repetitiv chords
+      for (let i = 0; i < sparatedBySpace.length; i++) {
+        const chord = sparatedBySpace[i]
+        if (list.indexOf(chord) == -1) list.push(chord)
+      }
+
+      /**
        * Extract chord positions as a list
        */
       let positions = []
-      this.chords.list.forEach((chord) => {
-        positions = positions.concat(findWordPosition(chord.title, chordsLine))
+      list.forEach((chordTitle) => {
+        positions = positions.concat(findWordPosition(chordTitle, chordsLine))
       })
 
       positions.sort((a, b) => a.from - b.from)
 
       return positions
     },
+    injectSpace({
+      before,
+      current,
+      index,
+      newPositionListWithSpaces,
+      totalPositions,
+      lineLength
+    }) {
+      debugger
 
-    injectSpaceBetweenChords(positions = []) {
+      // Add start spaces
+      if (index == 1 && before.from > 0) {
+        newPositionListWithSpaces.push({
+          from: 0,
+          to: before.to - 1,
+          word: generateSpace(0 - before.to),
+        })
+      }
+
+      newPositionListWithSpaces.push(before)
+
+      let currentLengthDifference = current.word.length - current.newWord.length
+      let beforeLengthDifference = before.word.length - before.newWord.length
+
+      let totalSpace = current.from - (before.to + 1)
+
+      if (index == totalPositions - 2) {
+        totalSpace +=
+          currentLengthDifference < 0
+            ? currentLengthDifference * 2
+            : currentLengthDifference
+      } else {
+        totalSpace +=
+          beforeLengthDifference < 0
+            ? beforeLengthDifference * 2
+            : beforeLengthDifference
+      }
+
+      let spacePosition = {
+        from: before.to + 1,
+        to: current.from - 1,
+        word: generateSpace(totalSpace > 0 ? totalSpace : 1),
+      }
+
+      debugger
+      newPositionListWithSpaces.push(spacePosition)
+
+      if (index == totalPositions - 1) newPositionListWithSpaces.push(current)
+
+      // Add end spaces
+      if(totalPositions -1 == index && current.to < lineLength) {
+        debugger
+          newPositionListWithSpaces.push({
+          from: current.to + 1,
+          to: lineLength,
+          word: generateSpace(lineLength - current.to),
+        })
+      } 
+    },
+    injectSpaceBetweenChords(positions = [], lineLength = 0) {
       /**
        * Generate spaces between chords
        * and inject both chords and spaces into a new list
        */
       let newPositionListWithSpaces = []
-      positions.reduce((before, current, index) => {
-        newPositionListWithSpaces.push(before)
 
-        let currentLengthDifference =
-          current.word.length - current.newWord.length
-        let beforeLengthDifference = before.word.length - before.newWord.length
+      if (positions.length == 1) {
+        let position = positions[0]
+        // before space
+        // this.injectSpace({
+        //   before: { from: 0, to: position.from - 1, word: '', newWord: '' },
+        //   current: position,
+        //   index: 0,
+        //   newPositionListWithSpaces: newPositionListWithSpaces,
+        //   totalPositions: positions.length,
+        // })
+        // after space
+        if (position.to < lineLength) {
+          this.injectSpace({
+            before: position,
+            current: {
+              from: lineLength,
+              to: lineLength,
+              word: '',
+              newWord: '',
+            },
+            index: 0,
+            newPositionListWithSpaces: newPositionListWithSpaces,
+            totalPositions: positions.length,
+            lineLength: lineLength
+          })
+        }
+      } else if (positions.length) {
+        positions.reduce((before, current, index) => {
+          this.injectSpace({
+            before: before,
+            current: current,
+            index: index,
+            newPositionListWithSpaces: newPositionListWithSpaces,
+            totalPositions: positions.length,
+            lineLength: lineLength
+          })
 
-        // if (index == positions.length - 1) {
-        // currentLengthDifference =
-        // } else {
-        // transposeLengthDifference = before.word.length - before.newWord.length
+          return current
+        })
+
+        // after space
+        // let lastIndex = positions.length - 1
+        // let lastPosition = positions[lastIndex]; 
+        // if (lastPosition.to < lineLength) {
+        //   this.injectSpace({
+        //     before: lastPosition,
+        //     current: {
+        //       from: lineLength,
+        //       to: lineLength,
+        //       word: '',
+        //       newWord: '',
+        //     },
+        //     index: lastIndex,
+        //     newPositionListWithSpaces: newPositionListWithSpaces,
+        //     totalPositions: positions.length,
+        //   })
         // }
-
-        let totalSpace = current.from - (before.to + 1)
-
-        if (index == positions.length - 2) {
-          totalSpace += currentLengthDifference < 0 ? currentLengthDifference * 2 : currentLengthDifference 
-        } else {
-          totalSpace += beforeLengthDifference < 0 ? beforeLengthDifference * 2 : beforeLengthDifference
-        }
-
-        let spacePosition = {
-          from: before.to + 1,
-          to: current.from - 1,
-          word: generateSpace(totalSpace > 0 ? totalSpace : 1),
-        }
-
-        newPositionListWithSpaces.push(spacePosition)
-
-        if (index == positions.length - 1)
-          newPositionListWithSpaces.push(current)
-
-        debugger
-        return current
-      })
+      }
 
       return newPositionListWithSpaces
     },
@@ -300,7 +331,7 @@ export default {
 
           // seperate chords and spaces
           let speratedChordsFromLine = this.seperateChords(line.chords)
-
+          debugger
           /**
            * Put transposed chord as a new property
            * for each member of the list
@@ -319,7 +350,8 @@ export default {
           }
 
           let normalizedList = this.injectSpaceBetweenChords(
-            speratedChordsFromLine
+            speratedChordsFromLine,
+            line.chords.length
           )
 
           /**
@@ -331,11 +363,11 @@ export default {
             else transposeChordLine += position.word
           })
 
-          this.tempSections[sectionIndex].lines[
-            lineIndex
-          ].chords = transposeChordLine
-
-          // debugger
+          if (transposeChordLine.length) {
+            this.tempSections[sectionIndex].lines[
+              lineIndex
+            ].chords = transposeChordLine
+          }
         }
       })
     },
