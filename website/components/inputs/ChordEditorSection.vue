@@ -3,13 +3,8 @@
     <!-- header -->
     <div class="flex flex-row-reverse items-center justify-between p-2">
       <div class="text-center" :dir="content.direction">
-        <h3 v-show="mode == 'view'">{{ content.title }}</h3>
-        <input
-          type="text"
-          class="bg-gray-200"
-          v-model="content.title"
-          v-show="mode == 'edit'"
-        />
+        <h3 v-if="mode == 'view'">{{ content.title }}</h3>
+        <input v-else type="text" class="bg-gray-200" v-model="content.title" />
       </div>
       <div class="flex">
         <!-- ACTION BUTTONS -->
@@ -64,7 +59,7 @@
     <!-- View Mode -->
     <div :class="['px-2', { 'bg-green-200': mode == 'view' }]">
       <tabview-section-lines
-        v-show="mode == 'view'"
+        v-if="mode == 'view'"
         class="p-4"
         :lines="content.lines"
         :direction="content.direction"
@@ -72,7 +67,7 @@
       <!-- Edit Mode -->
       <textarea
         class="p-4 bg-gray-200 w-full"
-        v-show="mode == 'edit'"
+        v-else
         v-model="editContent"
         :dir="content.direction"
         :style="{ height: autoHeight }"
@@ -95,6 +90,7 @@ export default {
   props: {
     value: Object,
     index: Number,
+    editToggle: Boolean,
   },
   watch: {
     value: {
@@ -107,9 +103,14 @@ export default {
         this.convertLinesToEditContent()
       },
     },
+    editToggle(value) {
+      if (value == true) this.mode = 'edite'
+      else this.mode = 'view'
+      this.generateComponentKey()
+    },
   },
   created() {
-    this.componentKey = new Date().getUTCMilliseconds() + this.index
+    this.generateComponentKey()
     eventBus.listen('chord-editor-section-remove' + this.componentKey, () => {
       this.$emit('remove')
     })
@@ -147,6 +148,9 @@ export default {
     },
   },
   methods: {
+    generateComponentKey() {
+      this.componentKey = new Date().getUTCMilliseconds() + this.index
+    },
     streamOut() {
       this.$emit('input', this.content)
     },

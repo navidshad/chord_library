@@ -10,6 +10,7 @@
         v-for="(section, i) in sections"
         :key="i"
         :index="i"
+        :editToggle="editToggle"
         v-model="sections[i]"
         @up="offset('up', i)"
         @down="offset('down', i)"
@@ -30,9 +31,15 @@ export default {
     return {
       sections: [],
       componentKey: '',
+      editToggle: true,
     }
   },
-
+  created() {
+    window.addEventListener('keyup', this.onToggleEditMode)
+  },
+  destroyed() {
+    window.removeEventListener('keyup', this.onToggleEditMode)
+  },
   watch: {
     value: {
       immediate: true,
@@ -80,6 +87,11 @@ export default {
     },
     generateNewKey() {
       this.componentKey = new Date().getUTCMilliseconds()
+    },
+    onToggleEditMode({ code, ctrlKey }) {
+      if (code == 'F4') {
+        this.editToggle = !this.editToggle
+      }
     },
   },
 }

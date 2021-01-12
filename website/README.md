@@ -18,8 +18,11 @@ $ yarn generate
 ```
 
 ## Change log
+* 0.9.0
+    - add F4 short key for switch between edit/view modes on tab editor.
 * 0.8.0
     - changed song data structure.
+    - changed transpose system.
 * 0.7.0
     - add Transpose ability for tabs.
     - add TabViewport for rendering song content.
