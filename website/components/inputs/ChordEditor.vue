@@ -89,7 +89,6 @@ export default {
       this.componentKey = new Date().getUTCMilliseconds()
     },
     onToggleEditMode({ code, ctrlKey }) {
-      debugger
       if (code == 'F4') {
         this.editToggle = !this.editToggle
       }
