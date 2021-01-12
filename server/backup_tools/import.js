@@ -2,7 +2,7 @@ const exec = require('child_process').exec;
 const fs = require('fs');
 
 let filesDir = require('path').join(__dirname, 'files');
-let dbConnectionStr = process.env.mongo;
+let dbConnectionStr = process.env.MONGO;
 //'mongodb://@localhost:27017/';
 
 function ImportFile (fileDir, db, coll) 
