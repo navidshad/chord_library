@@ -8,6 +8,13 @@ let TableRowSchema = new Schema({
     melodicMinor: { type: Schema.Types.ObjectId, ref: 'chord', required: true },
 })
 
+let TableChromaticRowSchema = new Schema({
+    one: { type: Schema.Types.ObjectId, ref: 'chord', required: true },
+    two: { type: Schema.Types.ObjectId, ref: 'chord', required: true },
+    three: { type: Schema.Types.ObjectId, ref: 'chord', required: true },
+    four: { type: Schema.Types.ObjectId, ref: 'chord', required: true },
+})
+
 module.exports = [
     new CollectionDefinition({
         db: 'chord',
@@ -77,6 +84,7 @@ module.exports = [
             keySignature: { type: Schema.Types.ObjectId, ref: 'keySignature', required: true, },
             type: { type: Schema.Types.ObjectId, ref: 'type', required: true, },
             rows: [TableRowSchema],
+            chromaticRows: [TableChromaticRowSchema],
         }),
         permissions: [
             new Permission({

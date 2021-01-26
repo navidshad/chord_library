@@ -15,7 +15,11 @@
       />
     </div>
 
+    <!-- Regular table -->
     <vs-table class="mt-6">
+      <template #header>
+        <span>Regular Chords</span>
+      </template>
       <!-- THead -->
       <template slot="thead">
         <vs-tr>
@@ -28,6 +32,38 @@
       <!-- TBody -->
       <template slot="tbody">
         <vs-tr v-for="(fieldsRow, rowIndex) in form.rows" :key="rowIndex">
+          <vs-td v-for="(column, columnIndex) in columns" :key="columnIndex">
+            <select-chord
+              :list="chords"
+              :pending="chordPending"
+              v-model="form.rows[rowIndex][column]"
+            />
+          </vs-td>
+        </vs-tr>
+      </template>
+    </vs-table>
+
+    <!-- Chromatic table -->
+    <vs-table class="mt-6">
+      <template #header>
+        <span>Chromatic Chords</span>
+      </template>
+      <!-- THead -->
+      <template slot="thead">
+        <vs-tr>
+          <vs-th>01</vs-th>
+          <vs-th>02</vs-th>
+          <vs-th>03</vs-th>
+          <vs-th>04</vs-th>
+        </vs-tr>
+      </template>
+
+      <!-- TBody -->
+      <template slot="tbody">
+        <vs-tr
+          v-for="(fieldsRow, rowIndex) in form.chromaticRows"
+          :key="rowIndex"
+        >
           <vs-td v-for="(column, columnIndex) in columns" :key="columnIndex">
             <select-chord
               :list="chords"
@@ -72,6 +108,7 @@ export default {
         type: '',
         keySignature: '',
         rows: this.createTableArray(),
+        chromaticRows: this.createChromaticTableArray(),
       },
       chords: [],
       chordPending: false,
@@ -95,6 +132,13 @@ export default {
             .then((doc) => {
               delete doc._id
               this.form = doc
+
+              if (!doc.rows.length) {
+                this.form.rows = this.createTableArray()
+              }
+              if (!doc.chromaticRows.length) {
+                this.form.chromaticRows = this.createChromaticTableArray()
+              }
             })
             .finally(() => (this.pending = false))
         }
@@ -111,7 +155,7 @@ export default {
       this.pending = true
     },
 
-    createTableArray(x = 4, y = 7) {
+    createTableArray(y = 7) {
       let lines = []
       for (let i = 0; i < y; i++) {
         lines.push({
@@ -119,6 +163,19 @@ export default {
           naturalMinor: '',
           harmonicMinor: '',
           melodicMinor: '',
+        })
+      }
+      return lines
+    },
+
+    createChromaticTableArray(y = 7) {
+      let lines = []
+      for (let i = 0; i < y; i++) {
+        lines.push({
+          one: '',
+          two: '',
+          three: '',
+          four: '',
         })
       }
       return lines
@@ -178,8 +235,8 @@ export default {
           collection: 'chord',
           query: {},
           options: {
-            sort: 'title'
-          }
+            sort: 'title',
+          },
         })
         .then((list) => (this.chords = list))
         .finally(() => (this.chordPending = false))
