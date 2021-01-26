@@ -57,6 +57,10 @@ export default {
           'rows.naturalMinor',
           'rows.harmonicMinor',
           'rows.melodicMinor',
+          'chromaticRows.one',
+          'chromaticRows.two',
+          'chromaticRows.three',
+          'chromaticRows.four',
         ],
       }
     },

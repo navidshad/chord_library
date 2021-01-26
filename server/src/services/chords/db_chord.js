@@ -9,10 +9,10 @@ let TableRowSchema = new Schema({
 })
 
 let TableChromaticRowSchema = new Schema({
-    one: { type: Schema.Types.ObjectId, ref: 'chord', required: true },
-    two: { type: Schema.Types.ObjectId, ref: 'chord', required: true },
-    three: { type: Schema.Types.ObjectId, ref: 'chord', required: true },
-    four: { type: Schema.Types.ObjectId, ref: 'chord', required: true },
+    one: { type: Schema.Types.ObjectId, ref: 'chord' },
+    two: { type: Schema.Types.ObjectId, ref: 'chord' },
+    three: { type: Schema.Types.ObjectId, ref: 'chord' },
+    four: { type: Schema.Types.ObjectId, ref: 'chord' },
 })
 
 module.exports = [
