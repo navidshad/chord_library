@@ -15,8 +15,11 @@
       </div>
     </div>
 
-    <!-- Table -->
+    <!-- Regular chords -->
     <vs-table class="mt-6">
+      <template #header>
+        <span>Regular Chords</span>
+      </template>
       <!-- THead -->
       <template slot="thead">
         <vs-tr>
@@ -49,6 +52,44 @@
         </vs-tr>
       </template>
     </vs-table>
+
+    <!-- Chromatic Chords -->
+    <vs-table class="mt-6">
+      <template #header>
+        <span>Chromatic Chords</span>
+      </template>
+      <!-- THead -->
+      <template slot="thead">
+        <vs-tr>
+          <vs-th>01</vs-th>
+          <vs-th>02</vs-th>
+          <vs-th>03</vs-th>
+          <vs-th>04</vs-th>
+        </vs-tr>
+      </template>
+
+      <!-- TBody -->
+      <template slot="tbody">
+        <vs-tr v-for="(row, rowIndex) in table.chromaticRows" :key="rowIndex">
+          <vs-td
+            v-for="(column, columnIndex) in chromaticColumns"
+            :key="columnIndex"
+            :class="{
+              selected: isActive(rowIndex, column),
+              'cursor-pointer': allowChoose,
+              relative: allowChoose,
+            }"
+          >
+            <span class="">
+              {{ (row[column] || {}).title || '' }}
+            </span>
+            <span class="select-badge" v-if="isActive(rowIndex, column)">{{
+              getSelectIndex(rowIndex, column) + 1
+            }}</span>
+          </vs-td>
+        </vs-tr>
+      </template>
+    </vs-table>
   </card>
 </template>
 
@@ -63,6 +104,7 @@ export default {
   data() {
     return {
       columns: ['major', 'naturalMinor', 'harmonicMinor', 'melodicMinor'],
+      chromaticColumns: ['one', 'two', 'three', 'four'],
       selecteds: [],
     }
   },

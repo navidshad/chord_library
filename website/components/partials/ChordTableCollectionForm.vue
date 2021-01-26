@@ -64,11 +64,15 @@
           v-for="(fieldsRow, rowIndex) in form.chromaticRows"
           :key="rowIndex"
         >
-          <vs-td v-for="(column, columnIndex) in columns" :key="columnIndex">
+          <vs-td
+            v-for="(column, columnIndex) in chromaticColumns"
+            :key="columnIndex"
+          >
             <select-chord
               :list="chords"
               :pending="chordPending"
-              v-model="form.rows[rowIndex][column]"
+              :value="form.chromaticRows[rowIndex][column] || ''"
+              @input="form.chromaticRows[rowIndex][column] = $event"
             />
           </vs-td>
         </vs-tr>
@@ -76,8 +80,12 @@
     </vs-table>
 
     <div class="mt-4">
-      <vs-button v-if="!edit" @click="create">{{ $t('create') }}</vs-button>
-      <vs-button v-else @click="update">{{ $t('update') }}</vs-button>
+      <vs-button v-if="!edit" @click="create" :loading="pending">{{
+        $t('create')
+      }}</vs-button>
+      <vs-button v-else @click="update" :loading="pending">{{
+        $t('update')
+      }}</vs-button>
     </div>
   </div>
 </template>
@@ -113,6 +121,7 @@ export default {
       chords: [],
       chordPending: false,
       columns: ['major', 'naturalMinor', 'harmonicMinor', 'melodicMinor'],
+      chromaticColumns: ['one', 'two', 'three', 'four'],
       pending: false,
     }
   },
@@ -151,10 +160,6 @@ export default {
   },
 
   methods: {
-    update() {
-      this.pending = true
-    },
-
     createTableArray(y = 7) {
       let lines = []
       for (let i = 0; i < y; i++) {
@@ -172,10 +177,10 @@ export default {
       let lines = []
       for (let i = 0; i < y; i++) {
         lines.push({
-          one: '',
-          two: '',
-          three: '',
-          four: '',
+          one: null,
+          two: null,
+          three: null,
+          four: null,
         })
       }
       return lines
