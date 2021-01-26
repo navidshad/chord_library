@@ -121,6 +121,7 @@ export default {
       let firstChord = this.chords.list[0]
       return this.getChordOffset(firstChord)
     },
+
     findMainTable({ keySignature, list }) {
       if (!keySignature || !list) return
 
@@ -138,6 +139,7 @@ export default {
 
       return offset
     },
+
     changeChordOffset(newOffset) {
       // let keySignatureOffset = this.getKeySignatureOffset()
       this.tempChords = _.cloneDeep(this.chords)
@@ -194,13 +196,14 @@ export default {
 
       return positions
     },
+
     injectSpace({
       before,
       current,
       index,
       newPositionListWithSpaces,
       totalPositions,
-      lineLength
+      lineLength,
     }) {
       debugger
 
@@ -215,8 +218,8 @@ export default {
 
       newPositionListWithSpaces.push(before)
 
-      let currentLengthDifference = current.word.length - current.newWord.length
-      let beforeLengthDifference = before.word.length - before.newWord.length
+      let currentLengthDifference = current.word.length - (current.newWord || "").length
+      let beforeLengthDifference = before.word.length - (before.newWord || "").length
 
       let totalSpace = current.from - (before.to + 1)
 
@@ -238,21 +241,23 @@ export default {
         word: generateSpace(totalSpace > 0 ? totalSpace : 1),
       }
 
-      debugger
+      // debugger
       newPositionListWithSpaces.push(spacePosition)
 
       if (index == totalPositions - 1) newPositionListWithSpaces.push(current)
 
       // Add end spaces
-      if(totalPositions -1 == index && current.to < lineLength) {
-        debugger
-          newPositionListWithSpaces.push({
+      if (totalPositions - 1 == index && current.to < lineLength) {
+
+        newPositionListWithSpaces.push({
           from: current.to + 1,
           to: lineLength,
           word: generateSpace(lineLength - current.to),
         })
-      } 
+
+      }
     },
+
     injectSpaceBetweenChords(positions = [], lineLength = 0) {
       /**
        * Generate spaces between chords
@@ -283,7 +288,7 @@ export default {
             index: 0,
             newPositionListWithSpaces: newPositionListWithSpaces,
             totalPositions: positions.length,
-            lineLength: lineLength
+            lineLength: lineLength,
           })
         }
       } else if (positions.length) {
@@ -294,7 +299,7 @@ export default {
             index: index,
             newPositionListWithSpaces: newPositionListWithSpaces,
             totalPositions: positions.length,
-            lineLength: lineLength
+            lineLength: lineLength,
           })
 
           return current
@@ -302,7 +307,7 @@ export default {
 
         // after space
         // let lastIndex = positions.length - 1
-        // let lastPosition = positions[lastIndex]; 
+        // let lastPosition = positions[lastIndex];
         // if (lastPosition.to < lineLength) {
         //   this.injectSpace({
         //     before: lastPosition,
@@ -331,7 +336,7 @@ export default {
 
           // seperate chords and spaces
           let speratedChordsFromLine = this.seperateChords(line.chords)
-          debugger
+
           /**
            * Put transposed chord as a new property
            * for each member of the list
