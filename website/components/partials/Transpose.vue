@@ -47,7 +47,6 @@ function findWordPosition(word, text, lastLength = 0) {
   let rest = text.slice(to + 1, text.length)
   let restPositions = []
 
-  // debugger
   if (rest.length) {
     lastLength = to + lastLength + 1
     restPositions = findWordPosition(word, rest, lastLength)
@@ -157,11 +156,18 @@ export default {
         let rowIndex = chord.rowIndex
         let column = chord.column
 
+        let tableChords = [];
+
+        if(chord.type == 'regular')
+          tableChords = table.rows;
+        else if (chord.type == 'chromatic')
+          tableChords = table.chromaticRows;
+        
         let newChord = {
           ...chord,
-          title: table.rows[rowIndex][column].title,
+          title: tableChords[rowIndex][column].title,
           table: table._id,
-          chord: table.rows[rowIndex][column]._id,
+          chord: tableChords[rowIndex][column]._id,
           keySignature: table.keySignature._id,
         }
 
@@ -205,7 +211,6 @@ export default {
       totalPositions,
       lineLength,
     }) {
-      debugger
 
       // Add start spaces
       if (index == 1 && before.from > 0) {
@@ -241,7 +246,6 @@ export default {
         word: generateSpace(totalSpace > 0 ? totalSpace : 1),
       }
 
-      // debugger
       newPositionListWithSpaces.push(spacePosition)
 
       if (index == totalPositions - 1) newPositionListWithSpaces.push(current)
