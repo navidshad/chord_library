@@ -7,6 +7,7 @@ let SongChordSchema = new Schema({
     table: String,
     chord: String,
     keySignature: String,
+    type: { type: String, enum: ['regular', 'chromatic'], default: 'regular' },
 })
 
 let SongSectionSchema = new Schema({

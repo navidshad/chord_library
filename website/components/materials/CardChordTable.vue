@@ -36,11 +36,11 @@
             v-for="(column, columnIndex) in columns"
             :key="columnIndex"
             :class="{
-              selected: isActive(rowIndex, column),
+              selected: isActive('regular',rowIndex, column),
               'cursor-pointer': allowChoose,
               relative: allowChoose,
             }"
-            @click="toggleChord(rowIndex, column, row[column].title)"
+            @click="toggleChord('regular',rowIndex, column, row[column].title)"
           >
             <span class="">
               {{ row[column].title }}
@@ -75,10 +75,11 @@
             v-for="(column, columnIndex) in chromaticColumns"
             :key="columnIndex"
             :class="{
-              selected: isActive(rowIndex, column),
+              selected: isActive('chromatic', rowIndex, column),
               'cursor-pointer': allowChoose,
               relative: allowChoose,
             }"
+            @click="toggleChord('chromatic',rowIndex, column, row[column].title)"
           >
             <span class="">
               {{ (row[column] || {}).title || '' }}
@@ -117,22 +118,23 @@ export default {
     },
   },
   methods: {
-    getSelectIndex(rowIndex, column) {
+    getSelectIndex(type, rowIndex, column) {
       let stackIndex = -1
 
       this.selecteds.forEach((chord, i) => {
         if (
           chord.rowIndex == rowIndex &&
           chord.column == column &&
-          chord.table == this.table._id
+          chord.table == this.table._id &&
+          chord.type == type
         )
           stackIndex = i
       })
 
       return stackIndex
     },
-    isActive(rowIndex, column) {
-      return this.getSelectIndex(rowIndex, column) > -1
+    isActive(type, rowIndex, column) {
+      return this.getSelectIndex(type, rowIndex, column) > -1
     },
     removeChordByTitile(title) {
       let stackIndex = -1
@@ -143,19 +145,26 @@ export default {
 
       if (stackIndex > -1) this.selecteds.splice(stackIndex, 1)
     },
-    toggleChord(rowIndex, column, title) {
+    toggleChord(type, rowIndex, column, title) {
       if (!this.allowChoose) return
+
+      let chords = []
+
+      if (type == 'regular') chords = this.table.rows
+      else if (type == 'chromatic') chords = this.table.chromaticRows
+      else return
 
       let newChord = {
         rowIndex,
         column,
         title,
         table: this.table._id,
-        chord: this.table.rows[rowIndex][column]._id,
         keySignature: this.table.keySignature._id,
+        chord: chords[rowIndex][column]._id,
+        type,
       }
 
-      let stackIndex = this.getSelectIndex(rowIndex, column)
+      let stackIndex = this.getSelectIndex(type, rowIndex, column)
 
       if (stackIndex > -1) {
         this.selecteds.splice(stackIndex, 1)
