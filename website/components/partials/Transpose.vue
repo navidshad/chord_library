@@ -33,16 +33,36 @@ function findWordPosition(word, text, lastLength = 0) {
 
   let from = text.indexOf(word)
 
+  // is not valid if from is -1
   if (from == -1) {
     return positions
   }
 
   let to = from + word.length - 1
-  positions.push({
+  let position = {
     from: from + (lastLength > 0 ? lastLength : 0),
     to: to + (lastLength > 0 ? lastLength : 0),
     word: word,
-  })
+  }
+
+  /**
+   * Check valid [from] position
+   */
+
+  debugger
+  // is not valid if after [from] posed another character
+  let charAfterToPositiontext = text.charAt(position.to + 1)
+  if (charAfterToPositiontext.length && charAfterToPositiontext != " ") {
+    return positions
+  }
+
+  // is not valid if before [from] posed another character
+  let charBeforeFromPosition = text.charAt(position.from - 1)
+  if (charBeforeFromPosition.length && charBeforeFromPosition != " ") {
+    return positions
+  }
+
+  positions.push(position)
 
   let rest = text.slice(to + 1, text.length)
   let restPositions = []
@@ -156,13 +176,11 @@ export default {
         let rowIndex = chord.rowIndex
         let column = chord.column
 
-        let tableChords = [];
+        let tableChords = []
 
-        if(chord.type == 'regular')
-          tableChords = table.rows;
-        else if (chord.type == 'chromatic')
-          tableChords = table.chromaticRows;
-        
+        if (chord.type == 'regular') tableChords = table.rows
+        else if (chord.type == 'chromatic') tableChords = table.chromaticRows
+
         let newChord = {
           ...chord,
           title: tableChords[rowIndex][column].title,
@@ -211,7 +229,6 @@ export default {
       totalPositions,
       lineLength,
     }) {
-
       // Add start spaces
       if (index == 1 && before.from > 0) {
         newPositionListWithSpaces.push({
@@ -223,8 +240,10 @@ export default {
 
       newPositionListWithSpaces.push(before)
 
-      let currentLengthDifference = current.word.length - (current.newWord || "").length
-      let beforeLengthDifference = before.word.length - (before.newWord || "").length
+      let currentLengthDifference =
+        current.word.length - (current.newWord || '').length
+      let beforeLengthDifference =
+        before.word.length - (before.newWord || '').length
 
       let totalSpace = current.from - (before.to + 1)
 
@@ -252,13 +271,11 @@ export default {
 
       // Add end spaces
       if (totalPositions - 1 == index && current.to < lineLength) {
-
         newPositionListWithSpaces.push({
           from: current.to + 1,
           to: lineLength,
           word: generateSpace(lineLength - current.to),
         })
-
       }
     },
 
