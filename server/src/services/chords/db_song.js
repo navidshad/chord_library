@@ -1,4 +1,4 @@
-const { CollectionDefinition, Schema, Permission, PermissionTypes, DatabaseTrigger, } = require('@modular-rest/server');
+const { CollectionDefinition, Schema, Schemas, Permission, PermissionTypes, DatabaseTrigger, } = require('@modular-rest/server');
 
 let SongChordSchema = new Schema({
     rowIndex: Number,
@@ -22,6 +22,7 @@ module.exports = [
         collection: 'genre',
         schema: new Schema({
             title: String,
+            image: Schemas.file,
         }),
         permissions: [
             new Permission({
@@ -42,6 +43,7 @@ module.exports = [
         schema: new Schema({
             name: { type: String, required: true },
             chords: { type: Number, default: 0 },
+            image: Schemas.file,
         }),
         permissions: [
             new Permission({
@@ -68,6 +70,7 @@ module.exports = [
                 list: [SongChordSchema]
             },
             sections: [SongSectionSchema],
+            image: Schemas.file,
         }),
         permissions: [
             new Permission({
