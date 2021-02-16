@@ -1,4 +1,4 @@
-import { GlobalOptions, authentication } from '@modular-rest/client'
+import { GlobalOptions, authentication } from '@modular-rest/client';
 
 // Styles
 import '../assets/style/style.scss';

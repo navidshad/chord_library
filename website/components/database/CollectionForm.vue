@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div v-for="(field, i) in fieldsToShow" :key="i" class="mt-8">
+      <!-- STRING -->
       <vs-input
         block
         :label="field.title || field.key"
@@ -8,15 +9,23 @@
         :placeholder="field.placeholder"
         :value="form[field.key]"
         @input="form[field.key] = $event"
-        v-if="!field.inputComponent"
+        v-if="field.type == 'string'"
       >
         <template #icon v-if="field.icon">
           <i :class="[field.icon]" />
         </template>
       </vs-input>
 
+      <!-- IMAGE -->
+      <image-field
+        v-if="field.type == 'image'"
+        :fileDoc="form[field.key]"
+        @input="form[field.key] = $event"
+      />
+
+      <!-- CUSTOM FIELD -->
       <component
-        v-else
+        v-if="field.inputComponent"
         :is="field.inputComponent"
         :label="field.title || field.key"
         :placeholder="field.placeholder"

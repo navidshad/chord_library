@@ -18,6 +18,11 @@ export default {
           label: this.$t('genre.title'),
           type: 'string',
         },
+        {
+          key: 'image',
+          label: this.$t('image-cover'),
+          type: 'image'
+        }
       ],
     }
   },

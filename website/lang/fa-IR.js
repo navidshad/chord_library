@@ -60,5 +60,7 @@ export default {
     edit: 'ویرایش',
     remove: 'حذف',
     update: 'بروز رسانی',
-    create: 'ایجاد'
+    create: 'ایجاد',
+
+    'image-cover': 'تصویر کاور'
 }
