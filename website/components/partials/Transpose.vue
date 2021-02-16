@@ -49,7 +49,6 @@ function findWordPosition(word, text, lastLength = 0) {
    * Check valid [from] position
    */
 
-  debugger
   // is not valid if after [from] posed another character
   let charAfterToPositiontext = text.charAt(position.to + 1)
   if (charAfterToPositiontext.length && charAfterToPositiontext != " ") {

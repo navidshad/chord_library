@@ -31,6 +31,10 @@
             :label="$t('genre.genres')"
             v-model="form.genres"
           />
+          <div class="mt-10">
+            <label>{{$t('image-cover')}}</label>
+            <image-field v-model="form.image" />
+          </div>
         </div>
       </div>
       <chord-editor class="w-2/3" v-model="form.sections" />

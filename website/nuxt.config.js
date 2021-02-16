@@ -34,7 +34,7 @@ module.exports = {
     '@/plugins/vuesax',
     { src: '@plugins/toaster.js', mode: 'client' },
     { src: '@plugins/boot.ts', mode: 'client' },
-    
+    { src: '@plugins/croppa.js', mode: 'client' },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -72,5 +72,6 @@ module.exports = {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    
   }
 }

@@ -18,7 +18,9 @@
       </div>
     </template>
     <template #img>
+      <img v-if="song.image" :src="thumbnailLink" />
       <div
+        v-else
         class="w-full"
         :style="{ background: getRandomColor(), height: '200px' }"
       ></div>
@@ -38,12 +40,19 @@
 </template>
 
 <script>
+import { fileProvider } from '@modular-rest/client'
+
 export default {
   name: 'card-song',
   props: {
     song: Object,
     allowRemove: Boolean,
     to: String,
+  },
+  computed: {
+    thumbnailLink() {
+      return fileProvider.getFileLink(this.song.image.fileName)
+    },
   },
   methods: {
     getRandomColor() {

@@ -29,7 +29,14 @@
         <template slot="tbody">
           <vs-tr v-for="(row, i) in list" :key="i">
             <vs-td v-for="(field, i) in fields" :key="i">
-              {{ field.mutate ? field.mutate(row) : row[field.key] }}
+              <span v-if="field.type == 'string'">
+                {{ field.mutate ? field.mutate(row) : row[field.key] }}
+              </span>
+
+              <image-viewer
+                v-if="field.type == 'image'"
+                :fileDoc="row[field.key]"
+              />
             </vs-td>
 
             <!-- Row Actions -->
@@ -65,8 +72,10 @@
 import { dataProvider } from '@modular-rest/client'
 import notifier from '../../utilities/notifier'
 import CollectionForm from './CollectionForm'
+import ImageViewer from '../materials/ImageViewer.vue'
 
 export default {
+  components: { ImageViewer },
   props: {
     title: String,
     database: { type: String, required: true },

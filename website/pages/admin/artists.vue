@@ -24,6 +24,11 @@ export default {
           type: 'string',
           disable: true,
         },
+        {
+          key: 'image',
+          label: this.$t('image-cover'),
+          type: 'image'
+        }
       ],
     }
   },
