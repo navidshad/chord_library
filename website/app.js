@@ -1,11 +1,5 @@
 const { loadNuxt, build } = require('nuxt')
 
-// read .env file
-const dotenv = require('dotenv');
-dotenv.config({
-    path: require('path').join(__dirname, '.env')
-});
-
 const app = require('express')()
 const isDev = process.env.NODE_ENV !== 'production'
 

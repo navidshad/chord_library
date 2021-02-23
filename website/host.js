@@ -5,6 +5,12 @@
 let http = require('http');
 let hostess = require('vhostess')();
 
+// read .env file
+const dotenv = require('dotenv');
+dotenv.config({
+    path: require('path').join(__dirname, '.env')
+});
+
 
 async function runVhost() {
 
