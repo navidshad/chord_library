@@ -2,7 +2,7 @@ const { smtpTransport } = require('./nodemailer');
 
 function getRandomString(length) {
     var result = '';
-    var characters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    var characters = 'abcdefghijklmnopqrstuvwxyz1234567890';
     var charactersLength = characters.length;
     for (var i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -19,6 +19,8 @@ function sendMail(email, code) {
         subject: 'goranee.ir - تایید ایمیل',
         text: message + code,
     }
+
+    // console.table(mailOption);
 
     return new Promise((done, reject) => {
         smtpTransport.sendMail(mailOption, (error, info) => {
