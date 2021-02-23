@@ -1,5 +1,6 @@
 const ModularRest = require('@modular-rest/server');
 const Path = require('path');
+const { generateVerificationCode } = require('./src/services/sender/service');
 
 function run() {
     return ModularRest.createRest({
@@ -10,6 +11,7 @@ function run() {
         //     origin: 'http://localhost:3000'
         // },
         dontListen: false,
+        verificationCodeGeneratorMethod: generateVerificationCode,
     })
 }
 
