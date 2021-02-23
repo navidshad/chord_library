@@ -28,6 +28,12 @@
             :label="$t('song.title')"
             v-model="form.title"
           />
+          <vs-input
+            class="mt-4"
+            block
+            :label="$t('song.rhythm')"
+            v-model="form.rhythm"
+          />
           <select-artist
             class="mt-6"
             block
@@ -79,6 +85,7 @@ export default {
       pending: false,
       form: {
         title: '',
+        rhythm: '',
         artists: [],
         genres: [],
         chords: {

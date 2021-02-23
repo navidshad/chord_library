@@ -13,9 +13,11 @@ interface Action {
     pending: boolean
     button: object,
 }
+
 interface OnAction {
     (label: string, action: Action, close: Function): Function
 }
+
 function showAlertDialog(option: {
     title: string,
     description: string,

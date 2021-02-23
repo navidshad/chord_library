@@ -46,6 +46,7 @@ export default {
     song: {
         songs: 'ترانه ها',
         title: 'عنوان ترانه',
+        rhythm: 'ریتم',
         'new-song': 'آکورد جدید',
         'edit-song': 'ویرایش آکورد',
         'song-view': 'نمای آکورد'
