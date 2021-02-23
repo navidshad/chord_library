@@ -35,6 +35,10 @@ export default {
     EventBus.listen('show-alert-dialog', this.onAlertDialog)
     EventBus.listen('show-dialog', this.onDialog)
   },
+  destroyed() {
+    EventBus.remove('show-alert-dialog', this.onAlertDialog)
+    EventBus.remove('show-dialog', this.onDialog)
+  },
   methods: {
     onAlertDialog({ title, description, actions = [], onAction }) {
       this.isActive = true
@@ -42,7 +46,11 @@ export default {
       // normalize actions
       let normalizedActions = actions.map((item) => {
         if (typeof item == 'string') {
-          return { label: item, button: { shadow: true, transparent:true }, pending: false }
+          return {
+            label: item,
+            button: { shadow: true, transparent: true },
+            pending: false,
+          }
         } else {
           item['pending'] = false
           return item
@@ -82,8 +90,8 @@ export default {
       this.isActive = false
       this.currentModalContent = null
       this.modalOptions = {}
-      this.props = {};
-      this.events = {};
+      this.props = {}
+      this.events = {}
     },
   },
 }

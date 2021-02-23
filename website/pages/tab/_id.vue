@@ -1,8 +1,9 @@
 <template>
   <div>
     <!-- Header -->
-    <div class="flex justify-between items-center flex-row-reverse">
+    <div class="flex justify-between items-center flex-row-reverse mb-4">
       <h2 class="text-lg">{{ song.title }}</h2>
+      <h3 class="text-sm">{{ $t('song.rhythm') + ' ' + song.rhythm }}</h3>
     </div>
 
     <client-only placeholder="Loading transpose...">
