@@ -63,6 +63,7 @@ module.exports = [
         collection: 'song',
         schema: new Schema({
             title: { type: String, required: true },
+            rhythm: { type: String, },
             artists: [{ type: Schema.Types.ObjectId, ref: 'artist', default: [] }],
             genres: [{ type: Schema.Types.ObjectId, ref: 'genre', default: [] }],
             chords: {
