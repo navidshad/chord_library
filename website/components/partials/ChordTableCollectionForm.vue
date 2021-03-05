@@ -23,6 +23,7 @@
       <!-- THead -->
       <template slot="thead">
         <vs-tr>
+          <vs-th> Vocal Note </vs-th>
           <vs-th v-for="(column, i) in columns" :key="i">
             {{ column }}
           </vs-th>
@@ -32,6 +33,14 @@
       <!-- TBody -->
       <template slot="tbody">
         <vs-tr v-for="(fieldsRow, rowIndex) in form.rows" :key="rowIndex">
+          <!-- Notes -->
+          <vs-td>
+            <select-note
+              :pending="chordPending"
+              v-model="form.vocalRows[rowIndex]"
+            />
+          </vs-td>
+          <!-- Chords -->
           <vs-td v-for="(column, columnIndex) in columns" :key="columnIndex">
             <select-chord
               :list="chords"
@@ -116,6 +125,7 @@ export default {
         type: '',
         keySignature: '',
         rows: this.createTableArray(),
+        vocalRows: ['', '', '', '', '', '', ''],
         chromaticRows: this.createChromaticTableArray(),
       },
       chords: [],

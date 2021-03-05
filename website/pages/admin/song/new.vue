@@ -65,6 +65,7 @@ export default {
         chords: {
           keySignature: '',
           list: [],
+          vocalNote: {}
         },
         sections: [],
       },

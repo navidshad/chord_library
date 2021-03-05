@@ -29,10 +29,17 @@
             v-model="form.title"
           />
           <vs-input
-            class="mt-4"
+            class="mt-5"
+            block
+            :label="$t('song.vocal-from')"
+            :value="vocalNote"
+            disabled
+          />
+          <vs-input
+            class="mt-5"
             block
             :label="$t('song.rhythm')"
-            v-model="form.rhythm"
+            :value="form.rhythm"
           />
           <select-artist
             class="mt-6"
@@ -91,6 +98,7 @@ export default {
         chords: {
           keySignature: '',
           list: [],
+          vocalNote: {}
         },
         sections: [],
       },
@@ -100,6 +108,9 @@ export default {
     id() {
       return this.$route.params.id
     },
+    vocalNote() {
+      return (this.form.chords.vocalNote || {}).note || ''
+    }
   },
   methods: {
     update() {
