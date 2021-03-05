@@ -3,12 +3,22 @@ export default {
     state() {
         return {
             tables: [],
+            chords: [],
         }
+    },
+
+    getters: {
+        chords(state) {
+            return state.chords || []
+        },
     },
 
     mutations: {
         SET_TABLES(state, list) {
             state.tables = list;
+        },
+        SET_CHORDS(state, list) {
+            state.chords = list;
         }
     },
 
@@ -37,6 +47,14 @@ export default {
             else {
                 return new Promise((done) => done());
             }
+        },
+        getChords({ commit, state }) {
+            return dataProvider.find({
+                database: 'chord',
+                collection: 'chord',
+                query: {},
+            })
+                .then(list => commit('SET_CHORDS', list));
         }
     }
 }   
