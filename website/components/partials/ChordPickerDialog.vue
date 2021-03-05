@@ -16,8 +16,8 @@
 
     <vs-select
       class="mt-6"
-      :value="keySignature"
-      @input="keySignature = $event"
+      :value="form.keySignature"
+      @input="form.keySignature = $event"
       label-placeholder="Key Signature"
     >
       <vs-option label="major" value="major">major</vs-option>
@@ -31,9 +31,11 @@
         :key="i"
         :table="tables[i]"
         :slot="signature"
-        :value="selecteds"
+        :chords="form.list"
+        :vocalNote="form.vocalNote"
         @input="
-          selecteds = $event
+          form.list = $event.chords
+          form.vocalNote = $event.vocalNote
           selectKeySignature()
         "
       />
@@ -52,16 +54,20 @@ export default {
     return {
       tables: [],
       activeTable: '',
-      selecteds: [],
-      keySignature: '',
+      form: {
+        list: [],
+        keySignature: '',
+        vocalNote: {},
+      },
     }
   },
   watch: {
     value: {
       immediate: true,
-      handler({ keySignature, list }) {
-        if (list) this.selecteds = list
-        if (keySignature) this.keySignature = keySignature
+      handler({ keySignature, list, vocalNote }) {
+        if (list) this.form.list = list
+        if (keySignature) this.form.keySignature = keySignature
+        if (vocalNote) this.form.vocalNote = vocalNote
       },
     },
   },
@@ -77,16 +83,13 @@ export default {
   },
   methods: {
     selectKeySignature() {
-      if (!this.selecteds.length) return
+      if (!this.form.list.length) return
 
-      let firstChord = this.selecteds[0]
-      this.keySignature = firstChord.column == 'major' ? 'major' : 'minor'
+      let firstChord = this.form.list[0]
+      this.form.keySignature = firstChord.column == 'major' ? 'major' : 'minor'
     },
     submitChords() {
-      this.$emit('input', {
-        keySignature: this.keySignature,
-        list: this.selecteds,
-      })
+      this.$emit('input', this.form)
       this.closeModal()
     },
     getTables() {

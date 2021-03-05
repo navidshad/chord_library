@@ -1,11 +1,12 @@
 <template>
   <card class="p-2 flex items-center space-x-1 scroll">
     <!-- loop -->
-    <div 
-      v-for="(chord, i) in chords.list" :key="i"
+    <div
+      v-for="(chord, i) in chords.list"
+      :key="i"
       class="chord-box relative"
-      :class="[{chromatic:chord.type == 'chromatic'}]"
-      >
+      :class="[{ chromatic: chord.type == 'chromatic' }]"
+    >
       <span class="text-lg">{{ chord.title }}</span>
       <div v-if="i == 0" class="key-signature">
         <span>{{ chords.keySignature }}</span>
@@ -31,6 +32,7 @@ export default {
       chords: {
         keySignature: '',
         list: [],
+        vocalNote: {}
       },
     }
   },
@@ -95,6 +97,6 @@ export default {
   width: 80px;
   bottom: 5px;
   font-size: 13px;
-  color: theme('colors.gray.700')
+  color: theme('colors.gray.700');
 }
 </style>

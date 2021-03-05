@@ -23,6 +23,7 @@
       <!-- THead -->
       <template slot="thead">
         <vs-tr>
+          <vs-th> Vocal Note </vs-th>
           <vs-th v-for="(column, i) in columns" :key="i">
             {{ column }}
           </vs-th>
@@ -32,20 +33,32 @@
       <!-- TBody -->
       <template slot="tbody">
         <vs-tr v-for="(row, rowIndex) in table.rows" :key="rowIndex">
+          <!-- Notes -->
+          <vs-td
+            :class="{
+              selected: isNoteActive(rowIndex, table.vocalRows[rowIndex]),
+              'cursor-pointer': allowChoose,
+              relative: allowChoose,
+            }"
+            @click="toggleNote(rowIndex, table.vocalRows[rowIndex])"
+          >
+            {{ table.vocalRows[rowIndex] || '-' }}
+          </vs-td>
+          <!-- Chords -->
           <vs-td
             v-for="(column, columnIndex) in columns"
             :key="columnIndex"
             :class="{
-              selected: isActive('regular',rowIndex, column),
+              selected: isChordActive('regular', rowIndex, column),
               'cursor-pointer': allowChoose,
               relative: allowChoose,
             }"
-            @click="toggleChord('regular',rowIndex, column, row[column].title)"
+            @click="toggleChord('regular', rowIndex, column, row[column].title)"
           >
             <span class="">
               {{ row[column].title }}
             </span>
-            <span class="select-badge" v-if="isActive(rowIndex, column)">{{
+            <span class="select-badge" v-if="isChordActive(rowIndex, column)">{{
               getSelectIndex(rowIndex, column) + 1
             }}</span>
           </vs-td>
@@ -75,16 +88,18 @@
             v-for="(column, columnIndex) in chromaticColumns"
             :key="columnIndex"
             :class="{
-              selected: isActive('chromatic', rowIndex, column),
+              selected: isChordActive('chromatic', rowIndex, column),
               'cursor-pointer': allowChoose,
               relative: allowChoose,
             }"
-            @click="toggleChord('chromatic',rowIndex, column, row[column].title)"
+            @click="
+              toggleChord('chromatic', rowIndex, column, row[column].title)
+            "
           >
             <span class="">
               {{ (row[column] || {}).title || '' }}
             </span>
-            <span class="select-badge" v-if="isActive(rowIndex, column)">{{
+            <span class="select-badge" v-if="isChordActive(rowIndex, column)">{{
               getSelectIndex(rowIndex, column) + 1
             }}</span>
           </vs-td>
@@ -100,20 +115,30 @@ export default {
     table: Object,
     allowChoose: { type: Boolean, default: false },
     allowEdite: { type: Boolean, default: false },
-    value: { type: Array },
+    chords: { type: Array },
+    vocalNote: Object,
   },
   data() {
     return {
       columns: ['major', 'naturalMinor', 'harmonicMinor', 'melodicMinor'],
       chromaticColumns: ['one', 'two', 'three', 'four'],
-      selecteds: [],
+      form: {
+        selecteds: [],
+        vocalNote: '',
+      },
     }
   },
   watch: {
-    value: {
+    chords: {
       immediate: true,
       handler(value) {
-        if (value) this.selecteds = value
+        if (value) this.form.selecteds = value
+      },
+    },
+    vocalNote: {
+      immediate: true,
+      handler(value) {
+        if (value) this.form.vocalNote = value
       },
     },
   },
@@ -121,7 +146,7 @@ export default {
     getSelectIndex(type, rowIndex, column) {
       let stackIndex = -1
 
-      this.selecteds.forEach((chord, i) => {
+      this.form.selecteds.forEach((chord, i) => {
         if (
           chord.rowIndex == rowIndex &&
           chord.column == column &&
@@ -133,17 +158,41 @@ export default {
 
       return stackIndex
     },
-    isActive(type, rowIndex, column) {
+    isNoteActive(index, note) {
+      if (
+        this.form.vocalNote.table == this.table._id &&
+        this.form.vocalNote.index == index &&
+        this.form.vocalNote.note == note
+      )
+        return true
+      else return false
+    },
+    isChordActive(type, rowIndex, column) {
       return this.getSelectIndex(type, rowIndex, column) > -1
     },
     removeChordByTitile(title) {
       let stackIndex = -1
 
-      this.selecteds.forEach((chord, i) => {
+      this.form.selecteds.forEach((chord, i) => {
         if (chord.title == title) stackIndex = i
       })
 
-      if (stackIndex > -1) this.selecteds.splice(stackIndex, 1)
+      if (stackIndex > -1) this.form.selecteds.splice(stackIndex, 1)
+    },
+    toggleNote(index, note) {
+      if (
+        this.form.vocalNote.title == note &&
+        this.form.vocalNote.table == this.table
+      )
+        this.form.vocalNote = { title: '', index: -1, table: '' }
+      else
+        this.form.vocalNote = {
+          note,
+          index,
+          table: this.table._id,
+        }
+
+      this.emitSelectedDetail()
     },
     toggleChord(type, rowIndex, column, title) {
       if (!this.allowChoose) return
@@ -167,15 +216,21 @@ export default {
       let stackIndex = this.getSelectIndex(type, rowIndex, column)
 
       if (stackIndex > -1) {
-        this.selecteds.splice(stackIndex, 1)
+        this.form.selecteds.splice(stackIndex, 1)
       } else {
         // remove other same chord
         this.removeChordByTitile(title)
         // add this new chord
-        this.selecteds.push(newChord)
+        this.form.selecteds.push(newChord)
       }
 
-      this.$emit('input', this.selecteds)
+      this.emitSelectedDetail()
+    },
+    emitSelectedDetail() {
+      this.$emit('input', {
+        chords: this.form.selecteds,
+        vocalNote: this.form.vocalNote,
+      })
     },
   },
 }
