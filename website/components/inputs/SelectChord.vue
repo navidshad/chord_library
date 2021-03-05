@@ -43,13 +43,13 @@ export default {
     }
   },
   watch: {
-    value: {
-      immediate: true,
-      deep: true,
-      handler(newValue) {
-        this.value = newValue
-      },
-    },
+    // value: {
+    //   immediate: true,
+    //   deep: true,
+    //   handler(newValue) {
+    //     this.tempValue = newValue
+    //   },
+    // },
     tempValue(value) {
       if (this.multiple) {
         this.$emit(

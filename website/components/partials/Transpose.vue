@@ -123,11 +123,11 @@ export default {
   },
   computed: {
     tables() {
-      return this.$store.state.chordTables.tables
+      return this.$store.state.chords.tables
     },
   },
   created() {
-    this.$store.dispatch('chordTables/getTables').then(() => {
+    this.$store.dispatch('chords/getTables').then(() => {
       this.findMainTable(this.chords)
     })
   },
