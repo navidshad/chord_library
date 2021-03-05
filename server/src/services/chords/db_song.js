@@ -68,7 +68,7 @@ module.exports = [
             genres: [{ type: Schema.Types.ObjectId, ref: 'genre', default: [] }],
             chords: {
                 keySignature: { type: String, enum: ['major', 'minor'] },
-                vocalNote: String,
+                vocalNote: { title: String, rowIndex: Number },
                 list: [SongChordSchema]
             },
             sections: [SongSectionSchema],
