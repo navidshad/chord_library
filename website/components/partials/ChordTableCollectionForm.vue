@@ -125,7 +125,7 @@ export default {
         type: '',
         keySignature: '',
         rows: this.createTableArray(),
-        vocalRows: ['', '', '', '', '', '', ''],
+        vocalRows: ['-', '-', '-', '-', '-', '-', '-'],
         chromaticRows: this.createChromaticTableArray(),
       },
       chords: [],
