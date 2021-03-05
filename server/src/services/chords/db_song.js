@@ -9,6 +9,11 @@ let SongChordSchema = new Schema({
     keySignature: String,
     type: { type: String, enum: ['regular', 'chromatic'], default: 'regular' },
 })
+let VocalNoteSchema = new Schema({
+    note: String,
+    index: Number,
+    table: String,
+})
 
 let SongSectionSchema = new Schema({
     title: String,
@@ -68,7 +73,7 @@ module.exports = [
             genres: [{ type: Schema.Types.ObjectId, ref: 'genre', default: [] }],
             chords: {
                 keySignature: { type: String, enum: ['major', 'minor'] },
-                vocalNote: { title: String, rowIndex: Number },
+                vocalNote: VocalNoteSchema,
                 list: [SongChordSchema]
             },
             sections: [SongSectionSchema],
