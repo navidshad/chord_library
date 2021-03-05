@@ -84,7 +84,7 @@ module.exports = [
             keySignature: { type: Schema.Types.ObjectId, ref: 'keySignature', required: true, },
             type: { type: Schema.Types.ObjectId, ref: 'type', required: true, },
             rows: [TableRowSchema],
-            vocalRows: [String],
+            vocalRows: { type: [String], default: [] },
             chromaticRows: [TableChromaticRowSchema],
         }),
         permissions: [
