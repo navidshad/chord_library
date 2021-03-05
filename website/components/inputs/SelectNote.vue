@@ -2,12 +2,10 @@
   <div>
     <vs-select
       :loading="pending"
-      :key="list.length"
       :label="label"
       :placehoder="placehoder"
       :block="block"
-      :value="value"
-      filter
+      :value="'+++'+value"
       @input="tempValue = $event"
     >
       <slot v-bind:list="list">
