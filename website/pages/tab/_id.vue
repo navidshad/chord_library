@@ -3,7 +3,13 @@
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse mb-4">
       <h2 class="text-lg">{{ song.title }}</h2>
-      <h3 class="text-sm">{{ $t('song.rhythm') + ' ' + song.rhythm }}</h3>
+      <div dir="rtl">
+        <h3 class="text-sm">{{ $t('song.rhythm') + ' ' + song.rhythm }}</h3>
+        <h3 class="text-sm text-right">
+          {{ $t('song.vocal-from') + ' ' }}
+          <span dir="ltr">{{vocalNote.note}}</span>
+        </h3>
+      </div>
     </div>
 
     <client-only placeholder="Loading transpose...">
@@ -38,6 +44,7 @@ export default {
       return {
         song,
         transposedSections: song.sections,
+        vocalNote: song.chords.vocalNote,
       }
     } else {
       error("This song dosen't found")
@@ -47,6 +54,7 @@ export default {
     return {
       transposedSections: [],
       componentKey: '',
+      vocalNote: {},
     }
   },
   computed: {
@@ -55,9 +63,10 @@ export default {
     },
   },
   methods: {
-    onReceivedTranspose(sections) {
+    onReceivedTranspose({ sections, vocalNote }) {
       this.transposedSections = sections
       this.componentKey = new Date().getUTCMilliseconds()
+      this.vocalNote = vocalNote
     },
   },
 }
