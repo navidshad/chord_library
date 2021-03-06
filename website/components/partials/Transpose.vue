@@ -51,13 +51,13 @@ function findWordPosition(word, text, lastLength = 0) {
 
   // is not valid if after [from] posed another character
   let charAfterToPositiontext = text.charAt(position.to + 1)
-  if (charAfterToPositiontext.length && charAfterToPositiontext != " ") {
+  if (charAfterToPositiontext.length && charAfterToPositiontext != ' ') {
     return positions
   }
 
   // is not valid if before [from] posed another character
   let charBeforeFromPosition = text.charAt(position.from - 1)
-  if (charBeforeFromPosition.length && charBeforeFromPosition != " ") {
+  if (charBeforeFromPosition.length && charBeforeFromPosition != ' ') {
     return positions
   }
 
@@ -91,6 +91,7 @@ export default {
       tempChords: {
         keySignature: '',
         list: [],
+        vocalNote: {},
       },
     }
   },
@@ -113,12 +114,16 @@ export default {
     currentTableIndex(index, old) {
       if (old == null) return
       this.changeChordOffset(index)
+      this.changeVocalNote(index)
       this.putTempChordsIntoTempSections()
       this.key01 = new Date().getUTCMilliseconds()
       /**
        * Stream the song HtmlContent to upper level
        */
-      this.$emit('transposed', this.tempSections)
+      this.$emit('transposed', {
+        sections: this.tempSections,
+        vocalNote: this.tempChords.vocalNote,
+      })
     },
   },
   computed: {
@@ -145,6 +150,17 @@ export default {
 
       this.currentTableIndex = this.getKeySignatureOffset()
     },
+
+    changeVocalNote(offset) {
+      let originalNote = this.chords.vocalNote
+      let table = this.tables[offset]
+      this.tempChords.vocalNote = {
+        table: table._id,
+        index: originalNote.index,
+        note: table.vocalRows[originalNote.index],
+      }
+    },
+
     /**
      * Return the table index of given chord
      */
@@ -166,7 +182,7 @@ export default {
         /**
          * Find new offset for chord
          */
-        let offset = this.getChordOffset(chord)
+        // let offset = this.getChordOffset(chord)
 
         /**
          * Chand chord to new offset
@@ -287,6 +303,7 @@ export default {
 
       if (positions.length == 1) {
         let position = positions[0]
+
         // before space
         // this.injectSpace({
         //   before: { from: 0, to: position.from - 1, word: '', newWord: '' },
@@ -295,6 +312,7 @@ export default {
         //   newPositionListWithSpaces: newPositionListWithSpaces,
         //   totalPositions: positions.length,
         // })
+
         // after space
         if (position.to < lineLength) {
           this.injectSpace({
