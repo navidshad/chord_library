@@ -15,6 +15,7 @@
 
 <script>
 import _ from 'lodash'
+
 function generateSpace(total) {
   let text = ''
   for (let index = 0; index < total; index++) {
@@ -67,7 +68,7 @@ function findWordPosition(word, text, lastLength = 0) {
   let restPositions = []
 
   if (rest.length) {
-    lastLength = to + lastLength + 1
+    lastLength = to + lastLength - 1
     restPositions = findWordPosition(word, rest, lastLength)
   }
 
@@ -370,11 +371,13 @@ export default {
 
       this.sections.forEach((section, sectionIndex) => {
         for (let lineIndex = 0; lineIndex < section.lines.length; lineIndex++) {
+
           const line = section.lines[lineIndex]
 
           // seperate chords and spaces
           let speratedChordsFromLine = this.seperateChords(line.chords)
 
+          debugger
           /**
            * Put transposed chord as a new property
            * for each member of the list
