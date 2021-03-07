@@ -53,6 +53,23 @@ export default {
 
         },
 
+        loginWithLastSession({ commit }: Context) {
+            return authentication.loginWithLastSession()
+                .then(user => {
+                    commit('SET_USER', user);
+                })
+                // .catch((result: Types.RequestError) => {
+                //     toaster.toast({
+                //         label: 'Login error',
+                //         description: result.error
+                //     })
+
+                //     commit('SET_ERROR', result.error)
+                //     throw result;
+                // })
+
+        },
+
         submitIdentity({ commit }: Context, option: Types.Identity) {
 
             return authentication.registerIdentity(option)
