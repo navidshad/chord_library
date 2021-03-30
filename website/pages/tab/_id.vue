@@ -7,7 +7,7 @@
         <h3 class="text-sm">{{ $t('song.rhythm') + ' ' + song.rhythm }}</h3>
         <h3 class="text-sm text-right">
           {{ $t('song.vocal-from') + ' ' }}
-          <span dir="ltr">{{vocalNote.note}}</span>
+          <span dir="ltr">{{ vocalNote.note }}</span>
         </h3>
       </div>
     </div>
@@ -18,11 +18,14 @@
         :sections="song.sections"
         @transposed="onReceivedTranspose"
       />
+
+      <AutoScroll />
     </client-only>
 
     <card class="p-4 mt-4">
       <tabview :key="componentKey" :sections="transposedSections" />
     </card>
+    <div class="empty"></div>
   </div>
 </template>
 
@@ -72,5 +75,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.empty{
+  height: 50px;
+
+}
 </style>

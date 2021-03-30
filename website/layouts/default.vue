@@ -67,6 +67,11 @@ export default {
       activeSidebar: false,
     }
   },
+  created() {
+    if (!this.isLogin) {
+      this.$store.dispatch('auth/loginWithLastSession')
+    }
+  },
   computed: {
     isLogin() {
       // return authService.isLogin

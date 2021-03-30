@@ -377,7 +377,6 @@ export default {
           // seperate chords and spaces
           let speratedChordsFromLine = this.seperateChords(line.chords)
 
-          debugger
           /**
            * Put transposed chord as a new property
            * for each member of the list
