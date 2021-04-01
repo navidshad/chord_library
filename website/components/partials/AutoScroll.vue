@@ -3,12 +3,12 @@
     <span class="label">Auto Scroll</span>
     <div class="card flex">
       <div class="range flex">
-        <vs-button transparent size="mini" @click="changeSpeed(1)">
-          <i class="bx bx-plus" />
-        </vs-button>
-        <input :value="speed" disabled />
         <vs-button transparent size="mini" @click="changeSpeed(-1)">
           <i class="bx bx-minus" />
+        </vs-button>
+        <input :value="speed" disabled />
+        <vs-button transparent size="mini" @click="changeSpeed(1)">
+          <i class="bx bx-plus" />
         </vs-button>
       </div>
       <vs-button circle color="warn" gradient @click="isPlaying = !isPlaying">
@@ -27,7 +27,7 @@ export default {
         width: 100,
       },
       isPlaying: false,
-      speed: 1,
+      speed: 5,
       currentPos: 0,
     }
   },
@@ -37,6 +37,9 @@ export default {
         width: this.window.width + 'px',
       }
     },
+  },
+  beforeDestroy() {
+    this.isPlaying = false
   },
   watch: {
     isPlaying(value) {
@@ -55,7 +58,7 @@ export default {
   methods: {
     changeSpeed(value = 1) {
       let tempChange = this.speed + value
-      if (tempChange > 0 && tempChange < 16) this.speed += value
+      if (tempChange > 0 && tempChange < 21) this.speed += value
     },
     reportWindowSize() {
       this.window.width = window.document.body.offsetWidth * 0.9
@@ -64,12 +67,11 @@ export default {
       this.currentPos = window.pageYOffset
     },
     scroll() {
-      this.currentPos += this.speed / 10
+      this.currentPos += this.speed / 50
 
       let nextPos = this.currentPos
       window.scrollTo(0, nextPos)
 
-      debugger
       if (
         nextPos < window.document.body.scrollHeight &&
         this.isPlaying == true
