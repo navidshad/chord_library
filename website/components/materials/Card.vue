@@ -13,5 +13,6 @@ export default {
 <style scoped>
 .card {
   background: white;
+  overflow: hidden;
 }
 </style>
