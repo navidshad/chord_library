@@ -27,7 +27,7 @@ export default {
         width: 100,
       },
       isPlaying: false,
-      speed: 5,
+      speed: 10,
       currentPos: 0,
     }
   },
@@ -58,7 +58,7 @@ export default {
   methods: {
     changeSpeed(value = 1) {
       let tempChange = this.speed + value
-      if (tempChange > 0 && tempChange < 21) this.speed += value
+      if (tempChange > 0 && tempChange < 41) this.speed += value
     },
     reportWindowSize() {
       this.window.width = window.document.body.offsetWidth * 0.9
