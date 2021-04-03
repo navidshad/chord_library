@@ -96,7 +96,7 @@ export default {
         .then(() => {
           this.$router.push('/')
         })
-        .finally(() => (this.pending = false))
+        .finally(() => this.pending = false)
     },
   },
 }
