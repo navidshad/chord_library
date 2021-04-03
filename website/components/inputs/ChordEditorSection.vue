@@ -157,7 +157,7 @@ export default {
   },
   methods: {
     generateComponentKey() {
-      this.componentKey = new Date().getUTCMilliseconds() + this.index
+      this.componentKey = new Date().getTime().toString() + this.index
     },
     streamOut() {
       this.$emit('input', this.content)

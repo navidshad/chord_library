@@ -110,7 +110,7 @@ export default {
       this.generateNewKey()
     },
     generateNewKey() {
-      this.componentKey = new Date().getUTCMilliseconds()
+      this.componentKey = new Date().getTime()
     },
     onToggleEditMode({ code, ctrlKey }) {
       if (code == 'F4') {
