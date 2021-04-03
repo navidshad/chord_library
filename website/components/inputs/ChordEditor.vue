@@ -14,7 +14,8 @@
         v-model="sections[i]"
         @up="offset('up', i)"
         @down="offset('down', i)"
-        @duplicate="duplicateSection(i)"
+        @duplicate="duplicateSection(i, $event)"
+        @newSection="createNewSection(i)"
         @remove="removeSection(i)"
       />
     </div>
@@ -57,22 +58,45 @@ export default {
     },
   },
   methods: {
-    duplicateSection(index) {
-      let duplicated = _.cloneDeep(this.sections[index])
-      this.sections.splice(index, 0, duplicated)
+    duplicateSection(i, where) {
+      let newSection = _.cloneDeep(this.sections[i])
+      let newIndex
+
+      if (where == 'end') newIndex = this.sections.length
+      else newIndex = i
+
+      this.sections.splice(newIndex + 1, 0, newSection)
+
+      // reset index of sections
+      for (let index = 0; index < this.sections.length; index++) {
+        this.sections[index].index = index
+      }
+
       this.generateNewKey()
     },
     removeSection(index) {
       this.sections.splice(index, 1)
     },
-    createNewSection() {
-      let index = this.sections.length
-      this.sections.push({
-        index,
+    createNewSection(at) {
+      if (at == null) {
+        at = this.sections.length
+      }
+
+      let newSection = {
+        index: at,
         title: 'New Section',
         direction: 'rtl',
         lines: [],
-      })
+      }
+
+      this.sections.splice(at + 1, 0, newSection)
+
+      // reset index of sections
+      for (let index = 0; index < this.sections.length; index++) {
+        this.sections[index].index = index
+      }
+
+      this.generateNewKey()
     },
     offset(mode, index) {
       let section = this.sections[index]
