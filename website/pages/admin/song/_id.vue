@@ -39,7 +39,7 @@
             class="mt-5"
             block
             :label="$t('song.rhythm')"
-            :value="form.rhythm"
+            v-model="form.rhythm"
           />
           <select-artist
             class="mt-6"
@@ -55,7 +55,7 @@
           />
 
           <div class="mt-10">
-            <label>{{$t('image-cover')}}</label>
+            <label>{{ $t('image-cover') }}</label>
             <image-field v-model="form.image" />
           </div>
         </div>
@@ -92,13 +92,13 @@ export default {
       pending: false,
       form: {
         title: '',
-        rhythm: '',
+        rhythm: '-',
         artists: [],
         genres: [],
         chords: {
           keySignature: '',
           list: [],
-          vocalNote: {}
+          vocalNote: {},
         },
         sections: [],
       },
@@ -110,7 +110,7 @@ export default {
     },
     vocalNote() {
       return (this.form.chords.vocalNote || {}).note || ''
-    }
+    },
   },
   methods: {
     update() {

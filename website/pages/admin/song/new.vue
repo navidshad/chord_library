@@ -20,6 +20,13 @@
             v-model="form.title"
           />
           <vs-input
+            class="mt-5"
+            block
+            :label="$t('song.vocal-from')"
+            :value="vocalNote"
+            disabled
+          />
+          <vs-input
             class="mt-4"
             block
             :label="$t('song.rhythm')"
@@ -38,7 +45,7 @@
             v-model="form.genres"
           />
           <div class="mt-10">
-            <label>{{$t('image-cover')}}</label>
+            <label>{{ $t('image-cover') }}</label>
             <image-field v-model="form.image" />
           </div>
         </div>
@@ -59,17 +66,22 @@ export default {
       pending: false,
       form: {
         title: '',
-        rhythm:'',
+        rhythm: '-',
         artists: [],
         genres: [],
         chords: {
           keySignature: '',
           list: [],
-          vocalNote: {}
+          vocalNote: {},
         },
         sections: [],
       },
     }
+  },
+  computed: {
+    vocalNote() {
+      return (this.form.chords.vocalNote || {}).note || ''
+    },
   },
   methods: {
     create() {
