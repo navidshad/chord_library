@@ -2,7 +2,14 @@
   <div>
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse mb-4">
-      <h2 class="text-lg">{{ song.title }}</h2>
+      <div>
+        <h2 class="text-lg">{{ song.title }}</h2>
+        <p dir="rtl" class="text-sm">
+          <span v-for="(artist, i) in song.artists" :key="i">
+            {{artist.name}}،
+          </span>
+        </p>
+      </div>
       <div dir="rtl">
         <h3 class="text-sm">{{ $t('song.rhythm') + ' ' + song.rhythm }}</h3>
         <h3 class="text-sm text-right">

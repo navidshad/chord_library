@@ -29,7 +29,7 @@ export default {
         SET_USER(state: State, user: object) {
             state.user = user;
         },
-        SET_ERROR(state: State, error: any) {
+        SET_ERROR(state: State, error: object) {
             state.error = error;
         }
     },
@@ -44,7 +44,7 @@ export default {
                 .catch((result: Types.RequestError) => {
                     toaster.toast({
                         label: 'Login error',
-                        description: result.error
+                        description: result.error.e
                     })
 
                     commit('SET_ERROR', result.error)
@@ -76,7 +76,7 @@ export default {
                 .catch((result: Types.RequestError) => {
                     toaster.toast({
                         label: 'Register error',
-                        description: result.error
+                        description: result.error.e
                     })
 
                     commit('SET_ERROR', result.error)
@@ -90,7 +90,7 @@ export default {
                 .catch((result: Types.RequestError) => {
                     toaster.toast({
                         label: 'Verify code error',
-                        description: result.error
+                        description: result.error.e
                     })
 
                     commit('SET_ERROR', result.error)
@@ -104,7 +104,7 @@ export default {
                 .catch((result: Types.RequestError) => {
                     toaster.toast({
                         label: 'Submit password error',
-                        description: result.error
+                        description: result.error.e
                     })
 
                     commit('SET_ERROR', result.error)
@@ -118,7 +118,7 @@ export default {
                 .catch((result: Types.RequestError) => {
                     toaster.toast({
                         label: 'Change password error',
-                        description: result.error
+                        description: result.error.e
                     })
 
                     commit('SET_ERROR', result.error)

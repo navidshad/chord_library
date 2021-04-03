@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- Help -->
+    <p class="text-gray-800">Press <span class="text-blue-600">F4</span> to switch edit mode.</p>
     <!-- Header -->
     <div class="flex items-center border">
       <vs-button flat @click="createNewSection">New Section</vs-button>

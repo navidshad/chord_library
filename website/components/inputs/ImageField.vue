@@ -2,13 +2,13 @@
   <div>
     <div class="flex">
       <div class="thumbnail bg-gray-300">
-        <img :src="thumbnailLink">
+        <img :src="thumbnailLink" />
       </div>
       <div>
         <vs-button @click="activeModal = true">Sellect Image</vs-button>
       </div>
     </div>
-    <vs-dialog v-model="activeModal" :loading="uploadPending">
+    <vs-dialog :value="activeModal" :loading="uploadPending" not-close>
       <template #header>
         <h4 class="not-margin">Image uploader</h4>
       </template>
@@ -19,7 +19,10 @@
         :initial-image="thumbnailLink"
         :prevent-white-space="true"
       />
-      <vs-button @click="uploadImage">Upload</vs-button>
+      <div class="flex">
+        <vs-button @click="uploadImage">Upload</vs-button>
+        <vs-button @click="activeModal = false" danger>Close</vs-button>
+      </div>
     </vs-dialog>
   </div>
 </template>

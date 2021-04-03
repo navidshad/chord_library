@@ -113,26 +113,6 @@ export default {
       this.generateComponentKey()
     },
   },
-  created() {
-    this.generateComponentKey()
-    eventBus.listen('chord-editor-section-remove' + this.componentKey, () => {
-      this.$emit('remove')
-    })
-    eventBus.listen(
-      'chord-editor-section-duplicate' + this.componentKey,
-      (type) => {
-        this.$emit('duplicate', type)
-      }
-    )
-    eventBus.listen('chord-editor-section-new' + this.componentKey, () => {
-      this.$emit('newSection')
-    })
-  },
-  destroyed() {
-    eventBus.remove('chord-editor-section-remove' + this.componentKey)
-    eventBus.remove('chord-editor-section-duplicate' + this.componentKey)
-    eventBus.remove('chord-editor-section-new' + this.componentKey)
-  },
   data() {
     return {
       componentKey: '',
@@ -155,7 +135,39 @@ export default {
       return height + 'px'
     },
   },
+  created() {
+    this.initEvents()
+  },
+  updated() {
+    this.initEvents()
+  },
+  beforeUpdate() {
+    this.removeEvents()
+  },
+  beforeDestroy() {
+    this.removeEvents()
+  },
   methods: {
+    initEvents() {
+      this.generateComponentKey()
+      eventBus.listen('chord-editor-section-remove' + this.componentKey, () => {
+        this.$emit('remove')
+      })
+      eventBus.listen(
+        'chord-editor-section-duplicate' + this.componentKey,
+        (type) => {
+          this.$emit('duplicate', type)
+        }
+      )
+      eventBus.listen('chord-editor-section-new' + this.componentKey, () => {
+        this.$emit('newSection')
+      })
+    },
+    removeEvents() {
+      eventBus.remove('chord-editor-section-remove' + this.componentKey)
+      eventBus.remove('chord-editor-section-duplicate' + this.componentKey)
+      eventBus.remove('chord-editor-section-new' + this.componentKey)
+    },
     generateComponentKey() {
       this.componentKey = new Date().getTime().toString() + this.index
     },
