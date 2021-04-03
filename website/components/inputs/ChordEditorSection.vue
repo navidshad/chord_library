@@ -22,6 +22,10 @@
           <vs-button transparent icon @click="duplicateVarification">
             <i class="bx bx-duplicate"></i>
           </vs-button>
+          <!-- NEW SECTION -->
+          <vs-button transparent icon @click="newSection">
+            <i class="bx bxs-file-plus"></i>
+          </vs-button>
           <!-- DUPLICATE -->
           <vs-button transparent icon danger @click="removeVarification">
             <i class="bx bx-trash-alt"></i>
@@ -116,14 +120,18 @@ export default {
     })
     eventBus.listen(
       'chord-editor-section-duplicate' + this.componentKey,
-      () => {
-        this.$emit('duplicate')
+      (type) => {
+        this.$emit('duplicate', type)
       }
     )
+    eventBus.listen('chord-editor-section-new' + this.componentKey, () => {
+      this.$emit('newSection')
+    })
   },
   destroyed() {
     eventBus.remove('chord-editor-section-remove' + this.componentKey)
     eventBus.remove('chord-editor-section-duplicate' + this.componentKey)
+    eventBus.remove('chord-editor-section-new' + this.componentKey)
   },
   data() {
     return {
@@ -203,15 +211,19 @@ export default {
     duplicateVarification() {
       notifier.showAlertDialog({
         title: 'Duplicate Validation',
-        description: 'Do you want to Duplicate this item?',
-        actions: ['yes', 'no'],
+        description: 'where Do you want to Duplicate this item?',
+        actions: ['end', 'after'],
         onAction: (label, action, close) => {
-          if (label == 'yes') {
-            eventBus.fire('chord-editor-section-duplicate' + this.componentKey)
-          }
+          eventBus.fire(
+            'chord-editor-section-duplicate' + this.componentKey,
+            label
+          )
           close()
         },
       })
+    },
+    newSection() {
+      eventBus.fire('chord-editor-section-new' + this.componentKey)
     },
   },
 }
