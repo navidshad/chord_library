@@ -1,13 +1,23 @@
 <template>
   <div>
     <!-- Help -->
-    <p class="text-gray-800">Press <span class="text-blue-600">F4</span> to switch edit mode.</p>
+    <p class="text-gray-800">
+      Press <span class="text-blue-600">F4</span> to switch edit mode.
+    </p>
     <!-- Header -->
-    <div class="flex items-center border">
+    <div class="flex items-center justify-between">
       <vs-button flat @click="createNewSection">New Section</vs-button>
+      <vs-input
+        label="Ruller px"
+        type="number"
+        min="10"
+        max="768"
+        v-model="ruller"
+      />
     </div>
     <!-- Sections -->
-    <div class="border mt-2" :key="componentKey">
+    <div class="sections-container border mt-2" :key="componentKey">
+      <div class="ruller" :style="{ right: rullerWidth + 'px' }" />
       <chord-editor-section
         v-for="(section, i) in sections"
         :key="i"
@@ -35,6 +45,12 @@ export default {
       sections: [],
       componentKey: '',
       editToggle: true,
+      ruller: 344,
+    }
+  },
+  computed:{
+    rullerWidth(){
+      return this.ruller - 64;
     }
   },
   created() {
@@ -123,13 +139,21 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #editor {
   min-height: 20rem;
   padding: 10px;
   direction: rtl;
 }
-</style>
 
-<style>
+.sections-container {
+  position: relative;
+  .ruller {
+    width: 2px;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.3);
+    position: absolute;
+    left: auto;
+  }
+}
 </style>
