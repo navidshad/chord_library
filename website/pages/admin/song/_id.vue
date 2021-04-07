@@ -7,6 +7,12 @@
         <vs-button :loading="pending" @click="update">{{
           $t('update')
         }}</vs-button>
+        <div class="float-button">
+          <vs-button danger icon blank :loading="pending" @click="update">
+            <i class="bx bxs-save"></i>
+          </vs-button>
+        </div>
+
         <vs-button transparent icon blank :href="'/tab/' + id">
           <i class="bx bx-desktop"></i>
         </vs-button>
@@ -136,5 +142,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.float-button {
+  position: fixed;
+  bottom: 20px;
+}
 </style>
