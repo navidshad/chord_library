@@ -57,6 +57,8 @@ export default {
             return authentication.loginWithLastSession()
                 .then(user => {
                     commit('SET_USER', user);
+                }).catch(error => {
+                    return authentication.loginAsAnonymous()
                 })
                 // .catch((result: Types.RequestError) => {
                 //     toaster.toast({

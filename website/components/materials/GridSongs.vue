@@ -18,52 +18,15 @@
 </template>
 
 <script>
-import { dataProvider } from '@modular-rest/client'
-
 export default {
   name: 'GridSongs',
 
   props: {
-    query: Object,
-    queryOption: Object,
-  },
-  data() {
-    return {
-      list: [],
-      pending: false,
-    }
-  },
-
-  created() {
-    this.find()
-  },
-
-  computed: {
-    findOption() {
-      return {
-        database: 'tab',
-        collection: 'song',
-        query: this.query || {},
-        populates: ['genres', { path: 'artists', select: 'name' }],
-        options: this.queryOption || {
-          sort: '-_id',
-        },
-      }
-    },
-  },
-
-  methods: {
-    find() {
-      this.pending = true
-      dataProvider
-        .find(this.findOption)
-        .then((list) => (this.list = list))
-        .finally(() => (this.pending = false))
-    },
+    list: Array,
+    pending: Boolean,
   },
 }
 </script>
 
 <style>
-
 </style>
