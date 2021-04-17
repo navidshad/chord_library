@@ -64,5 +64,7 @@ export default {
     update: 'بروز رسانی',
     create: 'ایجاد',
 
-    'image-cover': 'تصویر کاور'
+    aboutus: 'درباره ما',
+    'image-cover': 'تصویر کاور',
+    
 }

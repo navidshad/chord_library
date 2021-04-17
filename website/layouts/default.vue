@@ -49,6 +49,10 @@
           {{ $t('navbar.admin.chords') }}
         </vs-sidebar-item>
       </vs-sidebar-group>
+
+      <vs-sidebar-item to="/about-us">
+          {{ $t('aboutus') }}
+        </vs-sidebar-item>
     </vs-sidebar>
 
     <!-- CONTENT -->
