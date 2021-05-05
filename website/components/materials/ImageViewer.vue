@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     thumbnailLink() {
-      return fileProvider.getFileLink((this.fileDoc).fileName)
+      return fileProvider.getFileLink(this.fileDoc || {})
     },
   },
 }

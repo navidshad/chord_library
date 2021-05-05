@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     thumbnailLink() {
-      return fileProvider.getFileLink(this.song.image.fileName)
+      return fileProvider.getFileLink(this.song.image)
     },
   },
   methods: {

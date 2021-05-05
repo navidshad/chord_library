@@ -18,9 +18,11 @@
 
       <!-- IMAGE -->
       <image-field
-        v-if="field.type == 'image'"
+        v-if="field.type == 'image' && edit"
         :fileDoc="form[field.key]"
+        :tag="collection"
         @input="form[field.key] = $event"
+        @changed="edit ? update() : () => {}"
       />
 
       <!-- CUSTOM FIELD -->
@@ -121,10 +123,6 @@ export default {
   },
 
   methods: {
-    update() {
-      this.pending = true
-    },
-
     create() {
       this.pending = true
       dataProvider
