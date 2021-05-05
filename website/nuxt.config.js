@@ -2,7 +2,7 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: require('path').join(__dirname, '.env') });
 
-module.exports = {
+export default {
   env: {
     BASE_URL: process.env.BASE_URL
   },
@@ -24,12 +24,12 @@ module.exports = {
     ]
   },
 
-  // Global CSS (https://go.nuxtjs.dev/config-css)
+  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'vuesax/dist/vuesax.css'
   ],
 
-  // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/vuesax',
     { src: '@plugins/toaster.js', mode: 'client' },
@@ -37,18 +37,25 @@ module.exports = {
     { src: '@plugins/croppa.js', mode: 'client' },
   ],
 
-  // Auto import components (https://go.nuxtjs.dev/config-components)
-  components: true,
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: [
+    '~/components',
+    {path:'~/components/administration', prefix:''},
+    {path:'~/components/database', prefix:''},
+    {path:'~/components/inputs', prefix:''},
+    {path:'~/components/layouts', prefix:''},
+    {path:'~/components/materials', prefix:''},
+    {path:'~/components/notifiers', prefix:''},
+  ],
 
-  // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-
     '@nuxtjs/tailwindcss',
   ],
 
-  // Modules (https://go.nuxtjs.dev/config-modules)
+  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
@@ -70,8 +77,14 @@ module.exports = {
     middleware: ['init']
   },
 
-  // Build Configuration (https://go.nuxtjs.dev/config-build)
+  // PWA module configuration: https://go.nuxtjs.dev/pwa
+  pwa: {
+    manifest: {
+      lang: 'en'
+    }
+  },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    
   }
 }

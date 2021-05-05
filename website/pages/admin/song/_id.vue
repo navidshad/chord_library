@@ -62,7 +62,7 @@
 
           <div class="mt-10">
             <label>{{ $t('image-cover') }}</label>
-            <image-field v-model="form.image" />
+            <image-field tag="song" v-model="form.image" @changed="update" />
           </div>
         </div>
       </div>

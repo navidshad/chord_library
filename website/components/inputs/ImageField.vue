@@ -6,6 +6,7 @@
       </div>
       <div>
         <vs-button @click="activeModal = true">Sellect Image</vs-button>
+        <vs-button @click="removeImage" danger>Remove</vs-button>
       </div>
     </div>
     <vs-dialog :value="activeModal" :loading="uploadPending" not-close>
@@ -21,6 +22,7 @@
       />
       <div class="flex">
         <vs-button @click="uploadImage">Upload</vs-button>
+        <vs-button @click="removeImage" danger>Remove</vs-button>
         <vs-button @click="activeModal = false" danger>Close</vs-button>
       </div>
     </vs-dialog>
@@ -35,6 +37,7 @@ export default {
     width: { type: Number, default: 256 },
     height: { type: Number, default: 256 },
     fileDoc: { type: Object, default: () => {} },
+    tag: String,
   },
   model: {
     prop: 'fileDoc',
@@ -49,7 +52,7 @@ export default {
   },
   computed: {
     thumbnailLink() {
-      return fileProvider.getFileLink((this.fileDoc || {}).fileName)
+      return fileProvider.getFileLink(this.fileDoc || {})
     },
   },
   methods: {
@@ -69,12 +72,34 @@ export default {
     async uploadImage() {
       let file = await this.extractImage()
       this.uploadPending = true
+
+      if (this.fileDoc != null) {
+        await this.removeImage()
+      }
+
       fileProvider
-        .uploadFile(file, (loaded) => {
-          console.log('uploading: ' + loaded)
-        })
+        .uploadFile(
+          file,
+          (loaded) => {
+            console.log('uploading: ' + loaded)
+          },
+          this.tag
+        )
         .then((fileDoc) => {
           this.$emit('input', fileDoc)
+        })
+        .finally(() => {
+          this.uploadPending = false
+          this.$emit('changed')
+        })
+    },
+    async removeImage() {
+      this.uploadPending = true
+      fileProvider
+        .removeFile(this.fileDoc._id)
+        .then((fileDoc) => {
+          this.$emit('input', null)
+          this.$emit('changed')
         })
         .finally(() => (this.uploadPending = false))
     },
