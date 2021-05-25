@@ -21,6 +21,11 @@ let SongSectionSchema = new Schema({
     lines: [{ chords: String, text: String }]
 })
 
+let MelodySchema = new Schema({
+    title: String,
+    file: Schemas.file,
+})
+
 module.exports = [
     new CollectionDefinition({
         db: 'tab',
@@ -78,6 +83,7 @@ module.exports = [
             },
             sections: [SongSectionSchema],
             image: Schemas.file,
+            melodies: [MelodySchema],
         }),
         permissions: [
             new Permission({
