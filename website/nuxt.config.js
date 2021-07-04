@@ -1,14 +1,15 @@
-// read .env file
 const dotenv = require('dotenv');
 dotenv.config({ path: require('path').join(__dirname, '.env') });
 
+import colors from 'vuetify/es5/util/colors'
+
 export default {
   env: {
-    BASE_URL: process.env.BASE_URL
+    BASE_URL: process.env.VUE_APP_BASE_URL
   },
 
   server: {
-    host: '0'
+    // host: '0'
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -40,18 +41,20 @@ export default {
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
     '~/components',
-    {path:'~/components/administration', prefix:''},
-    {path:'~/components/database', prefix:''},
-    {path:'~/components/inputs', prefix:''},
-    {path:'~/components/layouts', prefix:''},
-    {path:'~/components/materials', prefix:''},
-    {path:'~/components/notifiers', prefix:''},
+    { path: '~/components/administration', prefix: '' },
+    { path: '~/components/database', prefix: '' },
+    { path: '~/components/inputs', prefix: '' },
+    { path: '~/components/layouts', prefix: '' },
+    { path: '~/components/materials', prefix: '' },
+    { path: '~/components/notifiers', prefix: '' },
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
+    // https://go.nuxtjs.dev/vuetify
+    '@nuxtjs/vuetify',
     '@nuxtjs/tailwindcss',
   ],
 
@@ -59,6 +62,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+
     [
       'nuxt-i18n',
       {
@@ -70,7 +74,6 @@ export default {
         defaultLocale: 'fa'
       }
     ],
-
   ],
 
   router: {
@@ -81,6 +84,25 @@ export default {
   pwa: {
     manifest: {
       lang: 'en'
+    }
+  },
+
+  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
+  vuetify: {
+    customVariables: ['~/assets/variables.scss'],
+    theme: {
+      dark: true,
+      themes: {
+        dark: {
+          primary: colors.blue.darken2,
+          accent: colors.grey.darken3,
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3
+        }
+      }
     }
   },
 
