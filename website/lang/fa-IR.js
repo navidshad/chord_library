@@ -50,7 +50,14 @@ export default {
         'vocal-from': 'وکال از',
         'new-song': 'آکورد جدید',
         'edit-song': 'ویرایش آکورد',
-        'song-view': 'نمای آکورد'
+        'song-view': 'نمای آکورد',
+
+    },
+
+    "melody-uploader": {
+        title: 'ملودی ها',
+        add: 'افزودن ملودی',
+        remove: 'حذف ملودی',
     },
 
     database: {
@@ -63,6 +70,7 @@ export default {
     remove: 'حذف',
     update: 'بروز رسانی',
     create: 'ایجاد',
+    title: 'عنوان',
 
     aboutus: 'درباره ما',
     'image-cover': 'تصویر کاور',

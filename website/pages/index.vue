@@ -1,5 +1,6 @@
 <template>
   <div>
+    <v-text-field :label="$t('title')" outlined />
     <grid-songs :list="list" />
   </div>
 </template>

@@ -1,8 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: require('path').join(__dirname, '.env') });
 
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   env: {
     BASE_URL: process.env.VUE_APP_BASE_URL
@@ -53,8 +51,6 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
     '@nuxtjs/tailwindcss',
   ],
 
@@ -84,25 +80,6 @@ export default {
   pwa: {
     manifest: {
       lang: 'en'
-    }
-  },
-
-  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: true,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
     }
   },
 

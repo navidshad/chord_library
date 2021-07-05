@@ -2,10 +2,10 @@
   <div>
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
-      <h2 class="text-lg">{{ $t('song.edit-song') }}</h2>
+      <h2 class="text-lg">{{ $t("song.edit-song") }}</h2>
       <div class="flex">
         <vs-button :loading="pending" @click="update">{{
-          $t('update')
+          $t("update")
         }}</vs-button>
         <div class="float-button">
           <vs-button danger icon blank :loading="pending" @click="update">
@@ -61,8 +61,14 @@
           />
 
           <div class="mt-10">
-            <label>{{ $t('image-cover') }}</label>
+            <label>{{ $t("image-cover") }}</label>
             <image-field tag="song" v-model="form.image" @changed="update" />
+            <MelodyUploader
+            class="mt-5"
+              tag="melody"
+              v-model="form.melodies"
+              @changed="update"
+            />
           </div>
         </div>
       </div>
@@ -72,74 +78,76 @@
 </template>
 
 <script>
-import { dataProvider } from '@modular-rest/client'
-import notifier from '../../../utilities/notifier'
+import { dataProvider } from "@modular-rest/client";
+import notifier from "../../../utilities/notifier";
 
 export default {
-  middleware: ['auth'],
+  middleware: ["auth"],
   async asyncData({ params, error }) {
     let data = await dataProvider
       .findOne({
-        database: 'tab',
-        collection: 'song',
+        database: "tab",
+        collection: "song",
         query: { _id: params.id },
       })
-      .catch(({ error }) => null)
+      .catch(({ error }) => null);
 
     if (data) {
-      delete data._id
+      delete data._id;
       return {
         form: data,
-      }
-    } else error("Song doesn't found")
+      };
+    } else error("Song doesn't found");
   },
   data() {
     return {
       pending: false,
       form: {
-        title: '',
-        rhythm: '-',
+        title: "",
+        rhythm: "-",
         artists: [],
         genres: [],
         chords: {
-          keySignature: '',
+          keySignature: "",
           list: [],
           vocalNote: {},
         },
         sections: [],
+        image: null,
+        melodies: [],
       },
-    }
+    };
   },
   computed: {
     id() {
-      return this.$route.params.id
+      return this.$route.params.id;
     },
     vocalNote() {
-      return (this.form.chords.vocalNote || {}).note || ''
+      return (this.form.chords.vocalNote || {}).note || "";
     },
   },
   methods: {
     update() {
-      this.pending = true
+      this.pending = true;
       dataProvider
         .updateOne({
-          database: 'tab',
-          collection: 'song',
+          database: "tab",
+          collection: "song",
           query: { _id: this.id },
           update: this.form,
         })
         // .then(() => this.$router.push('/admin/song'))
         .catch(({ error }) => {
           notifier.toast({
-            label: 'Update song error',
+            label: "Update song error",
             description: JSON.stringify(error),
-            type: 'error',
-          })
+            type: "error",
+          });
         })
-        .finally(() => (this.pending = false))
+        .finally(() => (this.pending = false));
     },
   },
-}
+};
 </script>
 
 <style scoped>
