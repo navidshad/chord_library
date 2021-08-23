@@ -4,16 +4,16 @@ const { generateVerificationCode } = require('./src/services/sender/service');
 
 function run() {
     return ModularRest.createRest({
-        port: '3001',
+        port: '8080',
         componentDirectory: Path.join(__dirname, 'src/services'),
         uploadDirectory: Path.join(__dirname, 'uploads'),
         // cors: {
         //     origin: 'http://localhost:3000'
         // },
-        dontListen: false,
+        dontListen: true,
         verificationCodeGeneratorMethod: generateVerificationCode,
     })
 }
 
-run();
+// run();
 module.exports = run;

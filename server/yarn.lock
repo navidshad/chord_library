@@ -9,10 +9,10 @@
   dependencies:
     "vary" "^1.1.2"
 
-"@modular-rest/server@^1.1.1":
-  "integrity" "sha512-H7zDqoKICLeu450m8HhRo66W3LxUS0Ch3H8eqIR/2JVcaBV82cdzTMEwc5W4JjXvtCwfmMBDZHz49TXEulgR0A=="
-  "resolved" "https://registry.npmjs.org/@modular-rest/server/-/server-1.1.1.tgz"
-  "version" "1.1.1"
+"@modular-rest/server@^1.2.1":
+  "integrity" "sha512-fCu0WsSC8jK1sOT4MXJsIM4ReZKBUutrhyu96qErqtpBX3i8dPzWkl9OPxi4qPSou+LfCW+myygQL42h3d4rJg=="
+  "resolved" "https://registry.npmjs.org/@modular-rest/server/-/server-1.2.3.tgz"
+  "version" "1.2.3"
   dependencies:
     "@koa/cors" "^3.1.0"
     "colog" "^1.0.4"
@@ -549,7 +549,7 @@
   "resolved" "https://registry.npmjs.org/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz"
   "version" "1.0.2"
 
-"mongoose@^5.10.9":
+"mongoose@*", "mongoose@^5.10.9":
   "integrity" "sha512-uwSeALQ1+qamUZBrIe1D6/uCzlHvcSbNQPG9w02DJqF3VHJSFOX1RdoxJE/wTN6WW7tTV8NMdLDSdxKqfo8J1A=="
   "resolved" "https://registry.npmjs.org/mongoose/-/mongoose-5.11.5.tgz"
   "version" "5.11.5"
