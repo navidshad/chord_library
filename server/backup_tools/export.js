@@ -3,7 +3,7 @@ const exec = require('child_process').exec;
 let title = 'Goranee';
 let date = new Date();
 let outputDir = require('path').join(__dirname, `${title}_${date.toISOString()}`);
-let mongoBaseConnectionString = process.env.MONGO;
+let mongoBaseConnectionString = 'mongodb://localhost:27017/';
 
 let dbList = [
   {

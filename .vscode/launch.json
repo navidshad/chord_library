@@ -7,11 +7,20 @@
 		{
 			"type": "pwa-node",
 			"request": "launch",
-			"name": "Launch Program",
+			"name": "production",
 			"skipFiles": [
 				"<node_internals>/**"
 			],
 			"program": "${workspaceFolder}/website/host.js"
+		},
+		{
+			"type": "pwa-node",
+			"request": "launch",
+			"name": "import backups",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/server/backup_tools/import.js"
 		}
 	]
 }

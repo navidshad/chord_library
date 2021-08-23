@@ -2,8 +2,7 @@ const exec = require('child_process').exec;
 const fs = require('fs');
 
 let filesDir = require('path').join(__dirname, 'files');
-let dbConnectionStr = process.env.MONGO;
-//'mongodb://@localhost:27017/';
+let dbConnectionStr = 'mongodb://localhost:27017/';
 
 function ImportFile (fileDir, db, coll) 
 {
@@ -22,7 +21,7 @@ function ImportFile (fileDir, db, coll)
 async function startImportProccess(files) {
   for(let index in files) {
     let fileName = files[index];
-    let dbName = 'melodyko_' + fileName.split(' ')[0];
+    let dbName = fileName.split(' ')[0];
     let collection = fileName.split(' ')[1].split('.')[0];
     
     let fileDir = require('path').join(filesDir, fileName);
@@ -39,5 +38,5 @@ async function startImportProccess(files) {
   }
 }
 
-let files = [fs.readdirSync(filesDir)[14]];
+let files = [...fs.readdirSync(filesDir)];
 startImportProccess(files);
