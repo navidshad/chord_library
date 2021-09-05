@@ -8,6 +8,7 @@ lerna-debug.log*
 
 #backups
 /backup_tools/**/*
+/backups
 
 #uploads
 uploads

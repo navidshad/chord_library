@@ -3,7 +3,7 @@ const exec = require('child_process').exec;
 let title = 'Goranee';
 let date = new Date();
 let outputDir = require('path').join(__dirname, `${title}_${date.toISOString()}`);
-let mongoBaseConnectionString = 'mongodb://localhost:27017/';
+let mongoBaseConnectionString = 'mongodb://localhost:27017';
 
 let dbList = [
   {
@@ -35,21 +35,32 @@ function makeBackupFromCollection (dbName, url, collection)
   });
 }
 
-async function startBackUp() {
-  for(let index in dbList) {
-    let dbDetail = dbList[index];
-     for(let colectionIndex in dbDetail.collections) {
-       let colection = dbDetail.collections[colectionIndex];
-       await makeBackupFromCollection(dbDetail.name, dbDetail.fullUrl, colection)
-       .then((r) => {
-         console.info('#========================== ', dbDetail.name, colection, ' backup has been done.');
-         console.log(r);
-       }).catch(err => {
-         console.warn('#=========== error ======== ', dbDetail.name, colection, ' backup has not been done.');
-         console.error(err);
-       });
-     }
-  }
+function startBackUp() {
+  return new Promise(async (done, reject) => {
+
+    try {
+      for(let index in dbList) {
+        let dbDetail = dbList[index];
+         for(let colectionIndex in dbDetail.collections) {
+           let colection = dbDetail.collections[colectionIndex];
+           await makeBackupFromCollection(dbDetail.name, dbDetail.fullUrl, colection)
+           .then((r) => {
+             console.info('#========================== ', dbDetail.name, colection, ' backup has been done.');
+             console.log(r);
+           }).catch(err => {
+             console.warn('#=========== error ======== ', dbDetail.name, colection, ' backup has not been done.');
+             console.error(err);
+             throw err;
+           });
+         }
+      }
+    } catch (error) {
+      reject(error)
+    }
+
+    done(outputDir);
+  });
 }
 
-startBackUp();
+// startBackUp();
+module.exports.startBackUp = startBackUp;
