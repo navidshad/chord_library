@@ -14,16 +14,16 @@ function run() {
         // cors: {
         //     origin: 'http://localhost:3000'
         // },
-        dontListen: false,
+        dontListen: true,
         verificationCodeGeneratorMethod: generateVerificationCode,
         onBeforeInit: (app) => {
             app.use(koaStatic({
-                rootDir: 'backups', 
+                rootDir: Path.join(__dirname, 'backups'), 
                 rootPath: '/backup-files/', 
             }));
         }
     })
 }
 
-run();
-// module.exports = run;
+// run();
+module.exports = run;

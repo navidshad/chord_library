@@ -45,8 +45,8 @@ function startBackUp() {
            let colection = dbDetail.collections[colectionIndex];
            await makeBackupFromCollection(dbDetail.name, dbDetail.fullUrl, colection)
            .then((r) => {
-             console.info('#========================== ', dbDetail.name, colection, ' backup has been done.');
-             console.log(r);
+            //  console.info('#========================== ', dbDetail.name, colection, ' backup has been done.');
+            //  console.log(r);
            }).catch(err => {
              console.warn('#=========== error ======== ', dbDetail.name, colection, ' backup has not been done.');
              console.error(err);

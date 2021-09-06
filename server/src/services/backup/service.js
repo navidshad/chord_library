@@ -29,7 +29,13 @@ module.exports.removeBackupFile = (filePath) => {
 module.exports.getBackupList = () => {
 	let backupDir = path.join(global.rootPath, 'backups');
 
-	let files = fs.readdirSync(backupDir);
+	let files = []; 
 	
+	try {
+		files = fs.readdirSync(backupDir);
+	} catch (error) {
+		
+	}
+
 	return files;
 }
