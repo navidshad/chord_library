@@ -21,6 +21,10 @@ export default {
             genres: 'سبک ها',
             songs: 'ترانه ها',
             chords: 'آکورد ها',
+        },
+        settings: {
+            title: 'تنظیمات',
+            backup: 'بکاپ گیری'
         }
     },
 

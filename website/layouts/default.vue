@@ -56,6 +56,23 @@
         </vs-sidebar-item>
       </vs-sidebar-group>
 
+      <!-- Settings -->
+      <vs-sidebar-group v-if="user && user.type == 'administrator'">
+        <template #header>
+          <vs-sidebar-item arrow>
+            <template #icon>
+              <i class="bx bx-terminal"></i>
+            </template>
+            {{ $t("navbar.settings.title") }}
+          </vs-sidebar-item>
+        </template>
+
+        <!-- Backup -->
+        <vs-sidebar-item to="/settings/backup">
+          {{ $t("navbar.settings.backup") }}
+        </vs-sidebar-item>
+      </vs-sidebar-group>
+
       <vs-sidebar-item to="/about-us">
         {{ $t("aboutus") }}
       </vs-sidebar-item>

@@ -1,4 +1,5 @@
 import { dataProvider } from '@modular-rest/client';
+
 export default {
     state() {
         return {
