@@ -23,7 +23,7 @@ backup.get('/list', async (ctx) => {
     
 	try {
 		ctx.body = reply.create('s', {
-			list: service.getBackupList(),
+			list: await service.getBackupList(),
 		})
 	} catch (error) {
 		ctx.status = 500;

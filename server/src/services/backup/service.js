@@ -2,7 +2,7 @@
 const path = require('path');
 const fs = require('fs');
 const startBackUp = require('../../../backup_tools/export').startBackUp;
-const {createZipFile, removeFolder} = require('../../utils/ziper');
+const {createZipFile, removeFolder, getSize} = require('../../utils/file');
 
 module.exports.createBackup = async () => {
 
@@ -26,7 +26,7 @@ module.exports.removeBackupFile = (filePath) => {
 	fs.unlink(backupFile, (err) => {});
 }
 
-module.exports.getBackupList = () => {
+module.exports.getBackupList = async () => {
 	let backupDir = path.join(global.rootPath, 'backups');
 
 	let files = []; 
@@ -37,5 +37,18 @@ module.exports.getBackupList = () => {
 		
 	}
 
-	return files;
+	let backupList = [];
+	
+	try {
+		for (let i = 0; i < files.length; i++) {
+			const file = path.join(backupDir, files[i]);
+			let size = await getSize(file);
+	
+			backupList.push({title:files[i], size})
+		}
+	} catch (error) {
+		console.log(error);
+	}
+
+	return backupList;
 }

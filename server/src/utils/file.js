@@ -13,6 +13,15 @@ module.exports.removeFolder = (path) => {
 	})
 }
 
+module.exports.getSize = (file) => {
+	return new Promise((done, reject) => {
+		fs.stat(file, (err, state) => {
+			if(err) reject(err)
+			else done(state.size / (1024*1024))
+		});
+	});
+}
+
 module.exports.createZipFile = (zipPath='/file.zip', compressingFilesAndFolders=[]) => {
 
 	let command = `zip -r ${zipPath} ${compressingFilesAndFolders.join(' ')}`;
