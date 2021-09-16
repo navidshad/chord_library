@@ -422,7 +422,7 @@ export default {
 
 <style lang="scss" scoped>
 .scroll {
-  overflow-x: auto;
+  overflow-x: auto !important;
 }
 
 .box {
