@@ -22,6 +22,7 @@
         <i class="bx bx-menu"></i>
       </vs-button>
 
+      <vs-navbar-item to="/search">{{ $t("search.label") }}</vs-navbar-item>
       <vs-navbar-item to="/">{{ $t("navbar.home") }}</vs-navbar-item>
     </vs-navbar>
 

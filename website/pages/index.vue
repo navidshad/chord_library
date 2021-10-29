@@ -1,36 +1,36 @@
 <template>
   <div>
     <v-text-field :label="$t('title')" outlined />
-    <grid-songs :list="list" />
+    <grid-songs :list="list" :title="$t('song.songs')" />
   </div>
 </template>
 
 <script>
-import { dataProvider } from '@modular-rest/client'
+import { dataProvider } from "@modular-rest/client";
 
 export default {
   async asyncData({}) {
-    let list = []
+    let list = [];
     await dataProvider
       .find({
-        database: 'tab',
-        collection: 'song',
+        database: "tab",
+        collection: "song",
         query: {},
-        populates: ['genres', { path: 'artists', select: 'name' }],
-        options: { sort: '-_id' },
+        populates: ["genres", { path: "artists", select: "name" }],
+        options: { sort: "-_id" },
       })
-      .then((docs) => (list = docs))
+      .then((docs) => (list = docs));
 
     return {
       list,
-    }
+    };
   },
   data() {},
   computed: {
     isLogin() {
-      return this.$store.getters['auth/isLogin']
+      return this.$store.getters["auth/isLogin"];
     },
   },
   methods: {},
-}
+};
 </script>
