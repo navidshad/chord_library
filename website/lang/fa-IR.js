@@ -21,6 +21,10 @@ export default {
             genres: 'سبک ها',
             songs: 'ترانه ها',
             chords: 'آکورد ها',
+        },
+        settings: {
+            title: 'تنظیمات',
+            backup: 'بکاپ گیری'
         }
     },
 
@@ -50,7 +54,14 @@ export default {
         'vocal-from': 'وکال از',
         'new-song': 'آکورد جدید',
         'edit-song': 'ویرایش آکورد',
-        'song-view': 'نمای آکورد'
+        'song-view': 'نمای آکورد',
+
+    },
+
+    "melody-uploader": {
+        title: 'ملودی ها',
+        add: 'افزودن ملودی',
+        remove: 'حذف ملودی',
     },
 
     'melody-uploader': {
@@ -67,8 +78,13 @@ export default {
     remove: 'حذف',
     update: 'بروز رسانی',
     create: 'ایجاد',
+    title: 'عنوان',
+    search: {
+        label: 'جستجو',
+        help: 'لطفا واژه یا بخشی از ترانه مورد نظر خورد را داخل کادر جستجو بنویسید و سپس دکمه آبی را فشار دهید.',
+    },
 
     aboutus: 'درباره ما',
     'image-cover': 'تصویر کاور',
-    
+
 }

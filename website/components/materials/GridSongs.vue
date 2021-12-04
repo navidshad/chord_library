@@ -2,7 +2,7 @@
   <div>
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
-      <h2 class="text-lg">{{ $t('song.songs') }}</h2>
+      <h2 class="text-lg">{{ this.title }}</h2>
     </div>
 
     <!-- Content -->
@@ -19,13 +19,14 @@
 
 <script>
 export default {
-  name: 'GridSongs',
+  name: "GridSongs",
 
   props: {
+    title: String,
     list: Array,
     pending: Boolean,
   },
-}
+};
 </script>
 
 <style>

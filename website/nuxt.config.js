@@ -1,14 +1,13 @@
-// read .env file
 const dotenv = require('dotenv');
 dotenv.config({ path: require('path').join(__dirname, '.env') });
 
 export default {
   env: {
-    BASE_URL: process.env.BASE_URL
+    BASE_URL: process.env.VUE_APP_BASE_URL
   },
 
   server: {
-    host: '0'
+    // host: '0'
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -40,12 +39,12 @@ export default {
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
     '~/components',
-    {path:'~/components/administration', prefix:''},
-    {path:'~/components/database', prefix:''},
-    {path:'~/components/inputs', prefix:''},
-    {path:'~/components/layouts', prefix:''},
-    {path:'~/components/materials', prefix:''},
-    {path:'~/components/notifiers', prefix:''},
+    { path: '~/components/administration', prefix: '' },
+    { path: '~/components/database', prefix: '' },
+    { path: '~/components/inputs', prefix: '' },
+    { path: '~/components/layouts', prefix: '' },
+    { path: '~/components/materials', prefix: '' },
+    { path: '~/components/notifiers', prefix: '' },
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
@@ -59,6 +58,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+
     [
       'nuxt-i18n',
       {
@@ -70,7 +70,6 @@ export default {
         defaultLocale: 'fa'
       }
     ],
-
   ],
 
   router: {
@@ -86,5 +85,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+
+  buildDir:'../.nuxt'
 }

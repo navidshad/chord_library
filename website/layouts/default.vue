@@ -2,8 +2,14 @@
   <div class="rtl">
     <!-- NAVBAR -->
     <vs-navbar>
-      <vs-button slot="left" flat v-if="!isLogin" to="/auth/login">
-        {{ $t('auth.sign-in') }}
+      <vs-button
+        slot="left"
+        flat
+        v-if="!isLogin"
+        :loading="pending"
+        to="/auth/login"
+      >
+        {{ $t("auth.sign-in") }}
       </vs-button>
 
       <vs-button
@@ -16,7 +22,8 @@
         <i class="bx bx-menu"></i>
       </vs-button>
 
-      <vs-navbar-item to="/">{{ $t('navbar.home') }}</vs-navbar-item>
+      <vs-navbar-item to="/search">{{ $t("search.label") }}</vs-navbar-item>
+      <vs-navbar-item to="/">{{ $t("navbar.home") }}</vs-navbar-item>
     </vs-navbar>
 
     <!-- SIDEBAR -->
@@ -28,31 +35,48 @@
             <template #icon>
               <i class="bx bx-terminal"></i>
             </template>
-            {{ $t('navbar.admin.title') }}
+            {{ $t("navbar.admin.title") }}
           </vs-sidebar-item>
         </template>
 
         <vs-sidebar-item to="/admin/artists">
-          {{ $t('navbar.admin.artists') }}
+          {{ $t("navbar.admin.artists") }}
         </vs-sidebar-item>
 
         <vs-sidebar-item to="/admin/genres">
-          {{ $t('navbar.admin.genres') }}
+          {{ $t("navbar.admin.genres") }}
         </vs-sidebar-item>
 
         <vs-sidebar-item to="/admin/song/list">
-          {{ $t('navbar.admin.songs') }}
+          {{ $t("navbar.admin.songs") }}
         </vs-sidebar-item>
 
         <!-- Chord Settings -->
         <vs-sidebar-item to="/admin/chords">
-          {{ $t('navbar.admin.chords') }}
+          {{ $t("navbar.admin.chords") }}
+        </vs-sidebar-item>
+      </vs-sidebar-group>
+
+      <!-- Settings -->
+      <vs-sidebar-group v-if="user && user.type == 'administrator'">
+        <template #header>
+          <vs-sidebar-item arrow>
+            <template #icon>
+              <i class="bx bx-terminal"></i>
+            </template>
+            {{ $t("navbar.settings.title") }}
+          </vs-sidebar-item>
+        </template>
+
+        <!-- Backup -->
+        <vs-sidebar-item to="/settings/backup">
+          {{ $t("navbar.settings.backup") }}
         </vs-sidebar-item>
       </vs-sidebar-group>
 
       <vs-sidebar-item to="/about-us">
-          {{ $t('aboutus') }}
-        </vs-sidebar-item>
+        {{ $t("aboutus") }}
+      </vs-sidebar-item>
     </vs-sidebar>
 
     <!-- CONTENT -->
@@ -69,23 +93,27 @@ export default {
   data() {
     return {
       activeSidebar: false,
-    }
+      pending: false,
+    };
   },
   created() {
     if (!this.isLogin) {
-      this.$store.dispatch('auth/loginWithLastSession')
+      this.pending = true;
+      this.$store.dispatch("auth/loginWithLastSession").finally((_) => {
+        this.pending = false;
+      });
     }
   },
   computed: {
     isLogin() {
       // return authService.isLogin
-      return this.$store.getters['auth/isLogin']
+      return this.$store.getters["auth/isLogin"];
     },
     user() {
-      return this.$store.state.auth.user
+      return this.$store.state.auth.user;
     },
   },
-}
+};
 </script>
 
 <style lang="scss">

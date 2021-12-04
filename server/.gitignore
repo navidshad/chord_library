@@ -6,6 +6,10 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+#backups
+/backup_tools/**/*
+/backups
+
 #uploads
 uploads
 config.js
