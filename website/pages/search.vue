@@ -33,6 +33,7 @@ export default {
   methods: {
     async search() {
       if (!this.phrase.length) return;
+      this.list = [];
 
       this.pending = true;
 
@@ -44,8 +45,60 @@ export default {
           populates: ["genres", { path: "artists", select: "name" }],
           options: { sort: "-_id" },
         })
-        .then((docs) => (this.list = docs))
+        .then((docs) => this.filterSearchResult(docs, this.phrase))
         .finally((_) => (this.pending = false));
+    },
+
+    addSong(song) {
+      let isAdded = this.list.findIndex((s) => s._id == song._id);
+      if (isAdded == -1) this.list.push(song);
+    },
+
+    filterSearchResult(docs = [], phrase = "") {
+      for (let i = 0; i < docs.length; i++) {
+        const song = docs[i];
+
+        //
+        // Search in title
+        if (song.title.includes(phrase)) {
+          addSong(song);
+        }
+
+        //
+        // Search in artists
+        // for (
+        //   let artistIndex = 0;
+        //   artistIndex < song.artists.length;
+        //   artistIndex++
+        // ) {
+        //   const artist = song.artists[artistIndex];
+        //   if (artist.name.includes(phrase)) {
+        //     this.addSong(song);
+        //   }
+        // }
+
+        //
+        // Search in lyric
+        for (
+          let sectionIndex = 0;
+          sectionIndex < song.sections.length;
+          sectionIndex++
+        ) {
+          const section = song.sections[sectionIndex];
+
+          // search line bye line
+          for (
+            let lineIndex = 0;
+            lineIndex < section.lines.length;
+            lineIndex++
+          ) {
+            const line = section.lines[lineIndex];
+            if (line.text.includes(phrase)) {
+              this.addSong(song);
+            }
+          }
+        }
+      }
     },
   },
 };

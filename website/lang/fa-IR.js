@@ -64,6 +64,10 @@ export default {
         remove: 'حذف ملودی',
     },
 
+    'melody-uploader': {
+        title: 'مدیریت ملودی ها'
+    },
+
     database: {
         'remove-question': "آیا مطمئنی که میخوای این آیتم رو حذف کنی؟",
         'remove-title': 'عملیات حذف'

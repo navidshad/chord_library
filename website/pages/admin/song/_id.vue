@@ -70,6 +70,12 @@
               @changed="update"
             />
           </div>
+
+          <melody-uploader
+            class="mt-10"
+            v-model="form.melodies"
+            @changed="update"
+          />
         </div>
       </div>
       <chord-editor class="w-2/3" v-model="form.sections" />
