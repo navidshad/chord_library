@@ -61,7 +61,7 @@ export default {
         //
         // Search in title
         if (song.title.includes(phrase)) {
-          addSong(song);
+          this.addSong(song);
         }
 
         //
