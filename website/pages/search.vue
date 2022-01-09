@@ -11,7 +11,7 @@
       </vs-button>
       <vs-input v-model="phrase" :placeholder="$t('search.label')"> </vs-input>
     </div>
-    <grid-songs v-if="list.length" :list="list" title="" />
+    <grid-songs v-if="songs.length" :list="songs" title="" />
     <div v-else dir="rtl" class="mt-16 max-w-sm text-gray-600">
       {{ $t("search.help") }}
     </div>
@@ -24,7 +24,7 @@ import { dataProvider } from "@modular-rest/client";
 export default {
   data() {
     return {
-      list: [],
+      songs: [],
       phrase: "",
       pending: false,
     };
@@ -33,7 +33,7 @@ export default {
   methods: {
     async search() {
       if (!this.phrase.length) return;
-      this.list = [];
+      this.songs = [];
 
       this.pending = true;
 
@@ -45,16 +45,16 @@ export default {
           populates: ["genres", { path: "artists", select: "name" }],
           options: { sort: "-_id" },
         })
-        .then((docs) => this.filterSearchResult(docs, this.phrase))
+        .then((docs) => this.filterSearchResultSong(docs, this.phrase))
         .finally((_) => (this.pending = false));
     },
 
     addSong(song) {
-      let isAdded = this.list.findIndex((s) => s._id == song._id);
-      if (isAdded == -1) this.list.push(song);
+      let isAdded = this.songs.findIndex((s) => s._id == song._id);
+      if (isAdded == -1) this.songs.push(song);
     },
 
-    filterSearchResult(docs = [], phrase = "") {
+    filterSearchResultSong(docs = [], phrase = "") {
       for (let i = 0; i < docs.length; i++) {
         const song = docs[i];
 

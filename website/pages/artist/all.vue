@@ -1,6 +1,19 @@
 <template>
   <div>
-    <grid-songs :list="list" :title="$t('song.songs')" />
+    <!-- Header -->
+    <div class="flex justify-between items-center flex-row-reverse">
+      <h2 class="text-lg">{{ $t('artist.artists') }}</h2>
+    </div>
+
+    <!-- Content -->
+    <div class="mt-8 flex flex-wrap justify-between">
+      <card-artist
+        v-for="(artist, i) in list"
+        :key="i"
+        :artist="artist"
+        :to="'/artist/' + artist._id"
+      />
+    </div>
   </div>
 </template>
 
@@ -10,12 +23,12 @@ import { dataProvider } from "@modular-rest/client";
 export default {
   async asyncData({}) {
     let list = [];
+
     await dataProvider
       .find({
         database: "tab",
-        collection: "song",
+        collection: "artist",
         query: {},
-        populates: ["genres", { path: "artists", select: "name" }],
         options: { sort: "-_id" },
       })
       .then((docs) => (list = docs));
