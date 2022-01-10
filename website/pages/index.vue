@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <grid-songs :list="list" :title="$t('song.songs')" />
-  </div>
+  <grid-songs :list="list" :title="$t('song.songs')" justify="center" />
 </template>
 
 <script>

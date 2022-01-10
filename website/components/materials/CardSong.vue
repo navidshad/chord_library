@@ -1,10 +1,10 @@
 <template>
   <vs-card type="3" class="card-song" @click="push">
     <template #title>
-      <h2>{{ song.title }}</h2>
+      <h2 class="text-right">{{ song.title }}</h2>
     </template>
     <template #text>
-      <div class="flex justify-between">
+      <div class="flex flex-col items-end justify-between h-32 w-32 md:w-40 lg:w-48 xl:w-48">
         <div class="flex flex-wrap">
           <span v-for="(artist, i) in song.artists" :key="i">{{
             artist.name
@@ -19,8 +19,8 @@
     </template>
     <template #img>
       <div
-        class="w-full"
-        :style="{ background: getRandomColor(), height: '200px', width:'200px' }"
+        class="w-full w-56"
+        :style="{ background: getRandomColor() }"
       >
         <img v-if="song.image" :src="thumbnailLink" />
       </div>
@@ -73,10 +73,6 @@ export default {
 <style lang="scss">
 .card-song {
   /* width: 250px; */
-  margin: 10px;
-
-  .vs-card__text{
-    width: 250px;
-  }
+  // margin: 10px;
 }
 </style>
