@@ -11,7 +11,8 @@
       </vs-button>
       <vs-input v-model="phrase" :placeholder="$t('search.label')"> </vs-input>
     </div>
-    <grid-songs v-if="songs.length" :list="songs" title="" />
+    <grid-artists v-if="artists.length" :list="artists" :title="$t('search.searchedArtists')" />
+    <grid-songs v-if="songs.length" :list="songs" :title="$t('search.searchedSongs')" />
     <div v-else dir="rtl" class="mt-16 max-w-sm text-gray-600">
       {{ $t("search.help") }}
     </div>
@@ -25,6 +26,7 @@ export default {
   data() {
     return {
       songs: [],
+      artists: [],
       phrase: "",
       pending: false,
     };
@@ -34,19 +36,33 @@ export default {
     async search() {
       if (!this.phrase.length) return;
       this.songs = [];
+      this.artists = [];
 
       this.pending = true;
 
-      await dataProvider
-        .find({
-          database: "tab",
-          collection: "song",
-          query: { $text: { $search: this.phrase } },
-          populates: ["genres", { path: "artists", select: "name" }],
-          options: { sort: "-_id" },
-        })
-        .then((docs) => this.filterSearchResultSong(docs, this.phrase))
-        .finally((_) => (this.pending = false));
+      await Promise.all([
+        // Search Songs
+        dataProvider
+          .find({
+            database: "tab",
+            collection: "song",
+            query: { $text: { $search: this.phrase } },
+            populates: ["genres", { path: "artists", select: "name" }],
+            options: { sort: "-_id" },
+          })
+          .then((docs) => this.filterSearchResultSong(docs, this.phrase)),
+
+        // Search Artists
+        dataProvider
+          .find({
+            database: "tab",
+            collection: "artist",
+            query: { name: { $regex: this.phrase } },
+            options: { sort: "-_id" },
+          })
+          // .then((docs) => this.filterSearchResultArtist(docs, this.phrase)),
+          .then((docs) => (this.artists = docs)),
+      ]).finally((_) => (this.pending = false));
     },
 
     addSong(song) {
@@ -55,6 +71,40 @@ export default {
     },
 
     filterSearchResultSong(docs = [], phrase = "") {
+      for (let i = 0; i < docs.length; i++) {
+        const song = docs[i];
+
+        //
+        // Search in title
+        if (song.title.includes(phrase)) {
+          this.addSong(song);
+        }
+
+        //
+        // Search in lyric
+        for (
+          let sectionIndex = 0;
+          sectionIndex < song.sections.length;
+          sectionIndex++
+        ) {
+          const section = song.sections[sectionIndex];
+
+          // search line bye line
+          for (
+            let lineIndex = 0;
+            lineIndex < section.lines.length;
+            lineIndex++
+          ) {
+            const line = section.lines[lineIndex];
+            if (line.text.includes(phrase)) {
+              this.addSong(song);
+            }
+          }
+        }
+      }
+    },
+
+    filterSearchResultArtist(docs = [], phrase = "") {
       for (let i = 0; i < docs.length; i++) {
         const song = docs[i];
 
