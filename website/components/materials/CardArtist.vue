@@ -1,32 +1,32 @@
 <template>
-  <vs-card type="3" class="card-song" @click="push">
+  <vs-card class="card-artist" @click="push">
     <template #title>
-      <h2 class="text-right">{{ song.title }}</h2>
+      <h2>{{ artist.name }}</h2>
     </template>
     <template #text>
-      <div class="flex flex-col items-end justify-between h-32 w-32 md:w-40 lg:w-48 xl:w-48">
-        <div class="flex flex-wrap">
-          <span v-for="(artist, i) in song.artists" :key="i">{{
+      <div class="flex justify-between">
+        <!-- <div class="flex flex-wrap">
+          <span v-for="(artist, i) in artist.artists" :key="i">{{
             artist.name
           }}</span>
-        </div>
-        <div class="flex flex-wrap">
-          <span v-for="(genre, i) in song.genres" :key="i">{{
+        </div> -->
+        <!-- <div class="flex flex-wrap">
+          <span v-for="(genre, i) in artist.genres" :key="i">{{
             genre.title
           }}</span>
-        </div>
+        </div> -->
       </div>
     </template>
     <template #img>
       <div
-        class="w-full w-56"
-        :style="{ background: getRandomColor() }"
+        class="w-full"
+        :style="{ background: getRandomColor(), height: '250px', width:'250px' }"
       >
-        <img v-if="song.image" :src="thumbnailLink" />
+        <img v-if="artist.image" :src="thumbnailLink" />
       </div>
     </template>
     <template #interactions>
-      <vs-button
+      <!-- <vs-button
         v-if="allowRemove"
         icon
         danger
@@ -34,7 +34,7 @@
         @click="$emit('remove')"
       >
         <i class="bx bx-trash-alt"></i>
-      </vs-button>
+      </vs-button> -->
     </template>
   </vs-card>
 </template>
@@ -43,15 +43,15 @@
 import { fileProvider } from "@modular-rest/client";
 
 export default {
-  name: "card-song",
+  name: "card-artist",
   props: {
-    song: Object,
+    artist: Object,
     allowRemove: Boolean,
     to: String,
   },
   computed: {
     thumbnailLink() {
-      return fileProvider.getFileLink(this.song.image);
+      return fileProvider.getFileLink(this.artist.image);
     },
   },
   methods: {
@@ -71,8 +71,12 @@ export default {
 </script>
 
 <style lang="scss">
-.card-song {
+.card-artist {
   /* width: 250px; */
-  // margin: 10px;
+  margin: 10px;
+
+  .vs-card {
+    background: none !important;
+  }
 }
 </style>

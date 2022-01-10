@@ -1,5 +1,5 @@
 <template>
-  <grid-songs :list="list" :title="$t('song.songs')" justify="center" />
+  <grid-artists :list="list" :title="$t('artist.artists')" />
 </template>
 
 <script>
@@ -8,12 +8,12 @@ import { dataProvider } from "@modular-rest/client";
 export default {
   async asyncData({}) {
     let list = [];
+
     await dataProvider
       .find({
         database: "tab",
-        collection: "song",
+        collection: "artist",
         query: {},
-        populates: ["genres", { path: "artists", select: "name" }],
         options: { sort: "-_id" },
       })
       .then((docs) => (list = docs));

@@ -1,18 +1,28 @@
 <template>
-  <grid-songs :list="list" :title="$t('song.songs')" justify="center" />
+  <div>
+    <grid-songs :list="list" :title="artist.name" />
+  </div>
 </template>
 
 <script>
 import { dataProvider } from "@modular-rest/client";
 
 export default {
-  async asyncData({}) {
+  async asyncData({ params }) {
     let list = [];
+    let artistId = params.id;
+
+    let artist = await dataProvider.findOne({
+      database: "tab",
+      collection: "artist",
+      query: { _id: artistId },
+    });
+
     await dataProvider
       .find({
         database: "tab",
         collection: "song",
-        query: {},
+        query: { artists: [artistId] },
         populates: ["genres", { path: "artists", select: "name" }],
         options: { sort: "-_id" },
       })
@@ -20,6 +30,8 @@ export default {
 
     return {
       list,
+      artistId,
+      artist,
     };
   },
   data() {},
