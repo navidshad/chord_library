@@ -22,7 +22,7 @@ export default {
       .find({
         database: "tab",
         collection: "song",
-        query: { artists: [artistId] },
+        query: { artists: { $all: [artistId] } },
         populates: ["genres", { path: "artists", select: "name" }],
         options: { sort: "-_id" },
       })
