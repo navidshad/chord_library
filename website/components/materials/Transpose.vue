@@ -14,14 +14,14 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import _ from "lodash";
 
 function generateSpace(total) {
-  let text = ''
+  let text = "";
   for (let index = 0; index < total; index++) {
-    text += ' '
+    text += " ";
   }
-  return text
+  return text;
 }
 
 /**
@@ -29,50 +29,50 @@ function generateSpace(total) {
  * @param string text the text you want to find word positions in it.
  */
 function findWordPosition(word, text, lastLength = 0) {
-  let positions = []
-  let textLength = text.length
+  let positions = [];
+  let textLength = text.length;
 
-  let from = text.indexOf(word)
+  let from = text.indexOf(word);
 
   // is not valid if from is -1
   if (from == -1) {
-    return positions
+    return positions;
   }
 
-  let to = from + word.length - 1
+  let to = from + word.length - 1;
   let position = {
     from: from + (lastLength > 0 ? lastLength : 0),
     to: to + (lastLength > 0 ? lastLength : 0),
     word: word,
-  }
+  };
 
   /**
    * Check valid [from] position
    */
 
   // is not valid if after [from] posed another character
-  let charAfterToPositiontext = text.charAt(position.to + 1)
-  if (charAfterToPositiontext.length && charAfterToPositiontext != ' ') {
-    return positions
+  let charAfterToPositiontext = text.charAt(position.to + 1);
+  if (charAfterToPositiontext.length && charAfterToPositiontext != " ") {
+    return positions;
   }
 
   // is not valid if before [from] posed another character
-  let charBeforeFromPosition = text.charAt(position.from - 1)
-  if (charBeforeFromPosition.length && charBeforeFromPosition != ' ') {
-    return positions
+  let charBeforeFromPosition = text.charAt(position.from - 1);
+  if (charBeforeFromPosition.length && charBeforeFromPosition != " ") {
+    return positions;
   }
 
-  positions.push(position)
+  positions.push(position);
 
-  let rest = text.slice(to + 1, text.length)
-  let restPositions = []
+  let rest = text.slice(to + 1, text.length);
+  let restPositions = [];
 
   if (rest.length) {
-    lastLength = to + lastLength - 1
-    restPositions = findWordPosition(word, rest, lastLength)
+    lastLength = to + lastLength - 1;
+    restPositions = findWordPosition(word, rest, lastLength);
   }
 
-  return [...positions, ...restPositions]
+  return [...positions, ...restPositions];
 }
 
 export default {
@@ -81,103 +81,114 @@ export default {
     // {keySignature, list}
     chords: { type: Object, required: true },
   },
+
   model: {
-    prop: 'sections',
-    event: 'transposed',
+    prop: "sections",
+    event: "transposed",
   },
+
   data() {
     return {
       currentTableIndex: null,
       tempSections: [],
       tempChords: {
-        keySignature: '',
+        keySignature: "",
         list: [],
         vocalNote: {},
       },
-    }
+    };
   },
+
   watch: {
     sections: {
       immediate: true,
       deep: true,
       handler(value) {
-        if (value) this.tempSections = value
+        if (value) this.tempSections = value;
       },
     },
+
     chords: {
       immediate: true,
       deep: true,
       handler({ keySignature, list }) {
         // this.chords = { keySignature, list }
-        this.findMainTable(this.chords)
+        this.findMainTable(this.chords);
       },
     },
+
     currentTableIndex(index, old) {
-      if (old == null) return
-      this.changeChordOffset(index)
-      this.changeVocalNote(index)
-      this.putTempChordsIntoTempSections()
-      this.key01 = new Date().getUTCMilliseconds()
+      if (old == null) return;
+
+      this.changeChordOffset(index);
+      this.changeVocalNote(index);
+      this.putTempChordsIntoTempSections();
+      this.key01 = new Date().getUTCMilliseconds();
       /**
        * Stream the song HtmlContent to upper level
        */
-      this.$emit('transposed', {
+      this.$emit("transposed", {
         sections: this.tempSections,
         vocalNote: this.tempChords.vocalNote,
-      })
+      });
+
+      this.$gtag("event", "transpose");
     },
   },
+
   computed: {
     tables() {
-      return this.$store.state.chords.tables
+      return this.$store.state.chords.tables;
     },
   },
+
   created() {
-    this.$store.dispatch('chords/getTables').then(() => {
-      this.findMainTable(this.chords)
-    })
+    this.$store.dispatch("chords/getTables").then(() => {
+      this.findMainTable(this.chords);
+    });
   },
+
   methods: {
     /**
      * The table index of first chord
      */
     getKeySignatureOffset() {
-      let firstChord = this.chords.list[0]
-      return this.getChordOffset(firstChord)
+      let firstChord = this.chords.list[0];
+      return this.getChordOffset(firstChord);
     },
 
     findMainTable({ keySignature, list }) {
-      if (!keySignature || !list) return
+      if (!keySignature || !list) return;
 
-      this.currentTableIndex = this.getKeySignatureOffset()
+      this.currentTableIndex = this.getKeySignatureOffset();
     },
 
     changeVocalNote(offset) {
-      let originalNote = this.chords.vocalNote
-      let table = this.tables[offset]
+      let originalNote = this.chords.vocalNote;
+      let table = this.tables[offset];
       this.tempChords.vocalNote = {
         table: table._id,
         index: originalNote.index,
         note: table.vocalRows[originalNote.index],
-      }
+      };
     },
 
     /**
      * Return the table index of given chord
      */
     getChordOffset(chord) {
-      let offset = null
+      let offset = null;
 
       this.tables.forEach((table, i) => {
-        if (chord.table == table._id) offset = i
-      })
+        if (chord.table == table._id) offset = i;
+      });
 
-      return offset
+      return offset;
     },
 
     changeChordOffset(newOffset) {
       // let keySignatureOffset = this.getKeySignatureOffset()
-      this.tempChords = _.cloneDeep(this.chords)
+      this.tempChords = _.cloneDeep(this.chords);
 
       this.chords.list.forEach((chord, chordIndex) => {
         /**
@@ -188,14 +199,14 @@ export default {
         /**
          * Chand chord to new offset
          */
-        let table = this.tables[newOffset]
-        let rowIndex = chord.rowIndex
-        let column = chord.column
+        let table = this.tables[newOffset];
+        let rowIndex = chord.rowIndex;
+        let column = chord.column;
 
-        let tableChords = []
+        let tableChords = [];
 
-        if (chord.type == 'regular') tableChords = table.rows
-        else if (chord.type == 'chromatic') tableChords = table.chromaticRows
+        if (chord.type == "regular") tableChords = table.rows;
+        else if (chord.type == "chromatic") tableChords = table.chromaticRows;
 
         let newChord = {
           ...chord,
@@ -203,38 +214,38 @@ export default {
           table: table._id,
           chord: tableChords[rowIndex][column]._id,
           keySignature: table.keySignature._id,
-        }
+        };
 
-        this.tempChords.list[chordIndex] = newChord
-      })
+        this.tempChords.list[chordIndex] = newChord;
+      });
     },
 
     seperateChords(chordsLine) {
       /**
        * Separate chords in this line
        */
-      let list = []
+      let list = [];
       let sparatedBySpace = chordsLine
-        .split(' ')
-        .filter((item) => item != ' ' && item != '')
+        .split(" ")
+        .filter((item) => item != " " && item != "");
 
       // remove repetitiv chords
       for (let i = 0; i < sparatedBySpace.length; i++) {
-        const chord = sparatedBySpace[i]
-        if (list.indexOf(chord) == -1) list.push(chord)
+        const chord = sparatedBySpace[i];
+        if (list.indexOf(chord) == -1) list.push(chord);
       }
 
       /**
        * Extract chord positions as a list
        */
-      let positions = []
+      let positions = [];
       list.forEach((chordTitle) => {
-        positions = positions.concat(findWordPosition(chordTitle, chordsLine))
-      })
+        positions = positions.concat(findWordPosition(chordTitle, chordsLine));
+      });
 
-      positions.sort((a, b) => a.from - b.from)
+      positions.sort((a, b) => a.from - b.from);
 
-      return positions
+      return positions;
     },
 
     injectSpace({
@@ -251,39 +262,39 @@ export default {
           from: 0,
           to: before.to - 1,
           word: generateSpace(0 - before.to),
-        })
+        });
       }
 
-      newPositionListWithSpaces.push(before)
+      newPositionListWithSpaces.push(before);
 
       let currentLengthDifference =
-        current.word.length - (current.newWord || '').length
+        current.word.length - (current.newWord || "").length;
       let beforeLengthDifference =
-        before.word.length - (before.newWord || '').length
+        before.word.length - (before.newWord || "").length;
 
-      let totalSpace = current.from - (before.to + 1)
+      let totalSpace = current.from - (before.to + 1);
 
       if (index == totalPositions - 2) {
         totalSpace +=
           currentLengthDifference < 0
             ? currentLengthDifference * 2
-            : currentLengthDifference
+            : currentLengthDifference;
       } else {
         totalSpace +=
           beforeLengthDifference < 0
             ? beforeLengthDifference * 2
-            : beforeLengthDifference
+            : beforeLengthDifference;
       }
 
       let spacePosition = {
         from: before.to + 1,
         to: current.from - 1,
         word: generateSpace(totalSpace > 0 ? totalSpace : 1),
-      }
+      };
 
-      newPositionListWithSpaces.push(spacePosition)
+      newPositionListWithSpaces.push(spacePosition);
 
-      if (index == totalPositions - 1) newPositionListWithSpaces.push(current)
+      if (index == totalPositions - 1) newPositionListWithSpaces.push(current);
 
       // Add end spaces
       if (totalPositions - 1 == index && current.to < lineLength) {
@@ -291,7 +302,7 @@ export default {
           from: current.to + 1,
           to: lineLength,
           word: generateSpace(lineLength - current.to),
-        })
+        });
       }
     },
 
@@ -300,10 +311,10 @@ export default {
        * Generate spaces between chords
        * and inject both chords and spaces into a new list
        */
-      let newPositionListWithSpaces = []
+      let newPositionListWithSpaces = [];
 
       if (positions.length == 1) {
-        let position = positions[0]
+        let position = positions[0];
 
         // before space
         // this.injectSpace({
@@ -321,14 +332,14 @@ export default {
             current: {
               from: lineLength,
               to: lineLength,
-              word: '',
-              newWord: '',
+              word: "",
+              newWord: "",
             },
             index: 0,
             newPositionListWithSpaces: newPositionListWithSpaces,
             totalPositions: positions.length,
             lineLength: lineLength,
-          })
+          });
         }
       } else if (positions.length) {
         positions.reduce((before, current, index) => {
@@ -339,10 +350,10 @@ export default {
             newPositionListWithSpaces: newPositionListWithSpaces,
             totalPositions: positions.length,
             lineLength: lineLength,
-          })
+          });
 
-          return current
-        })
+          return current;
+        });
 
         // after space
         // let lastIndex = positions.length - 1
@@ -363,19 +374,18 @@ export default {
         // }
       }
 
-      return newPositionListWithSpaces
+      return newPositionListWithSpaces;
     },
 
     putTempChordsIntoTempSections() {
-      this.tempSections = _.cloneDeep(this.sections)
+      this.tempSections = _.cloneDeep(this.sections);
 
       this.sections.forEach((section, sectionIndex) => {
         for (let lineIndex = 0; lineIndex < section.lines.length; lineIndex++) {
-
-          const line = section.lines[lineIndex]
+          const line = section.lines[lineIndex];
 
           // seperate chords and spaces
-          let speratedChordsFromLine = this.seperateChords(line.chords)
+          let speratedChordsFromLine = this.seperateChords(line.chords);
 
           /**
            * Put transposed chord as a new property
@@ -386,38 +396,37 @@ export default {
             chordIndex < this.chords.list.length;
             chordIndex++
           ) {
-            const chord = this.chords.list[chordIndex]
+            const chord = this.chords.list[chordIndex];
 
             speratedChordsFromLine.forEach((position) => {
               if (position.word == chord.title)
-                position.newWord = this.tempChords.list[chordIndex].title
-            })
+                position.newWord = this.tempChords.list[chordIndex].title;
+            });
           }
 
           let normalizedList = this.injectSpaceBetweenChords(
             speratedChordsFromLine,
             line.chords.length
-          )
+          );
 
           /**
            * Join normalized array into one single line
            */
-          let transposeChordLine = ''
+          let transposeChordLine = "";
           normalizedList.forEach((position) => {
-            if (position.newWord) transposeChordLine += position.newWord
-            else transposeChordLine += position.word
-          })
+            if (position.newWord) transposeChordLine += position.newWord;
+            else transposeChordLine += position.word;
+          });
 
           if (transposeChordLine.length) {
-            this.tempSections[sectionIndex].lines[
-              lineIndex
-            ].chords = transposeChordLine
+            this.tempSections[sectionIndex].lines[lineIndex].chords =
+              transposeChordLine;
           }
         }
-      })
+      });
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -439,7 +448,7 @@ export default {
 }
 
 .selected {
-  background-color: theme('colors.blue.500') !important;
+  background-color: theme("colors.blue.500") !important;
 }
 
 .chord-box {

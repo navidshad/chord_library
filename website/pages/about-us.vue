@@ -27,7 +27,7 @@
           <span class="gray"> علاقمند به موسیقی و مهندس نرم افزار </span>
         </li>
       </ul>
-      <br>
+      <br />
       <p>
         هر ترانه به همراه ملودی آن در وبسایت قرار گرفته، در صورتی که ترانه مورد
         نظر خود را نیافتی به ما اطلاع بده تا در صورت تایید در برنامه تولید
@@ -38,7 +38,27 @@
 </template>
 
 <script>
-export default {}
+export default {
+  head() {
+    return {
+      title: "درباره وبسایت گورانی",
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "about-us",
+          name: "description",
+          content: "مرجع آکورد های کوردی است که با شور علاقه قلبی آن را طراحی کردیم",
+        },
+      ],
+    };
+  },
+
+  mounted() {
+    this.$gtag("config", {
+      page_path: this.$route.path,
+    });
+  },
+};
 </script>
 
 <style scoped>
