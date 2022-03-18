@@ -11,7 +11,7 @@
           <i class="bx bx-plus" />
         </vs-button>
       </div>
-      <vs-button circle color="warn" gradient @click="isPlaying = !isPlaying">
+      <vs-button circle color="warn" gradient @click="togglePlay()">
         <i v-if="!isPlaying" class="bx bx-play" />
         <i v-if="isPlaying" class="bx bx-pause" />
       </vs-button>
@@ -29,60 +29,77 @@ export default {
       isPlaying: false,
       speed: 10,
       currentPos: 0,
-    }
+    };
   },
+
   computed: {
     bodyStyle() {
       return {
-        width: this.window.width + 'px',
-      }
+        width: this.window.width + "px",
+      };
     },
   },
+
   beforeDestroy() {
-    this.isPlaying = false
+    this.isPlaying = false;
   },
+
   watch: {
     isPlaying(value) {
-      if (value == true) window.requestAnimationFrame(this.scroll)
+      if (value == true) window.requestAnimationFrame(this.scroll);
     },
   },
-  mounted() {
-    window.addEventListener('resize', this.reportWindowSize)
-    window.addEventListener('scroll', this.getScrollOffset)
-    this.reportWindowSize()
-    this.window
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.reportWindowSize)
-  },
-  methods: {
-    changeSpeed(value = 1) {
-      let tempChange = this.speed + value
-      if (tempChange > 0 && tempChange < 41) this.speed += value
-    },
-    reportWindowSize() {
-      this.window.width = window.document.body.offsetWidth * 0.9
-    },
-    getScrollOffset() {
-      this.currentPos = window.pageYOffset
-    },
-    scroll() {
-      this.currentPos += this.speed / 50
 
-      let nextPos = this.currentPos
-      window.scrollTo(0, nextPos)
+  mounted() {
+    window.addEventListener("resize", this.reportWindowSize);
+    window.addEventListener("scroll", this.getScrollOffset);
+    this.reportWindowSize();
+    this.window;
+  },
+
+  destroyed() {
+    window.removeEventListener("resize", this.reportWindowSize);
+  },
+
+  methods: {
+    togglePlay() {
+      this.isPlaying = !this.isPlaying;
+
+      this.$gtag("event", "auto scroll", {
+        value: this.isPlaying ? 1 : 0,
+      });
+    },
+
+    changeSpeed(value = 1) {
+      let tempChange = this.speed + value;
+      if (tempChange > 0 && tempChange < 41) this.speed += value;
+    },
+
+    reportWindowSize() {
+      this.window.width = window.document.body.offsetWidth * 0.9;
+    },
+
+    getScrollOffset() {
+      this.currentPos = window.pageYOffset;
+    },
+
+    scroll() {
+      this.currentPos += this.speed / 50;
+
+      let nextPos = this.currentPos;
+      window.scrollTo(0, nextPos);
 
       if (
         nextPos < window.document.body.scrollHeight &&
         this.isPlaying == true
       ) {
-        window.requestAnimationFrame(this.scroll)
+        window.requestAnimationFrame(this.scroll);
       } else {
-        this.isPlaying = false
+        this.isPlaying = false;
       }
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

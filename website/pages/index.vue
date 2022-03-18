@@ -22,12 +22,13 @@ export default {
       list,
     };
   },
+
   data() {},
+
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
     },
   },
-  methods: {},
 };
 </script>

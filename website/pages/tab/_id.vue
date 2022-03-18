@@ -6,14 +6,14 @@
         <h2 class="text-lg">{{ song.title }}</h2>
         <p dir="rtl" class="text-sm">
           <span v-for="(artist, i) in song.artists" :key="i">
-            {{artist.name}}،
+            {{ artist.name }}،
           </span>
         </p>
       </div>
       <div dir="rtl">
-        <h3 class="text-sm">{{ $t('song.rhythm') + ' ' + song.rhythm }}</h3>
+        <h3 class="text-sm">{{ $t("song.rhythm") + " " + song.rhythm }}</h3>
         <h3 class="text-sm text-right">
-          {{ $t('song.vocal-from') + ' ' }}
+          {{ $t("song.vocal-from") + " " }}
           <span dir="ltr">{{ vocalNote.note }}</span>
         </h3>
       </div>
@@ -37,54 +37,78 @@
 </template>
 
 <script>
-import { dataProvider } from '@modular-rest/client'
+import { dataProvider } from "@modular-rest/client";
 
 export default {
   async asyncData({ error, params }) {
     let song = await dataProvider
       .findOne({
-        database: 'tab',
-        collection: 'song',
+        database: "tab",
+        collection: "song",
         query: { _id: params.id },
-        populates: ['artists', 'genres'],
+        populates: ["artists", "genres"],
       })
-      .catch(() => null)
+      .catch(() => null);
 
     if (song) {
       return {
         song,
         transposedSections: song.sections,
         vocalNote: song.chords.vocalNote,
-      }
+      };
     } else {
-      error("This song dosen't found")
+      error("This song dosen't found");
     }
   },
+
   data() {
     return {
       transposedSections: [],
-      componentKey: '',
+      componentKey: "",
       vocalNote: {},
-    }
+    };
   },
+
+  head() {
+    let artists = this.song.artists.map(artist => artist.name).join(' و ');
+    
+    return {
+      title: "آکورد " + this.song.title,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: this.id,
+          name: "description",
+          content: "آکورد " + this.song.title + " از " + artists,
+        },
+      ],
+    };
+  },
+
+  mounted() {
+    this.$gtag("config", {
+      page_path: this.$route.path,
+    });
+  },
+
   computed: {
     id() {
-      this.$route.params.id
+      this.$route.params.id;
     },
   },
+
   methods: {
     onReceivedTranspose({ sections, vocalNote }) {
-      this.transposedSections = sections
-      this.componentKey = new Date().getUTCMilliseconds()
-      this.vocalNote = vocalNote
+      this.transposedSections = sections;
+      this.componentKey = new Date().getUTCMilliseconds();
+      this.vocalNote = vocalNote;
     },
   },
-}
+};
 </script>
 
 <style scoped>
-.empty{
+.empty {
   height: 50px;
-
 }
 </style>

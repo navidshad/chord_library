@@ -1,9 +1,11 @@
 const dotenv = require('dotenv');
-dotenv.config({ path: require('path').join(__dirname, '.env') });
+dotenv.config({
+  path: require('path').join(__dirname, '.env')
+});
 
 export default {
   env: {
-    BASE_URL: process.env.VUE_APP_BASE_URL
+    BASE_URL: process.env.VUE_APP_BASE_URL,
   },
 
   server: {
@@ -13,14 +15,24 @@ export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'آکورد گورانی کوردی',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+    meta: [{
+        charset: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'آرشیو آکورد آهنگ های کوردی'
+      }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -31,20 +43,47 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/vuesax',
-    { src: '@plugins/toaster.js', mode: 'client' },
-    { src: '@plugins/boot.ts', mode: 'client' },
-    { src: '@plugins/croppa.js', mode: 'client' },
+    {
+      src: '@plugins/toaster.js',
+      mode: 'client'
+    },
+    {
+      src: '@plugins/boot.ts',
+      mode: 'client'
+    },
+    {
+      src: '@plugins/croppa.js',
+      mode: 'client'
+    },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
     '~/components',
-    { path: '~/components/administration', prefix: '' },
-    { path: '~/components/database', prefix: '' },
-    { path: '~/components/inputs', prefix: '' },
-    { path: '~/components/layouts', prefix: '' },
-    { path: '~/components/materials', prefix: '' },
-    { path: '~/components/notifiers', prefix: '' },
+    {
+      path: '~/components/administration',
+      prefix: ''
+    },
+    {
+      path: '~/components/database',
+      prefix: ''
+    },
+    {
+      path: '~/components/inputs',
+      prefix: ''
+    },
+    {
+      path: '~/components/layouts',
+      prefix: ''
+    },
+    {
+      path: '~/components/materials',
+      prefix: ''
+    },
+    {
+      path: '~/components/notifiers',
+      prefix: ''
+    },
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
@@ -59,12 +98,16 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
 
+    '@nuxtjs/google-gtag',
+
     [
       'nuxt-i18n',
       {
-        locales: [
-          { code: 'fa', iso: 'fa-IR', file: 'fa-IR.js' },
-        ],
+        locales: [{
+          code: 'fa',
+          iso: 'fa-IR',
+          file: 'fa-IR.js'
+        }, ],
         lazy: true,
         langDir: 'lang/',
         defaultLocale: 'fa'
@@ -83,9 +126,23 @@ export default {
     }
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  },
+  'google-gtag':{
+    id: process.env.VUE_APP_GA_MEASUREMENT_ID, // required
+    config:{
+      // this are the config options for `gtag
+      // check out official docs: https://developers.google.com/analytics/devguides/collection/gtagjs/
+      anonymize_ip: true, // anonymize IP 
+      send_page_view: true, // might be necessary to avoid duplicated page track on page reload
+      linker:{
+        domains:['goranee.ir','localhost']
+      }
+    },
+    debug: true, // enable to track in dev mode
+    disableAutoPageTrack: false, // disable if you don't want to track each page route with router.afterEach(...)
+   },
 
-  buildDir:'../.nuxt'
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {},
+
+  buildDir: '../.nuxt'
 }

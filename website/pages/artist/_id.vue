@@ -34,12 +34,37 @@ export default {
       artist,
     };
   },
+
   data() {},
+
+  head() {
+    return {
+      title: this.artist.name,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: this.id,
+          name: "description",
+          content: "لیست آکورد های " + this.artist.name,
+        },
+      ],
+    };
+  },
+
+  mounted() {
+    this.$gtag("config", {
+      page_path: this.$route.path,
+    });
+  },
+
   computed: {
+    id() {
+      this.$route.params.id;
+    },
+
     isLogin() {
       return this.$store.getters["auth/isLogin"];
     },
   },
-  methods: {},
 };
 </script>

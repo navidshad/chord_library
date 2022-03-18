@@ -11,8 +11,16 @@
       </vs-button>
       <vs-input v-model="phrase" :placeholder="$t('search.label')"> </vs-input>
     </div>
-    <grid-artists v-if="artists.length" :list="artists" :title="$t('search.searchedArtists')" />
-    <grid-songs v-if="songs.length" :list="songs" :title="$t('search.searchedSongs')" />
+    <grid-artists
+      v-if="artists.length"
+      :list="artists"
+      :title="$t('search.searchedArtists')"
+    />
+    <grid-songs
+      v-if="songs.length"
+      :list="songs"
+      :title="$t('search.searchedSongs')"
+    />
     <div v-else dir="rtl" class="mt-16 max-w-sm text-gray-600">
       {{ $t("search.help") }}
     </div>
@@ -32,9 +40,30 @@ export default {
     };
   },
 
+  head() {
+    return {
+      title: "جستجو آکورد",
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "search",
+          name: "description",
+          content: "جستجو آکورد در آرشیو وبسایت",
+        },
+      ],
+    };
+  },
+
+  mounted() {
+    this.$gtag("config", {
+      page_path: this.$route.path,
+    });
+  },
+
   methods: {
     async search() {
       if (!this.phrase.length) return;
+
       this.songs = [];
       this.artists = [];
 
@@ -63,6 +92,11 @@ export default {
           // .then((docs) => this.filterSearchResultArtist(docs, this.phrase)),
           .then((docs) => (this.artists = docs)),
       ]).finally((_) => (this.pending = false));
+
+      
+      this.$gtag("event", "search", {
+        event_label: this.phrase,
+      });
     },
 
     addSong(song) {
