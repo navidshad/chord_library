@@ -1,7 +1,7 @@
 <template>
   <vs-card type="3" class="card-song" @click="push">
     <template #title>
-      <h2 class="text-right">{{ song.title }}</h2>
+      <h2 class="text-right">{{ 'آکورد ' + song.title }}</h2>
     </template>
     <template #text>
       <div class="flex flex-col items-end justify-between h-32 w-32 md:w-40 lg:w-48 xl:w-48">

@@ -1,7 +1,7 @@
 <template>
   <vs-card class="card-artist" @click="push">
     <template #title>
-      <h2>{{ artist.name }}</h2>
+      <h2>{{ 'آکورد های ' + artist.name }}</h2>
     </template>
     <template #text>
       <div class="flex justify-between">
