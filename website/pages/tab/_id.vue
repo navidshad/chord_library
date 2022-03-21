@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse mb-4">
       <div>
-        <h2 class="text-lg">{{ song.title }}</h2>
+        <h2 class="text-lg">{{ "آکورد " + this.song.title }}</h2>
         <p dir="rtl" class="text-sm">
           <span v-for="(artist, i) in song.artists" :key="i">
             {{ artist.name }}،

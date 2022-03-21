@@ -22,9 +22,17 @@
         <i class="bx bx-menu"></i>
       </vs-button>
 
-      <vs-navbar-item to="/search">{{ $t("search.label") }}</vs-navbar-item>
-      <vs-navbar-item to="/artist/all">{{ $t("artist.artists") }}</vs-navbar-item>
-      <vs-navbar-item to="/">{{ $t("navbar.home") }}</vs-navbar-item>
+      <NuxtLink to="/search" class="mx-2">
+        {{ $t("search.label") }}
+      </NuxtLink>
+
+      <NuxtLink to="/artist/all" class="mx-2">
+        {{ $t("artist.artists") }}
+      </NuxtLink>
+
+      <NuxtLink to="/" class="mx-2">
+        {{ $t("navbar.home") }}
+      </NuxtLink>
     </vs-navbar>
 
     <!-- SIDEBAR -->
