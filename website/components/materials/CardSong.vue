@@ -1,10 +1,23 @@
 <template>
   <vs-card type="3" class="card-song" @click="push">
     <template #title>
-      <h2 class="text-right">{{ 'آکورد ' + song.title }}</h2>
+      <NuxtLink :to="to">
+        <h2 class="text-right">{{ "آکورد " + song.title }}</h2>
+      </NuxtLink>
     </template>
     <template #text>
-      <div class="flex flex-col items-end justify-between h-32 w-32 md:w-40 lg:w-48 xl:w-48">
+      <div
+        class="
+          flex flex-col
+          items-end
+          justify-between
+          h-32
+          w-32
+          md:w-40
+          lg:w-48
+          xl:w-48
+        "
+      >
         <div class="flex flex-wrap">
           <span v-for="(artist, i) in song.artists" :key="i">{{
             artist.name
@@ -18,10 +31,7 @@
       </div>
     </template>
     <template #img>
-      <div
-        class="w-full w-56"
-        :style="{ background: getRandomColor() }"
-      >
+      <div class="w-full w-56" :style="{ background: getRandomColor() }">
         <img v-if="song.image" :src="thumbnailLink" />
       </div>
     </template>

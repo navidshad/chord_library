@@ -1,7 +1,9 @@
 <template>
   <vs-card class="card-artist" @click="push">
     <template #title>
-      <h2>{{ 'آکورد های ' + artist.name }}</h2>
+      <NuxtLink :to="to">
+        <h2>{{ "آکورد های " + artist.name }}</h2>
+      </NuxtLink>
     </template>
     <template #text>
       <div class="flex justify-between">
@@ -20,7 +22,11 @@
     <template #img>
       <div
         class="w-full"
-        :style="{ background: getRandomColor(), height: '250px', width:'250px' }"
+        :style="{
+          background: getRandomColor(),
+          height: '250px',
+          width: '250px',
+        }"
       >
         <img v-if="artist.image" :src="thumbnailLink" />
       </div>
