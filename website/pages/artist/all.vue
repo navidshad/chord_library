@@ -33,7 +33,7 @@ export default {
         {
           hid: "all-artists",
           name: "description",
-          content: "لیست هنرمندان موجود",
+          content: "لیست آکور هنرمندان کورد",
         },
       ],
     };

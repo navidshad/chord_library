@@ -15,7 +15,8 @@ export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'آکورد گورانی کوردی',
-    meta: [{
+    meta: [
+      {
         charset: 'utf-8'
       },
       {
@@ -23,7 +24,7 @@ export default {
         content: 'width=device-width, initial-scale=1'
       },
       {
-        hid: 'description',
+        hid: 'default',
         name: 'description',
         content: 'آرشیو آکورد آهنگ های کوردی'
       }
@@ -126,20 +127,20 @@ export default {
     }
   },
 
-  'google-gtag':{
+  'google-gtag': {
     id: process.env.VUE_APP_GA_MEASUREMENT_ID, // required
-    config:{
+    config: {
       // this are the config options for `gtag
       // check out official docs: https://developers.google.com/analytics/devguides/collection/gtagjs/
       anonymize_ip: true, // anonymize IP 
       send_page_view: true, // might be necessary to avoid duplicated page track on page reload
-      linker:{
-        domains:['goranee.ir','localhost']
+      linker: {
+        domains: ['goranee.ir', 'localhost']
       }
     },
     debug: true, // enable to track in dev mode
     disableAutoPageTrack: false, // disable if you don't want to track each page route with router.afterEach(...)
-   },
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
