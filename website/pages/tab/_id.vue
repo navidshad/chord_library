@@ -93,7 +93,7 @@ export default {
 
   computed: {
     id() {
-      this.$route.params.id;
+      return this.$route.params.id;
     },
   },
 

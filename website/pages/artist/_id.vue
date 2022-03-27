@@ -45,7 +45,7 @@ export default {
         {
           hid: this.id,
           name: "description",
-          content: "لیست آکورد های " + this.artist.name,
+          content: "لیست آکورد های کوردی " + this.artist.name,
         },
       ],
     };
@@ -59,7 +59,7 @@ export default {
 
   computed: {
     id() {
-      this.$route.params.id;
+      return this.$route.params.id;
     },
 
     isLogin() {
