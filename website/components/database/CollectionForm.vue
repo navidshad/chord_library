@@ -16,6 +16,12 @@
         </template>
       </vs-input>
 
+      <seo-labels
+        :value="form[field.key]"
+        @input="form[field.key] = $event"
+        v-if="field.type == 'seo'"
+      />
+
       <!-- IMAGE -->
       <image-field
         v-if="field.type == 'image' && edit"

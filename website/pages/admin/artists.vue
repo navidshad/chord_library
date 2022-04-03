@@ -19,6 +19,10 @@ export default {
           type: 'string',
         },
         {
+          key: 'name_seo',
+          type: 'seo',
+        },
+        {
           key: 'songs',
           label: this.$t('artist.songs'),
           type: 'string',

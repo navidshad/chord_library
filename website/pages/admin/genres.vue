@@ -19,6 +19,10 @@ export default {
           type: 'string',
         },
         {
+          key: 'title_seo',
+          type: 'seo',
+        },
+        {
           key: 'image',
           label: this.$t('image-cover'),
           type: 'image'
