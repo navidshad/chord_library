@@ -32,6 +32,7 @@ module.exports = [
         collection: 'genre',
         schema: new Schema({
             title: String,
+            title_seo: { type: String },
             image: Schemas.file,
         }),
         permissions: [
@@ -52,6 +53,7 @@ module.exports = [
         collection: 'artist',
         schema: new Schema({
             name: { type: String, required: true },
+            name_seo: { type: String },
             chords: { type: Number, default: 0 },
             image: Schemas.file,
         }),
@@ -73,6 +75,7 @@ module.exports = [
         collection: 'song',
         schema: new Schema({
             title: { type: String, required: true },
+            title_seo: { type: String },
             rhythm: { type: String, },
             artists: [{ type: Schema.Types.ObjectId, ref: 'artist', default: [] }],
             genres: [{ type: Schema.Types.ObjectId, ref: 'genre', default: [] }],
