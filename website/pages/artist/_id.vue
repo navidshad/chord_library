@@ -46,7 +46,7 @@ export default {
     let metaList = [];
 
     for (let i = 0; i < titles.length; i++) {
-      const title = titles[i];
+      const title = titles[i].trim();
 
       if(!title.length) continue;
 
@@ -56,8 +56,6 @@ export default {
         content: "لیست آکورد های کوردی " + title,
       });
     }
-
-    console.log(metaList);
 
     return {
       title: this.artist.name,
