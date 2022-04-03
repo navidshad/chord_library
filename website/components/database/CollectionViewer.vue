@@ -29,7 +29,7 @@
         <template slot="tbody">
           <vs-tr v-for="(row, i) in list" :key="i">
             <vs-td v-for="(field, i) in fields" :key="i">
-              <span v-if="field.type == 'string'">
+              <span v-if="field.type == 'string' || field.type == 'seo'">
                 {{ field.mutate ? field.mutate(row) : row[field.key] }}
               </span>
 

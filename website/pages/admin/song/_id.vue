@@ -34,6 +34,9 @@
             :label="$t('song.title')"
             v-model="form.title"
           />
+
+          <seo-labels v-model="form.title_seo"></seo-labels>
+
           <vs-input
             class="mt-5"
             block
@@ -86,8 +89,10 @@
 <script>
 import { dataProvider } from "@modular-rest/client";
 import notifier from "../../../utilities/notifier";
+import SeoLabels from '~/components/inputs/SeoLabels.vue';
 
 export default {
+  components: { SeoLabels },
   middleware: ["auth"],
   async asyncData({ params, error }) {
     let data = await dataProvider

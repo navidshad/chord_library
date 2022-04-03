@@ -38,16 +38,30 @@ export default {
   data() {},
 
   head() {
+    let titles = [
+      this.artist.name,
+      ...(this.artist.name_seo || "").split("\n"),
+    ];
+
+    let metaList = [];
+
+    for (let i = 0; i < titles.length; i++) {
+      const title = titles[i];
+
+      if(!title.length) continue;
+
+      metaList.push({
+        hid: this.id + i,
+        name: "description",
+        content: "لیست آکورد های کوردی " + title,
+      });
+    }
+
+    console.log(metaList);
+
     return {
       title: this.artist.name,
-      meta: [
-        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-        {
-          hid: this.id,
-          name: "description",
-          content: "لیست آکورد های کوردی " + this.artist.name,
-        },
-      ],
+      meta: metaList,
     };
   },
 
