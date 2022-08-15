@@ -27,6 +27,7 @@
     "@nuxt/types": "^2.15.7",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/tailwindcss": "^3.2.0",
+    "@nuxtjs/vuetify": "^1.12.3",
     "dotenv": "^8.6.0",
     "fibers": "^5.0.0",
     "sass": "^1.35.1",
