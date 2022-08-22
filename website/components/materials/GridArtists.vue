@@ -6,7 +6,7 @@
     </div>
 
     <!-- Content -->
-    <div class="mt-8 flex flex-wrap space-x-4 space-y-4 justify-end items-center">
+    <div class="mt-8 flex flex-wrap gap-4 justify-end items-center">
       <card-artist
         v-for="(artist, i) in list"
         :key="i"

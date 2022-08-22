@@ -1,15 +1,16 @@
 <template>
   <div class="flex flex-col items-center">
     <div class="flex">
-      <vs-button
+      <v-btn
         icon
+        color="primary"
         @click="search"
         :disabled="!(phrase.length > 2)"
         :loading="pending"
       >
         <i class="bx bx-search"></i>
-      </vs-button>
-      <vs-input v-model="phrase" :placeholder="$t('search.label')"> </vs-input>
+      </v-btn>
+      <v-text-field solo v-model="phrase" :label="$t('search.label')"></v-text-field>
     </div>
     <grid-artists
       v-if="artists.length"

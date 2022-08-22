@@ -1,11 +1,22 @@
 <template>
-  <vs-card class="card-artist" @click="push">
-    <template #title>
+  <v-card class="card-artist" @click="push">
+    <v-img
+      class="w-full"
+      :style="{
+        background: getRandomColor(),
+        height: '250px',
+        width: '250px',
+      }"
+      v-if="artist.image"
+      :src="thumbnailLink"
+    >
+    </v-img>
+    <v-card-title>
       <NuxtLink :to="to">
         <h2>{{ "آکورد های " + artist.name }}</h2>
       </NuxtLink>
-    </template>
-    <template #text>
+    </v-card-title>
+    <v-card-text>
       <div class="flex justify-between">
         <!-- <div class="flex flex-wrap">
           <span v-for="(artist, i) in artist.artists" :key="i">{{
@@ -18,31 +29,19 @@
           }}</span>
         </div> -->
       </div>
-    </template>
-    <template #img>
-      <div
-        class="w-full"
-        :style="{
-          background: getRandomColor(),
-          height: '250px',
-          width: '250px',
-        }"
-      >
-        <img v-if="artist.image" :src="thumbnailLink" />
-      </div>
-    </template>
-    <template #interactions>
-      <!-- <vs-button
+    </v-card-text>
+    <v-card-actions>
+      <!-- <v-btn
         v-if="allowRemove"
         icon
-        danger
-        tranparent
+        color="error"
+        text
         @click="$emit('remove')"
       >
         <i class="bx bx-trash-alt"></i>
-      </vs-button> -->
-    </template>
-  </vs-card>
+      </v-btn> -->
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
