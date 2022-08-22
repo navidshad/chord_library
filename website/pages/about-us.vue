@@ -1,5 +1,5 @@
 <template>
-  <dir class="flex">
+  <div class="flex">
     <card class="container">
       <p>
         <span>
@@ -34,7 +34,7 @@
         محتوای وبسایت قرارش بدیم.
       </p>
     </card>
-  </dir>
+  </div>
 </template>
 
 <script>
