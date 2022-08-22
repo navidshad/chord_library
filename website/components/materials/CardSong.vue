@@ -1,15 +1,16 @@
 <template>
-  <vs-card type="3" class="card-song" @click="push">
-    <template #title>
+  <v-card @click="push">
+    <v-img v-if="song.image" :src="thumbnailLink"></v-img>
+    <v-card-title dir="rtl">
       <NuxtLink :to="to">
         <h2 class="text-right">{{ "آکورد " + song.title }}</h2>
       </NuxtLink>
-    </template>
-    <template #text>
+    </v-card-title>
+    <v-card-text dir="rtl">
       <div
         class="
           flex flex-col
-          items-end
+          items-start
           justify-between
           h-32
           w-32
@@ -29,24 +30,24 @@
           }}</span>
         </div>
       </div>
-    </template>
-    <template #img>
+    </v-card-text>
+    <!--<template #img>
       <div class="w-full w-56" :style="{ background: getRandomColor() }">
         <img v-if="song.image" :src="thumbnailLink" />
       </div>
-    </template>
-    <template #interactions>
-      <vs-button
+    </template>-->
+    <v-card-actions>
+      <v-btn
         v-if="allowRemove"
         icon
-        danger
-        tranparent
+        color="error"
+        text
         @click="$emit('remove')"
       >
         <i class="bx bx-trash-alt"></i>
-      </vs-button>
-    </template>
-  </vs-card>
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
