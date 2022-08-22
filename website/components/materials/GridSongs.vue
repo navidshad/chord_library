@@ -7,7 +7,7 @@
 
     <!-- Content -->
     <div
-      class="mt-8 items-center grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 xs:grid-cols-1 gap-4"
+      class="mt-8 flex flex-wrap gap-4 justify-end items-center"
       :class="['justify-' + justify]"
     >
       <card-song
