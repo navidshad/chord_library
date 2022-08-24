@@ -3,18 +3,18 @@
     <span class="label">Auto Scroll</span>
     <div class="card flex">
       <div class="range flex">
-        <vs-button transparent size="mini" @click="changeSpeed(-1)">
+        <v-btn text color="primary" size="mini" @click="changeSpeed(-1)">
           <i class="bx bx-minus" />
-        </vs-button>
+        </v-btn>
         <input :value="speed" disabled />
-        <vs-button transparent size="mini" @click="changeSpeed(1)">
+        <v-btn text color="primary" size="mini" @click="changeSpeed(1)">
           <i class="bx bx-plus" />
-        </vs-button>
+        </v-btn>
       </div>
-      <vs-button circle color="warn" gradient @click="togglePlay()">
+      <v-btn rounded small color="warning" @click="togglePlay()">
         <i v-if="!isPlaying" class="bx bx-play" />
         <i v-if="isPlaying" class="bx bx-pause" />
-      </vs-button>
+      </v-btn>
     </div>
   </div>
 </template>
