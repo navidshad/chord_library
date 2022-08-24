@@ -5,34 +5,36 @@
         By tapping opposit button a new backup will be generate, then will be
         shown on the table.
       </p>
-      <vs-button :loading="pendingBackup" @click="createBackup"
-        >Create new Backup</vs-button
+      <v-btn color="primary" :loading="pendingBackup" @click="createBackup"
+        >Create new Backup</v-btn
       >
     </div>
-    <vs-table :loading="loadingList">
-      <template #thead>
-        <vs-tr>
-          <vs-th> Title </vs-th>
-          <vs-th> Size </vs-th>
-          <vs-th> options </vs-th>
-        </vs-tr>
+    <v-simple-table :loading="loadingList">
+      <template v-slot:default>
+        <thead>
+        <tr>
+          <th> Title </th>
+            <th> Size </th>
+            <th> options </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :key="i" v-for="(file, i) in list" :data="tr">
+            <td>
+              <a :href="getLink(file.title)">
+                {{ file.title }}
+              </a>
+            </td>
+            <td>
+              {{ file.size }}
+            </td>
+            <td>
+              <v-btn color="primary" @click="removeBackup(file.title)">remove</v-btn>
+            </td>
+          </tr>
+        </tbody>
       </template>
-      <template #tbody>
-        <vs-tr :key="i" v-for="(file, i) in list" :data="tr">
-          <vs-td>
-            <a :href="getLink(file.title)">
-              {{ file.title }}
-            </a>
-          </vs-td>
-          <vs-td>
-            {{ file.size }}
-          </vs-td>
-          <vs-td>
-            <vs-button @click="removeBackup(file.title)">remove</vs-button>
-          </vs-td>
-        </vs-tr>
-      </template>
-    </vs-table>
+    </v-simple-table>
   </div>
 </template>
 
@@ -46,16 +48,16 @@ export default {
     };
   },
   computed: {
-    list(){
-      return this.$store.getters['backup/list'];
-    }
+    list() {
+      return this.$store.getters["backup/list"];
+    },
   },
   mounted() {
     this.getList();
   },
   methods: {
     getLink(title) {
-      let url = process.env.BASE_URL + '/backup-files/' + title;
+      let url = process.env.BASE_URL + "/backup-files/" + title;
       return url;
     },
     getList() {
@@ -75,7 +77,7 @@ export default {
       this.$store.dispatch("backup/removeBackfile", title).finally((_) => {
         this.getList();
       });
-    }
+    },
   },
 };
 </script>
