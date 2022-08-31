@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
       <h2 class="text-lg">{{ $t('song.songs') }}</h2>
-      <vs-button to="/admin/song/new">{{ $t('song.new-song') }}</vs-button>
+      <v-btn color="primary" to="/admin/song/new">{{ $t('song.new-song') }}</v-btn>
     </div>
 
     <!-- Content -->
