@@ -6,8 +6,8 @@
     </p>
     <!-- Header -->
     <div class="flex items-center justify-between">
-      <vs-button flat @click="createNewSection">New Section</vs-button>
-      <vs-input
+      <v-btn depressed color="primary" @click="createNewSection">New Section</v-btn>
+      <v-text-field
         label="Ruller px"
         type="number"
         min="10"

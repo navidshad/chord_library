@@ -8,55 +8,58 @@
       </div>
       <div class="flex">
         <!-- ACTION BUTTONS -->
-        <vs-button-group>
+        <v-btn-toggle tile group>
           <!-- MODE -->
-          <vs-button
-            transparent
+          <v-btn
+            text
+            color="primary"
             icon
             @click="toggleMode"
             :active="mode == 'edit'"
           >
             <i class="bx bx-message-square-edit"></i>
-          </vs-button>
+          </v-btn>
           <!-- REMOVE -->
-          <vs-button transparent icon @click="duplicateVarification">
+          <v-btn text color="primary" icon @click="duplicateVarification">
             <i class="bx bx-duplicate"></i>
-          </vs-button>
+          </v-btn>
           <!-- NEW SECTION -->
-          <vs-button transparent icon @click="newSection">
+          <v-btn text color="primary" icon @click="newSection">
             <i class="bx bxs-file-plus"></i>
-          </vs-button>
+          </v-btn>
           <!-- DUPLICATE -->
-          <vs-button transparent icon danger @click="removeVarification">
+          <v-btn text color="error" icon @click="removeVarification">
             <i class="bx bx-trash-alt"></i>
-          </vs-button>
+          </v-btn>
           <!-- OFSSET UP -->
-          <vs-button transparent icon @click="$emit('up')">
+          <v-btn text color="primary" icon @click="$emit('up')">
             <i class="bx bxs-upvote"></i>
-          </vs-button>
+          </v-btn>
           <!-- OFSSET DOWN -->
-          <vs-button transparent icon @click="$emit('down')">
+          <v-btn text color="primary" icon @click="$emit('down')">
             <i class="bx bxs-downvote"></i>
-          </vs-button>
-        </vs-button-group>
-        <vs-button-group v-show="mode == 'edit'">
-          <vs-button
-            transparent
+          </v-btn>
+        </v-btn-toggle>
+        <v-btn-toggle tile group v-show="mode == 'edit'">
+          <v-btn
+            text
+            color="primary"
             icon
             :active="content.direction == 'ltr'"
             @click="content.direction = 'ltr'"
           >
             <i class="bx bx-align-left"></i>
-          </vs-button>
-          <vs-button
-            transparent
+          </v-btn>
+          <v-btn
+            text
+            color="primary"
             icon
             :active="content.direction == 'rtl'"
             @click="content.direction = 'rtl'"
           >
             <i class="bx bx-align-right"></i>
-          </vs-button>
-        </vs-button-group>
+          </v-btn>
+        </v-btn-toggle>
       </div>
     </div>
     <!-- EDITOR -->
@@ -82,12 +85,12 @@
 </template>
 
 <script>
-import notifier from '../../utilities/notifier'
-import eventBus from '../../utilities/event-bus'
+import notifier from "../../utilities/notifier";
+import eventBus from "../../utilities/event-bus";
 
 function isEven(value) {
-  if (value % 2 == 0) return true
-  else return false
+  if (value % 2 == 0) return true;
+  else return false;
 }
 
 export default {
@@ -101,144 +104,144 @@ export default {
       immediate: true,
       deep: true,
       handler(content) {
-        this.content = content
+        this.content = content;
 
-        if (!content.lines.length) this.mode = 'edit'
-        this.convertLinesToEditContent()
+        if (!content.lines.length) this.mode = "edit";
+        this.convertLinesToEditContent();
       },
     },
     editToggle(value) {
-      if (value == true) this.mode = 'edite'
-      else this.mode = 'view'
-      this.generateComponentKey()
+      if (value == true) this.mode = "edite";
+      else this.mode = "view";
+      this.generateComponentKey();
     },
   },
   data() {
     return {
-      componentKey: '',
-      mode: 'view',
+      componentKey: "",
+      mode: "view",
       content: {
-        title: '',
-        direction: 'rtl',
+        title: "",
+        direction: "rtl",
         /**
          * [{chords, text}]
          */
         lines: [],
       },
-      editContent: '',
-    }
+      editContent: "",
+    };
   },
   computed: {
     autoHeight() {
-      let totalLines = this.editContent.split('\n').length
-      let height = totalLines == 1 ? 60 : 24.66 * totalLines + 16
-      return height + 'px'
+      let totalLines = this.editContent.split("\n").length;
+      let height = totalLines == 1 ? 60 : 24.66 * totalLines + 16;
+      return height + "px";
     },
   },
   created() {
-    this.initEvents()
+    this.initEvents();
   },
   updated() {
-    this.initEvents()
+    this.initEvents();
   },
   beforeUpdate() {
-    this.removeEvents()
+    this.removeEvents();
   },
   beforeDestroy() {
-    this.removeEvents()
+    this.removeEvents();
   },
   methods: {
     initEvents() {
-      this.generateComponentKey()
-      eventBus.listen('chord-editor-section-remove' + this.componentKey, () => {
-        this.$emit('remove')
-      })
+      this.generateComponentKey();
+      eventBus.listen("chord-editor-section-remove" + this.componentKey, () => {
+        this.$emit("remove");
+      });
       eventBus.listen(
-        'chord-editor-section-duplicate' + this.componentKey,
+        "chord-editor-section-duplicate" + this.componentKey,
         (type) => {
-          this.$emit('duplicate', type)
+          this.$emit("duplicate", type);
         }
-      )
-      eventBus.listen('chord-editor-section-new' + this.componentKey, () => {
-        this.$emit('newSection')
-      })
+      );
+      eventBus.listen("chord-editor-section-new" + this.componentKey, () => {
+        this.$emit("newSection");
+      });
     },
     removeEvents() {
-      eventBus.remove('chord-editor-section-remove' + this.componentKey)
-      eventBus.remove('chord-editor-section-duplicate' + this.componentKey)
-      eventBus.remove('chord-editor-section-new' + this.componentKey)
+      eventBus.remove("chord-editor-section-remove" + this.componentKey);
+      eventBus.remove("chord-editor-section-duplicate" + this.componentKey);
+      eventBus.remove("chord-editor-section-new" + this.componentKey);
     },
     generateComponentKey() {
-      this.componentKey = new Date().getTime().toString() + this.index
+      this.componentKey = new Date().getTime().toString() + this.index;
     },
     streamOut() {
-      this.$emit('input', this.content)
+      this.$emit("input", this.content);
     },
     toggleMode() {
-      if (this.mode == 'edit') {
-        this.mode = 'view'
-      } else this.mode = 'edit'
+      if (this.mode == "edit") {
+        this.mode = "view";
+      } else this.mode = "edit";
     },
     convertLinesToEditContent() {
-      this.editContent = ''
+      this.editContent = "";
       this.content.lines.forEach((line, i) => {
-        this.editContent += line.chords + '\n' + line.text
-        if (i < this.content.lines.length - 1) this.editContent += '\n'
-      })
+        this.editContent += line.chords + "\n" + line.text;
+        if (i < this.content.lines.length - 1) this.editContent += "\n";
+      });
     },
     convertContentToLines() {
-      let linesContent = this.editContent.split('\n')
+      let linesContent = this.editContent.split("\n");
 
       if (linesContent.length && isEven(linesContent.length)) {
-        let contere = 0
-        let newLines = []
+        let contere = 0;
+        let newLines = [];
 
         for (let index = 0; index < linesContent.length - 1; index += 2) {
-          const element = linesContent[index]
+          const element = linesContent[index];
 
-          if (linesContent.length - 1 < index + 1) break
+          if (linesContent.length - 1 < index + 1) break;
 
-          let chords = linesContent[index]
-          let text = linesContent[index + 1]
-          newLines.push({ chords, text })
+          let chords = linesContent[index];
+          let text = linesContent[index + 1];
+          newLines.push({ chords, text });
         }
 
-        if (newLines.length) this.content.lines = newLines
-        this.streamOut()
+        if (newLines.length) this.content.lines = newLines;
+        this.streamOut();
       }
     },
     removeVarification() {
       notifier.showAlertDialog({
-        title: 'Remove Validation',
-        description: 'Do you want to remove this item?',
-        actions: ['yes', 'no'],
+        title: "Remove Validation",
+        description: "Do you want to remove this item?",
+        actions: ["yes", "no"],
         onAction: (label, action, close) => {
-          if (label == 'yes') {
-            eventBus.fire('chord-editor-section-remove' + this.componentKey)
+          if (label == "yes") {
+            eventBus.fire("chord-editor-section-remove" + this.componentKey);
           }
-          close()
+          close();
         },
-      })
+      });
     },
     duplicateVarification() {
       notifier.showAlertDialog({
-        title: 'Duplicate Validation',
-        description: 'where Do you want to Duplicate this item?',
-        actions: ['end', 'after'],
+        title: "Duplicate Validation",
+        description: "where Do you want to Duplicate this item?",
+        actions: ["end", "after"],
         onAction: (label, action, close) => {
           eventBus.fire(
-            'chord-editor-section-duplicate' + this.componentKey,
+            "chord-editor-section-duplicate" + this.componentKey,
             label
-          )
-          close()
+          );
+          close();
         },
-      })
+      });
     },
     newSection() {
-      eventBus.fire('chord-editor-section-new' + this.componentKey)
+      eventBus.fire("chord-editor-section-new" + this.componentKey);
     },
   },
-}
+};
 </script>
 
 <style scoped>
