@@ -4,18 +4,24 @@
     <div class="flex justify-between items-center flex-row-reverse">
       <h2 class="text-lg">{{ $t("song.edit-song") }}</h2>
       <div class="flex">
-        <vs-button :loading="pending" @click="update">{{
+        <v-btn color="primary" :loading="pending" @click="update">{{
           $t("update")
-        }}</vs-button>
+        }}</v-btn>
         <div class="float-button">
-          <vs-button danger icon blank :loading="pending" @click="update">
+          <v-btn
+            color="error"
+            icon
+            target="_blank"
+            :loading="pending"
+            @click="update"
+          >
             <i class="bx bxs-save"></i>
-          </vs-button>
+          </v-btn>
         </div>
 
-        <vs-button transparent icon blank :href="'/tab/' + id">
+        <v-btn text icon target="_blank" :href="'/tab/' + id">
           <i class="bx bx-desktop"></i>
-        </vs-button>
+        </v-btn>
       </div>
     </div>
 
@@ -28,8 +34,9 @@
     <card class="p-4 mt-4 flex space-x-4">
       <div class="w-1/3 pr-4">
         <div>
-          <vs-input
+          <v-text-field
             class="mt-4"
+            outlined
             block
             :label="$t('song.title')"
             v-model="form.title"
@@ -37,15 +44,17 @@
 
           <seo-labels v-model="form.title_seo"></seo-labels>
 
-          <vs-input
+          <v-text-field
             class="mt-5"
+            outlined
             block
             :label="$t('song.vocal-from')"
             :value="vocalNote"
             disabled
           />
-          <vs-input
+          <v-text-field
             class="mt-5"
+            outlined
             block
             :label="$t('song.rhythm')"
             v-model="form.rhythm"
@@ -66,8 +75,8 @@
           <div class="mt-10">
             <label>{{ $t("image-cover") }}</label>
             <image-field tag="song" v-model="form.image" @changed="update" />
-            <MelodyUploader
-            class="mt-5"
+            <melody-uploader
+              class="mt-5"
               tag="melody"
               v-model="form.melodies"
               @changed="update"
@@ -89,7 +98,7 @@
 <script>
 import { dataProvider } from "@modular-rest/client";
 import notifier from "../../../utilities/notifier";
-import SeoLabels from '~/components/inputs/SeoLabels.vue';
+import SeoLabels from "~/components/inputs/SeoLabels.vue";
 
 export default {
   components: { SeoLabels },
