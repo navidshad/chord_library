@@ -5,32 +5,36 @@
         <img :src="thumbnailLink" />
       </div>
       <div>
-        <vs-button @click="activeModal = true">Sellect Image</vs-button>
-        <vs-button @click="removeImage" danger>Remove</vs-button>
+        <v-btn color="primary" @click="activeModal = true">Sellect Image</v-btn>
+        <v-btn color="error" @click="removeImage">Remove</v-btn>
       </div>
     </div>
-    <vs-dialog :value="activeModal" :loading="uploadPending" not-close>
-      <template #header>
-        <h4 class="not-margin">Image uploader</h4>
-      </template>
-      <croppa
-        v-model="image"
-        :width="width"
-        :height="height"
-        :initial-image="thumbnailLink"
-        :prevent-white-space="true"
-      />
-      <div class="flex">
-        <vs-button @click="uploadImage">Upload</vs-button>
-        <vs-button @click="removeImage" danger>Remove</vs-button>
-        <vs-button @click="activeModal = false" danger>Close</vs-button>
-      </div>
-    </vs-dialog>
+    <v-dialog :value="activeModal" :loading="uploadPending">
+      <v-card>
+        <v-card-title>
+          <h4 class="not-margin">Image uploader</h4>
+        </v-card-title>
+        <v-card-actions>
+          <croppa
+            v-model="image"
+            :width="width"
+            :height="height"
+            :initial-image="thumbnailLink"
+            :prevent-white-space="true"
+          />
+          <div class="flex">
+            <v-btn color="primary" @click="uploadImage">Upload</v-btn>
+            <v-btn color="error" @click="removeImage">Remove</v-btn>
+            <v-btn color="error" @click="activeModal = false">Close</v-btn>
+          </div>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import { fileProvider } from '@modular-rest/client'
+import { fileProvider } from "@modular-rest/client";
 
 export default {
   props: {
@@ -40,7 +44,7 @@ export default {
     tag: String,
   },
   model: {
-    prop: 'fileDoc',
+    prop: "fileDoc",
   },
   data() {
     return {
@@ -48,11 +52,11 @@ export default {
       image: null,
       uploadPending: false,
       removePending: false,
-    }
+    };
   },
   computed: {
     thumbnailLink() {
-      return fileProvider.getFileLink(this.fileDoc || {})
+      return fileProvider.getFileLink(this.fileDoc || {});
     },
   },
   methods: {
@@ -60,51 +64,51 @@ export default {
       return new Promise((done) => {
         this.image.generateBlob(
           (blob) => {
-            done(blob)
+            done(blob);
           },
           // Extention
-          'image/jpeg',
+          "image/jpeg",
           // 80% compressed jpeg file
           0.8
-        )
-      })
+        );
+      });
     },
     async uploadImage() {
-      let file = await this.extractImage()
-      this.uploadPending = true
+      let file = await this.extractImage();
+      this.uploadPending = true;
 
       if (this.fileDoc != null) {
-        await this.removeImage()
+        await this.removeImage();
       }
 
       fileProvider
         .uploadFile(
           file,
           (loaded) => {
-            console.log('uploading: ' + loaded)
+            console.log("uploading: " + loaded);
           },
           this.tag
         )
         .then((fileDoc) => {
-          this.$emit('input', fileDoc)
+          this.$emit("input", fileDoc);
         })
         .finally(() => {
-          this.uploadPending = false
-          this.$emit('changed')
-        })
+          this.uploadPending = false;
+          this.$emit("changed");
+        });
     },
     async removeImage() {
-      this.uploadPending = true
+      this.uploadPending = true;
       fileProvider
         .removeFile(this.fileDoc._id)
         .then((fileDoc) => {
-          this.$emit('input', null)
-          this.$emit('changed')
+          this.$emit("input", null);
+          this.$emit("changed");
         })
-        .finally(() => (this.uploadPending = false))
+        .finally(() => (this.uploadPending = false));
     },
   },
-}
+};
 </script>
 
 <style lang="scss">
