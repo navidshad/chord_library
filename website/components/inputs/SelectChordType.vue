@@ -10,19 +10,11 @@
     :value="value"
     @input="tempValue = $event"
   >
-    <template v-slot="{ list }">
-      <vs-option
-        v-for="(item, i) in list"
-        :key="i"
-        :label="item.title"
-        :value="item._id"
-      >
-        <div style="line-height:10px">
-          <span class="text-xs">{{ item.title }}</span
-          >
-          <span style="font-size:9px">{{ item.description | '' }}</span>
-        </div>
-      </vs-option>
+    <template v-slot:option-tmpl="{ props }">
+      <div style="line-height: 10px">
+        <span class="text-xs">{{ props.option.title }}</span>
+        <span style="font-size: 9px">{{ props.option.description }}</span>
+      </div>
     </template>
   </Select>
 </template>
@@ -32,18 +24,18 @@ export default {
   props: {
     multiple: { type: Boolean, default: false },
     block: { type: Boolean, default: true },
-    value: { default: () => '' },
+    value: { default: () => "" },
     label: String,
   },
   data() {
     return {
-      tempValue: '',
-    }
+      tempValue: "",
+    };
   },
   watch: {
     tempValue(value) {
-      this.$emit('input', value)
+      this.$emit("input", value);
     },
   },
-}
+};
 </script>
