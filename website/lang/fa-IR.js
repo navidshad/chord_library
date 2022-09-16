@@ -32,19 +32,22 @@ export default {
         type: 'گروه ها',
         keySignature: 'سر کلید ها',
         chord: 'آکورد ها',
-        table: 'جدول ها'
+        table: 'جدول ها',
+        'select-keySignature': 'انتخاب سر کلید',
+        'select-type': 'انتخاب گروه',
     },
 
     artist: {
         artists: 'هنرمندان',
         name: 'نام / نام مستعار',
         songs: 'تعداد آکورد',
-        'select-artist': 'انتخواب هنرمند',
+        'select-artist': 'انتخاب هنرمند',
     },
 
     genre: {
         genres: 'سبک ها',
-        title: 'عنوان'
+        title: 'عنوان',
+        'select-genre': 'انتخاب سبک',
     },
 
     song: {
@@ -79,12 +82,13 @@ export default {
     update: 'بروز رسانی',
     create: 'ایجاد',
     title: 'عنوان',
+    selected: ' انتخاب شده',
 
     search: {
         label: 'جستجو',
         help: 'لطفا واژه یا بخشی از ترانه مورد نظر خورد را داخل کادر جستجو بنویسید و سپس دکمه آبی را فشار دهید.',
         searchedSongs: 'ترانه های جستجو شده',
-        searchedArtists:'هنرمندان جستجو شده'
+        searchedArtists: 'هنرمندان جستجو شده'
     },
 
     aboutus: 'درباره ما',
