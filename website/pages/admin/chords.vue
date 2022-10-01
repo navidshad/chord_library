@@ -1,19 +1,19 @@
 <template>
   <div>
-    <vs-button-group block>
-      <vs-button flat :active="page == 'table'" @click="page = 'table'">{{
+    <v-btn-toggle block>
+      <v-btn depressed color="primary" :active-class="page == 'table'" @click="page = 'table'">{{
         $t('chord.table')
-      }}</vs-button>
-      <vs-button flat :active="page == 'type'" @click="page = 'type'">{{
+      }}</v-btn>
+      <v-btn depressed color="primary" :active-class="page == 'type'" @click="page = 'type'">{{
         $t('chord.type')
-      }}</vs-button>
-      <vs-button flat :active="page == 'chord'" @click="page = 'chord'">{{
+      }}</v-btn>
+      <v-btn depressed color="primary" :active-class="page == 'chord'" @click="page = 'chord'">{{
         $t('chord.chord')
-      }}</vs-button>
-      <vs-button flat :active="page == 'keySignature'" @click="page = 'keySignature'">{{
+      }}</v-btn>
+      <v-btn depressed color="primary" :active-class="page == 'keySignature'" @click="page = 'keySignature'">{{
         $t('chord.keySignature')
-      }}</vs-button>
-    </vs-button-group>
+      }}</v-btn>
+    </v-btn-toggle>
 
     <sequence-presentor
       class="mt-4"
