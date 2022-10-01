@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="flex justify-between items-center flex-row-reverse">
       <h2 class="text-lg">Created Tables</h2>
-      <vs-button @click="showAddForm">{{ $t('add') }}</vs-button>
+      <v-btn color="primary" @click="showAddForm">{{ $t("add") }}</v-btn>
     </div>
 
     <!-- Content -->
@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import { dataProvider } from '@modular-rest/client'
-import notifier from '../../utilities/notifier'
-import CollectionForm from './ChordTableCollectionForm'
+import { dataProvider } from "@modular-rest/client";
+import notifier from "../../utilities/notifier";
+import CollectionForm from "./ChordTableCollectionForm";
 
 export default {
   props: {
@@ -32,15 +32,15 @@ export default {
 
   data() {
     return {
-      database: 'chord',
-      collection: 'table',
+      database: "chord",
+      collection: "table",
       list: [],
       pending: false,
-    }
+    };
   },
 
   created() {
-    this.find()
+    this.find();
   },
 
   computed: {
@@ -49,30 +49,30 @@ export default {
         database: this.database,
         collection: this.collection,
         query: {},
-        options: { sort: '-_id' },
+        options: { sort: "-_id" },
         populates: [
-          'keySignature',
-          'type',
-          'rows.major',
-          'rows.naturalMinor',
-          'rows.harmonicMinor',
-          'rows.melodicMinor',
-          'chromaticRows.one',
-          'chromaticRows.two',
-          'chromaticRows.three',
-          'chromaticRows.four',
+          "keySignature",
+          "type",
+          "rows.major",
+          "rows.naturalMinor",
+          "rows.harmonicMinor",
+          "rows.melodicMinor",
+          "chromaticRows.one",
+          "chromaticRows.two",
+          "chromaticRows.three",
+          "chromaticRows.four",
         ],
-      }
+      };
     },
   },
 
   methods: {
     find() {
-      this.pending = true
+      this.pending = true;
       dataProvider
         .find(this.findOption)
         .then((list) => (this.list = list))
-        .finally(() => (this.pending = false))
+        .finally(() => (this.pending = false));
     },
     showAddForm() {
       notifier.showDialog({
@@ -86,9 +86,9 @@ export default {
           created: this.find,
         },
         modal: {
-          'prevent-close': true,
+          "prevent-close": true,
         },
-      })
+      });
     },
     showEditForm(row) {
       notifier.showDialog({
@@ -104,25 +104,25 @@ export default {
           updated: this.find,
         },
         modal: {
-          'prevent-close': true,
+          "prevent-close": true,
         },
-      })
+      });
     },
     showRemoveDialog(row) {
-      let find = this.find
-      let database = this.database
-      let collection = this.collection
+      let find = this.find;
+      let database = this.database;
+      let collection = this.collection;
 
       notifier.showAlertDialog({
-        title: this.$t('database.remove-title'),
-        description: this.$t('database.remove-question'),
-        actions: ['yes', 'no'],
+        title: this.$t("database.remove-title"),
+        description: this.$t("database.remove-question"),
+        actions: ["yes", "no"],
         onAction(label, action, close) {
-          if (label == 'no') {
-            close()
-            return
+          if (label == "no") {
+            close();
+            return;
           }
-          action.pending = true
+          action.pending = true;
           dataProvider
             .removeOne({
               database: database,
@@ -134,15 +134,15 @@ export default {
               notifier.toast({
                 label: `Update ${collection} error`,
                 description: result.error,
-                type: 'error',
-              })
+                type: "error",
+              });
             })
-            .finally(close)
+            .finally(close);
         },
-      })
+      });
     },
   },
-}
+};
 </script>
 
 <style>
