@@ -1,7 +1,11 @@
 # chord_library
-This is a website for providing Kurdish chords, it's live now and you can se it here [Goranee](https://goranee.ir/). it's a none profit project that I lanched with one musician friend.
 
-This project is providing a premium value and is going to be monetized in close future.
+This is a website for providing Kurdish chords, it's live now and you can se it here [Goranee](https://goranee.ir/). 
+It's a none profit project that I lanched with one musician friend. This project is providing a premium value and is going to be monetized in close future.
+
+| Tab page| Description |
+|:---:|---|
+|<img width="auto" height="30%" src="https://github.com/navidshad/chord_library/blob/beta/misc/tab_page.png" /> |<p>As you see languege is Kurdish and thoese English words on top of each line are chords. <br><br>There is also a chord transpose feature that users can change it based on their voice to find the best chord match.</p> |
 
 ## Install
 ```
