@@ -1,5 +1,7 @@
 # chord_library
-This is a server/client application for Kurdish guitar chords.
+This is a website for providing Kurdish chords, it's live now and you can se it here [Goranee](https://goranee.ir/). it's a none profit project that I lanched with one musician friend.
+
+This project is providing a premium value and is going to be monetized in close future.
 
 ## Install
 ```
