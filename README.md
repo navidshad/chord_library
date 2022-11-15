@@ -5,7 +5,7 @@ It's a none profit project that I lanched with one musician friend. This project
 
 | Tab page| Description |
 |:---:|---|
-|<img width="auto" height="30%" src="https://github.com/navidshad/chord_library/blob/beta/misc/tab_page.png" /> |<p>As you see languege is Kurdish and thoese English words on top of each line are chords. <br><br>There is also a chord transpose feature that users can change it based on their voice to find the best chord match.</p> |
+|<img width="auto" height="30%" src="https://github.com/navidshad/chord_library/blob/main/misc/tab_page.png" /> |<p>As you see languege is Kurdish and thoese English words on top of each line are chords. <br><br>There is also a chord transpose feature that users can change it based on their voice to find the best chord match.</p> |
 
 ## Install
 ```
