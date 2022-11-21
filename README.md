@@ -7,6 +7,12 @@ It's a none profit project that I lanched with one musician friend. This project
 |:---:|---|
 |<img width="auto" height="30%" src="https://github.com/navidshad/chord_library/blob/main/misc/tab_page.png" /> |<p>As you see languege is Kurdish and thoese English words on top of each line are chords. <br><br>There is also a chord transpose feature that users can change it based on their voice to find the best chord match.</p> |
 
+## Build and run docker image
+```
+docker build -t chord-library .
+docker run -d -p 8080:8080 -p 8081:8081 --link mongo -v uploads:/app/uploads  --name chord-library chord-library
+```
+
 ## Install
 ```
 // server

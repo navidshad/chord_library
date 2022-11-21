@@ -8,7 +8,7 @@ global.rootPath = __dirname;
 
 function run() {
     return ModularRest.createRest({
-        port: '8080',
+        port: '80',
         componentDirectory: Path.join(__dirname, 'src/services'),
         uploadDirectory: Path.join(__dirname, 'uploads'),
         // cors: {

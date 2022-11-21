@@ -8,7 +8,6 @@ const service = require('./service');
 let backup = new Router();
 
 backup.get('/', async (ctx) => {
-	console.log('sdfadsfasdf');
     await service.createBackup()
 	.then(_ => {
 		ctx.body = reply.create('s');
