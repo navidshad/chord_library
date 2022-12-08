@@ -16,7 +16,7 @@ function run() {
         componentDirectory: join(__dirname, 'src/services'),
         uploadDirectory: join(__dirname, 'uploads'),
         mongo: {
-            mongoBaseAddress: 'mongodb://mongo:27017',
+            mongoBaseAddress: 'mongodb://localhost:27017',
             dbPrefix: 'mrest_'
         },
         // cors: {
