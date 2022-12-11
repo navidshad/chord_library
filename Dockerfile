@@ -29,7 +29,8 @@ COPY .nuxt ./.nuxt
 
 VOLUME "/server/uploads"
 
-EXPOSE [8080/tcp, 8081/tcp]
+EXPOSE 8080
+EXPOSE 8081
 
 COPY ecosystem.config.js ./
 CMD ["pm2-runtime", "ecosystem.config.js"]
