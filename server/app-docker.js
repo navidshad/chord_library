@@ -24,10 +24,12 @@ function run() {
         // },
         verificationCodeGeneratorMethod: generateVerificationCode,
         onBeforeInit: (app) => {
+
             // Add Health cheker route
             let Router = require('koa-router');
             let healthCheck = new Router();
             healthCheck.get('/health', (ctx) => ctx.body = 'success')
+            app.use(healthCheck.routes());
 
             // Add static dirs
             app.use(koaStatic({

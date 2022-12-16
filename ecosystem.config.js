@@ -3,9 +3,9 @@ module.exports = [{
 		script: 'app-docker.js',
 		name: 'server',
 	},
-	// {
-	// 	cwd: "/website",
-	// 	script: 'app-docker.js',
-	// 	name: 'nuxt'
-	// }
+	{
+		cwd: "/website",
+		script: 'app-docker.js',
+		name: 'nuxt'
+	}
 ]

@@ -15,7 +15,7 @@ async function start() {
         build(nuxt)
     }
 
-    app.listen(8081)
+    app.listen(81)
 }
 
 start()
