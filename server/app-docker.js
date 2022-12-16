@@ -22,7 +22,6 @@ function run() {
         // cors: {
         //     origin: 'http://localhost:3000'
         // },
-        dontListen: true,
         verificationCodeGeneratorMethod: generateVerificationCode,
         onBeforeInit: (app) => {
             // Add Health cheker route
