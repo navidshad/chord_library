@@ -4,6 +4,11 @@ const {
     join
 } = require('path');
 
+const dotenv = require('dotenv');
+dotenv.config({
+  path: require('path').join(__dirname, '../.env')
+});
+
 const {
     generateVerificationCode
 } = require('./src/services/sender/service.js');
@@ -16,7 +21,7 @@ function run() {
         componentDirectory: join(__dirname, 'src/services'),
         uploadDirectory: join(__dirname, 'uploads'),
         mongo: {
-            mongoBaseAddress: 'mongodb://localhost:27017',
+            mongoBaseAddress: process.env.MONGODB_URL,
             dbPrefix: 'mrest_'
         },
         // cors: {
