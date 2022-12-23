@@ -9,6 +9,11 @@
         >Create new Backup</vs-button
       >
     </div>
+
+    <div class="container w-full">
+      <BackupUploader @uploaded="getList" />
+    </div>
+
     <vs-table :loading="loadingList">
       <template #thead>
         <vs-tr>
@@ -18,7 +23,7 @@
         </vs-tr>
       </template>
       <template #tbody>
-        <vs-tr :key="i" v-for="(file, i) in list" :data="tr">
+        <vs-tr :key="i" v-for="(file, i) in list">
           <vs-td>
             <a :href="getLink(file.title)">
               {{ file.title }}
@@ -46,16 +51,16 @@ export default {
     };
   },
   computed: {
-    list(){
-      return this.$store.getters['backup/list'];
-    }
+    list() {
+      return this.$store.getters["backup/list"];
+    },
   },
   mounted() {
     this.getList();
   },
   methods: {
     getLink(title) {
-      let url = process.env.BASE_URL + '/backup-files/' + title;
+      let url = process.env.BASE_URL + "/backup-files/" + title;
       return url;
     },
     getList() {
@@ -75,7 +80,7 @@ export default {
       this.$store.dispatch("backup/removeBackfile", title).finally((_) => {
         this.getList();
       });
-    }
+    },
   },
 };
 </script>

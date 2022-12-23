@@ -28,8 +28,6 @@ export default {
 
             return fetch(url).then(async r => {
 				let body = await r.json();
-				console.log(body);
-                debugger
 				commit('SET_LIST', body.list)
 				return body;
 			})

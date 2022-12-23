@@ -50,3 +50,26 @@ module.exports.createZipFile = (zipPath = '/file.zip', compressingFilesAndFolder
 
 	});
 }
+
+module.exports.moveFile = (source, dest, name='') => {
+	let command = `mv "${source}" "${dest}/${name}"`;
+
+	// Create directory if it dosent exist
+	fs.mkdirSync(dest, {
+		recursive: true
+	});
+
+	return new Promise((done, reject) => {
+
+		exec(command, (error, outSTR) => {
+
+			console.log(outSTR.trim());
+
+			if (error) reject(outSTR);
+			else done();
+
+
+		});
+
+	});
+}

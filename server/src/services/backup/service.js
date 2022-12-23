@@ -6,7 +6,8 @@ const startBackUp = require('../../../backup_tools/export').startBackUp;
 const {
 	createZipFile,
 	removeFolder,
-	getSize
+	getSize,
+	moveFile,
 } = require('../../utils/file');
 
 module.exports.createBackup = async () => {
@@ -52,6 +53,8 @@ module.exports.getBackupList = async () => {
 			const file = path.join(backupDir, files[i]);
 			let size = await getSize(file);
 
+			if(!file.endsWith('.zip')) continue
+
 			backupList.push({
 				title: files[i],
 				size
@@ -62,4 +65,9 @@ module.exports.getBackupList = async () => {
 	}
 
 	return backupList;
+}
+
+module.exports.insertBackup = async (file) => {
+	let name = file.name.split(' ').join('-')
+	return moveFile(file.path, './backups', name);
 }
