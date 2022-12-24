@@ -67,5 +67,27 @@ backup.post('/', async (ctx) => {
 	ctx.body = result;
 });
 
+backup.post('/restore', async (ctx) => {
+	const {
+		fileName
+	} = ctx.request.body;
+
+	if (!fileName) {
+		ctx.status = 400;
+		ctx.body = reply.create('f', {
+			'message': '"fileName" parameter is required.'
+		})
+	}
+
+	await service.restore(fileName)
+		.then(_ => {
+			ctx.body = reply.create('s')
+		})
+		.catch(_ => {
+			ctx.status = 400;
+			ctx.body = reply.create('f', _)
+		})
+})
+
 module.exports.name = name;
 module.exports.main = backup;

@@ -1,10 +1,17 @@
 const path = require('path');
 const fs = require('fs');
 
-const startBackUp = require('../../../backup_tools/export').startBackUp;
+const {
+	startBackUp
+} = require('../../../backup_tools/export');
+
+const {
+	importCollections
+} = require('../../../backup_tools/import');
 
 const {
 	createZipFile,
+	unzip,
 	removeFolder,
 	getSize,
 	moveFile,
@@ -13,14 +20,15 @@ const {
 module.exports.createBackup = async () => {
 
 	// Create backup from database and get directory
-	let temporaryBackupDirectory = await startBackUp()
+	const temporaryBackupDirectory = await startBackUp()
 
 	// Get upload directory
-	let uploadFolder = path.join(global.rootPath, 'uploads');
+	const uploadFolder = path.join(global.rootPath, 'uploads');
 
-	let zipName = `goranee_${new Date().toISOString()}.zip`;
-	let permanentBackupDirectory = path.join('backups');
-	let permanentBackupFile = path.join(permanentBackupDirectory, zipName);
+	const time = new Date().toISOString().split('.')[0].replace('T', '_')
+	const zipName = `goranee_${time}.zip`;
+	const permanentBackupDirectory = path.join('backups');
+	const permanentBackupFile = path.join(permanentBackupDirectory, zipName);
 	// fs.opendirSync(permanentBackupDirectory);
 
 	let assetsPaths = [temporaryBackupDirectory, uploadFolder]
@@ -53,7 +61,7 @@ module.exports.getBackupList = async () => {
 			const file = path.join(backupDir, files[i]);
 			let size = await getSize(file);
 
-			if(!file.endsWith('.zip')) continue
+			if (!file.endsWith('.zip')) continue
 
 			backupList.push({
 				title: files[i],
@@ -70,4 +78,66 @@ module.exports.getBackupList = async () => {
 module.exports.insertBackup = async (file) => {
 	let name = file.name.split(' ').join('-')
 	return moveFile(file.path, './backups', name);
+}
+
+module.exports.restore = (filename) => {
+
+	return new Promise(async (resolve, reject) => {
+
+		const list = await module.exports.getBackupList().catch(reject);
+		if (!list) return;
+
+		if (!list.findIndex(item => item.title == filename) == -1) {
+			reject({
+				message: `The requested backup file couldn't find.`,
+			})
+			return;
+		}
+
+		const serverDir = path.join(__dirname, '../../../')
+		const newUploadPath = path.join(__dirname, '../../../backups/uploads')
+		const newCollectionsPath = path.join(__dirname, '../../../backups/collections')
+
+		// Remove old data
+		//
+		await removeFolder(newUploadPath)
+		await removeFolder(newCollectionsPath)
+
+		// Unzip back up file
+		//
+		const backupDir = path.join(__dirname, '../../../backups')
+		const filePath = path.join(backupDir, filename)
+
+		let done = await unzip(filePath, backupDir)
+			.then(_ => true)
+			.catch(reject)
+
+		if (!done) return;
+
+		// Move upload file
+		//
+		await removeFolder(serverDir + 'uploads')
+		done = await moveFile(newUploadPath, serverDir)
+			.then(_ => true)
+			.catch(reject)
+
+		if (!done) return;
+
+		// Restore docs
+		//
+		let collectionFiles = fs.readdirSync(newCollectionsPath);
+		collectionFiles = collectionFiles.map(item => path.join(newCollectionsPath, item))
+
+		done = await importCollections(collectionFiles)
+			.then(_ => true)
+			.catch(reject)
+
+		if (done)
+			resolve();
+
+		// Remove data
+		//
+		await removeFolder(newCollectionsPath)
+	})
+
 }

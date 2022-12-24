@@ -22,9 +22,27 @@ module.exports.getSize = (file) => {
 	});
 }
 
+module.exports.unzip = (zipPath, dest) => {
+	let command = `unzip ${zipPath}`;
+
+	if (dest)
+		command += ` -d ${dest}`
+
+	return new Promise((done, reject) => {
+		exec(command, (error, outSTR) => {
+
+			if (error && error.killed) {
+				reject({
+					mesage: error.message
+				});
+			} else done();
+		});
+	});
+}
+
 module.exports.createZipFile = (zipPath = '/file.zip', compressingFilesAndFolders = []) => {
 
-	let command = `zip -r ${zipPath} ${compressingFilesAndFolders.join(' ')}`;
+	const command = `zip -r ${zipPath} ${compressingFilesAndFolders.join(' ')}`;
 
 	// Recognize directory
 	let dirParts = zipPath.split(path.sep)
@@ -42,16 +60,16 @@ module.exports.createZipFile = (zipPath = '/file.zip', compressingFilesAndFolder
 
 			console.log(outSTR.trim());
 
-			if (error) reject(outSTR);
-			else done();
-
-
+			if (error && error.killed) {
+				reject({
+					mesage: error.message
+				});
+			} else done();
 		});
-
 	});
 }
 
-module.exports.moveFile = (source, dest, name='') => {
+module.exports.moveFile = (source, dest, name = '') => {
 	let command = `mv "${source}" "${dest}/${name}"`;
 
 	// Create directory if it dosent exist
@@ -63,12 +81,8 @@ module.exports.moveFile = (source, dest, name='') => {
 
 		exec(command, (error, outSTR) => {
 
-			console.log(outSTR.trim());
-
-			if (error) reject(outSTR);
+			if (error && error.killed) reject(outSTR);
 			else done();
-
-
 		});
 
 	});

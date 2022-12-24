@@ -22,7 +22,7 @@ function run() {
         uploadDirectory: join(__dirname, 'uploads'),
         mongo: {
             mongoBaseAddress: process.env.MONGODB_URL,
-            dbPrefix: 'mrest_'
+            dbPrefix: process.env.MONGODB_prefix,
         },
         // cors: {
         //     origin: 'http://localhost:3000'
