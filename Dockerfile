@@ -1,10 +1,10 @@
 FROM node:14.21.1-alpine
 
-# Install PM2
-RUN npm install pm2 -g
-
-# Install python/pip
+# Install Tools
+#
 RUN apk add g++ make py3-pip
+RUN apk add --upgrade mongodb-tools
+RUN npm install pm2 -g
 
 # Build app
 #
@@ -28,6 +28,7 @@ COPY website ./website
 COPY .nuxt ./.nuxt
 
 VOLUME "/server/uploads"
+VOLUME "/server/backups"
 
 EXPOSE 80
 EXPOSE 81
