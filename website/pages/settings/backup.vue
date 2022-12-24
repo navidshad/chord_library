@@ -9,6 +9,11 @@
         >Create new Backup</vs-button
       >
     </div>
+
+    <div class="container w-full">
+      <BackupUploader @uploaded="getList" />
+    </div>
+
     <vs-table :loading="loadingList">
       <template #thead>
         <vs-tr>
@@ -18,7 +23,7 @@
         </vs-tr>
       </template>
       <template #tbody>
-        <vs-tr :key="i" v-for="(file, i) in list" :data="tr">
+        <vs-tr :key="i" v-for="(file, i) in list">
           <vs-td>
             <a :href="getLink(file.title)">
               {{ file.title }}
@@ -27,8 +32,11 @@
           <vs-td>
             {{ file.size }}
           </vs-td>
-          <vs-td>
-            <vs-button @click="removeBackup(file.title)">remove</vs-button>
+          <vs-td class="flex">
+            <vs-button @click="restore(file.title)">Restore</vs-button>
+            <vs-button color="red" @click="removeBackup(file.title)" danger
+              >Remove</vs-button
+            >
           </vs-td>
         </vs-tr>
       </template>
@@ -37,6 +45,9 @@
 </template>
 
   <script>
+import { is } from "@babel/types";
+import notifier from "~/utilities/notifier";
+
 export default {
   middleware: ["auth"],
   data() {
@@ -46,16 +57,16 @@ export default {
     };
   },
   computed: {
-    list(){
-      return this.$store.getters['backup/list'];
-    }
+    list() {
+      return this.$store.getters["backup/list"];
+    },
   },
   mounted() {
     this.getList();
   },
   methods: {
     getLink(title) {
-      let url = process.env.BASE_URL + '/backup-files/' + title;
+      let url = process.env.BASE_URL + "/backup-files/" + title;
       return url;
     },
     getList() {
@@ -72,10 +83,36 @@ export default {
       });
     },
     removeBackup(title) {
-      this.$store.dispatch("backup/removeBackfile", title).finally((_) => {
+      const isAllowed = confirm(`Do you want to remove ${title} backup file?`);
+      if (!isAllowed) return;
+
+      this.$store.dispatch("backup/removeBackupfile", title).finally((_) => {
         this.getList();
       });
-    }
+    },
+    restore(title) {
+      const isAllowed = confirm(
+        `Do you want to restore ${title} file? it will emove current data on database.`
+      );
+      if (!isAllowed) return;
+
+      this.$store
+        .dispatch("backup/restoreBackupFile", title)
+        .then((_) => {
+          notifier.toast({
+            label: `Backup file restored`,
+            description: title,
+            type: "info",
+          });
+        })
+        .catch((body) => {
+          notifier.toast({
+            label: `Restore failed`,
+            description: JSON.stringify(body),
+            type: "error",
+          });
+        });
+    },
   },
 };
 </script>

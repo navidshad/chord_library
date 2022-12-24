@@ -38,7 +38,7 @@ module.exports = [
 
     new CollectionDefinition({
         db: 'chord',
-        collection: 'keySignature',
+        collection: 'keysignature',
         schema: new Schema({
             minor: { type: String, unique: true, required: true },
             major: { type: String, unique: true, required: true },

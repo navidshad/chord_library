@@ -9,6 +9,7 @@
         <vs-button @click="removeImage" danger>Remove</vs-button>
       </div>
     </div>
+    
     <vs-dialog :value="activeModal" :loading="uploadPending" not-close>
       <template #header>
         <h4 class="not-margin">Image uploader</h4>
