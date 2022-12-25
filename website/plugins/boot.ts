@@ -13,5 +13,6 @@ GlobalOptions.set({
 })
 
 export default async function () {
+    localStorage.removeItem('token')
     await authentication.loginAsAnonymous()
 }
