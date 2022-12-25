@@ -10,7 +10,7 @@ It's a none profit project that I lanched with one musician friend. This project
 ## Build and run docker image
 ```
 docker build -t chord-library .
-docker run -d -p 8080:80 -p 8081:81 --link mongo -v uploads:/app/uploads  --name chord-library chord-library
+docker run -d -p 8080:80 -p 81:81 --env-file .env --link mongo -v uploads:/app/uploads  --name chord-library chord-library
 ```
 
 ## Install
