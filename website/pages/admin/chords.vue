@@ -41,7 +41,7 @@
       <collection-viewer
         slot="keySignature"
         database="chord"
-        collection="keySignature"
+        collection="keysignature"
         :fields="keySignatureFields"
         :title="$t('chord.keySignature')"
       />
