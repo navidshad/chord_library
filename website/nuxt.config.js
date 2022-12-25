@@ -128,7 +128,7 @@ export default {
   },
 
   'google-gtag': {
-    id: process.env.VUE_APP_GA_MEASUREMENT_ID, // required
+    id: process.env.VUE_APP_GA_MEASUREMENT_ID || 'G-Q79P6JJ50S',
     config: {
       // this are the config options for `gtag
       // check out official docs: https://developers.google.com/analytics/devguides/collection/gtagjs/
