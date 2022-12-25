@@ -13,9 +13,17 @@ const {
 	createZipFile,
 	unzip,
 	removeFolder,
+	removeFolderContent,
+	moveFolderContent,
 	getSize,
 	moveFile,
 } = require('../../utils/file');
+const {
+	sleep
+} = require('../../utils/promise');
+const {
+	exec
+} = require('child_process');
 
 module.exports.createBackup = async () => {
 
@@ -94,7 +102,7 @@ module.exports.restore = (filename) => {
 			return;
 		}
 
-		const serverDir = path.join(__dirname, '../../../')
+		const uploadDir = path.join(__dirname, '../../../', 'uploads')
 		const newUploadPath = path.join(__dirname, '../../../backups/uploads')
 		const newCollectionsPath = path.join(__dirname, '../../../backups/collections')
 
@@ -116,10 +124,11 @@ module.exports.restore = (filename) => {
 
 		// Move upload file
 		//
-		await removeFolder(serverDir + 'uploads')
-		done = await moveFile(newUploadPath, serverDir)
+		await removeFolderContent(uploadDir)
+		done = await moveFolderContent(newUploadPath, uploadDir)
 			.then(_ => true)
 			.catch(reject)
+
 
 		if (!done) return;
 
@@ -138,6 +147,12 @@ module.exports.restore = (filename) => {
 		// Remove data
 		//
 		await removeFolder(newCollectionsPath)
+		await removeFolder(newUploadPath);
+
+		if (process.env.NODE_ENV == 'production') {
+			await sleep(500)
+			exec('pm2 restart all');
+		}
 	})
 
 }

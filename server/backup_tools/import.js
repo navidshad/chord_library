@@ -5,12 +5,12 @@ const {
 const fs = require('fs');
 
 // let filesDir = require('path').join(__dirname, 'files');
-let dbConnectionStr = 'mongodb://localhost:27017/';
+let dbConnectionStr = process.env.MONGODB_URL;
 
 function ImportFile(fileDir, db, coll) {
   return new Promise((done, reject) => {
 
-    let url = dbConnectionStr + db;
+    let url = `${dbConnectionStr}/${db}`;
     let command = `mongoimport --uri="${url}" --collection="${coll}" --file="${fileDir}"`;
 
     exec(command, (err, stdout, stderr) => {

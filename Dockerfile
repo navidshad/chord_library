@@ -3,6 +3,7 @@ FROM node:14.21.1-alpine
 # Install Tools
 #
 RUN apk add g++ make py3-pip
+RUN apk add zip
 RUN apk add --upgrade mongodb-tools
 RUN npm install pm2 -g
 
