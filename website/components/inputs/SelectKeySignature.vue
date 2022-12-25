@@ -1,7 +1,7 @@
 <template>
   <Select
     database="chord"
-    collection="keySignature"
+    collection="keysignature"
     optionLabelKey="title"
     :multiple="false"
     :block="block"

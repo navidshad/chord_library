@@ -108,7 +108,8 @@ export default {
   created() {
     if (!this.isLogin) {
       this.pending = true;
-      this.$store.dispatch("auth/loginWithLastSession").finally((_) => {
+      this.$store.dispatch("auth/loginWithLastSession")
+      .finally((_) => {
         this.pending = false;
       });
     }
