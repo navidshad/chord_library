@@ -5,7 +5,7 @@ dotenv.config({
 
 export default {
   env: {
-    BASE_URL: process.env.VUE_APP_BASE_URL || 'https://data.goranee.ir',
+    BASE_URL: process.env.VUE_APP_BASE_URL || 'https://goranee.ir:81',
   },
 
   server: {
