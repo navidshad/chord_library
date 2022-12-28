@@ -17,12 +17,12 @@ global.rootPath = __dirname;
 
 function run() {
     return ModularRest.createRest({
-        port: 81,
+        port: 8081,
         componentDirectory: join(__dirname, 'src/services'),
         uploadDirectory: join(__dirname, 'uploads'),
         mongo: {
             mongoBaseAddress: process.env.MONGODB_URL,
-            dbPrefix: process.env.MONGODB_prefix,
+            dbPrefix: '',
         },
         // cors: {
         //     origin: 'http://localhost:3000'
