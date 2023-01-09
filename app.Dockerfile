@@ -2,6 +2,7 @@ FROM node:14.21.1-alpine
 
 # Install Tools
 #
+
 RUN apk add g++ make py3-pip
 RUN apk add zip
 RUN apk add --upgrade mongodb-tools
@@ -32,7 +33,6 @@ VOLUME "/server/uploads"
 VOLUME "/server/backups"
 
 EXPOSE 8080
-EXPOSE 8081
 
 COPY ecosystem.config.js ./
 CMD ["pm2-runtime", "ecosystem.config.js"]
