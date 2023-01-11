@@ -7,7 +7,7 @@ const {
 } = require('http-proxy-middleware');
 const app = require('express')()
 
-const isDev = false //process.env.NODE_ENV !== 'production'
+const isDev = process.env.NODE_ENV !== 'production'
 
 async function start() {
   // We get Nuxt instance
@@ -26,9 +26,9 @@ async function start() {
 
   // Build only in dev mode with hot-reloading
   //
-  // if (isDev) {
-  //   build(nuxt)
-  // }
+  if (isDev) {
+    build(nuxt)
+  }
 
   app.listen(8080)
 }

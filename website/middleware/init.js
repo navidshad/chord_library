@@ -6,13 +6,7 @@ import {
 export default function ({
   fetch,
 }) {
-  let baseUrl;
-
-  if (process.server) {
-    baseUrl = 'http://localhost:8081'
-  } else {
-    baseUrl = process.env.BASE_URL || ''
-  }
+  let baseUrl = process.env.BASE_URL || 'http://localhost:8081';
 
   /**
    * Setup mrest-web module
