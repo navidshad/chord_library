@@ -6,13 +6,13 @@
 
 <script>
 export default {
-  name: 'Card',
-}
+  name: "Card",
+};
 </script>
 
 <style scoped>
 .card {
   background: white;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 </style>

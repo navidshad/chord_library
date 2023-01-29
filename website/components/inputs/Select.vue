@@ -53,7 +53,9 @@ export default {
     list(value) {
       if (value.length) this.retrieveSelectedItemsFromValue();
     },
-    value(value) {
+    value(value, oldValue) {
+      if (JSON.stringify(value) == JSON.stringify(oldValue)) return;
+
       if (value) this.retrieveSelectedItemsFromValue();
     },
     tempValue(value) {
