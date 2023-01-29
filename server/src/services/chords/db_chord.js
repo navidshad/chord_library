@@ -38,7 +38,7 @@ module.exports = [
 
     new CollectionDefinition({
         db: 'chord',
-        collection: 'keySignature',
+        collection: 'keysignature',
         schema: new Schema({
             minor: { type: String, unique: true, required: true },
             major: { type: String, unique: true, required: true },
@@ -81,7 +81,7 @@ module.exports = [
         db: 'chord',
         collection: 'table',
         schema: new Schema({
-            keySignature: { type: Schema.Types.ObjectId, ref: 'keySignature', required: true, },
+            keySignature: { type: Schema.Types.ObjectId, ref: 'keysignature', required: true, },
             type: { type: Schema.Types.ObjectId, ref: 'type', required: true, },
             rows: [TableRowSchema],
             vocalRows: { type: [String], default: [] },

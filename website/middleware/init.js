@@ -1,14 +1,20 @@
-import { GlobalOptions, authentication } from '@modular-rest/client';
+import {
+  GlobalOptions,
+  authentication
+} from '@modular-rest/client';
 
-/**
- * Setup mrest-web module
- */
-GlobalOptions.set({
-    host: process.env.BASE_URL || ''
-})
+export default function ({
+  fetch,
+}) {
+  let baseUrl = process.env.BASE_URL || 'http://localhost:8081';
 
-export default function ({ fetch }) {
+  /**
+   * Setup mrest-web module
+   */
+  GlobalOptions.set({
+    host: baseUrl
+  })
 
-    if (!authentication.isLogin)
-        return authentication.loginAsAnonymous();
+  if (!authentication.isLogin)
+    return authentication.loginAsAnonymous();
 }

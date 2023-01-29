@@ -1,2 +1,4 @@
 .nuxt
+.env
+.DS_Store
 website/test.js

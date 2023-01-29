@@ -1,17 +1,19 @@
-import { GlobalOptions, authentication } from '@modular-rest/client';
+import { GlobalOptions, authentication } from "@modular-rest/client";
 
 // Styles
-import '~/assets/style/style.scss';
-import '~/assets/style/fonts.css';
-import 'boxicons/css/boxicons.min.css';
+import "~/assets/style/style.scss";
+import "~/assets/style/fonts.css";
+import "boxicons/css/boxicons.min.css";
 
-/**
- * Setup mrest-web module
- */
-GlobalOptions.set({
-    host: process.env.BASE_URL || ''
-})
+export default async function() {
+  /**
+   * Setup mrest-web module
+   */
+  const baseUrl = process.env.BASE_URL || "";
+  GlobalOptions.set({
+    host: baseUrl
+  });
 
-export default async function () {
-    await authentication.loginAsAnonymous()
+  localStorage.removeItem("token");
+  await authentication.loginAsAnonymous();
 }

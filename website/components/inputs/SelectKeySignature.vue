@@ -1,9 +1,9 @@
 <template>
   <Select
     database="chord"
-    collection="keySignature"
-    optionLabelKey=""
-    :multiple="multiple"
+    collection="keysignature"
+    optionLabelKey="title"
+    :multiple="false"
     :block="block"
     :label="label"
     :placehoder="$t('chord.select-keySignature')"
@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      tempValue: ""
+      tempValue: "",
     };
   },
   watch: {

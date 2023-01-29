@@ -9,27 +9,24 @@
         <v-btn color="error" @click="removeImage">Remove</v-btn>
       </div>
     </div>
-    <v-dialog :value="activeModal" :loading="uploadPending">
-      <v-card>
-        <v-card-title>
-          <h4 class="not-margin">Image uploader</h4>
-        </v-card-title>
-        <v-card-actions>
-          <croppa
-            v-model="image"
-            :width="width"
-            :height="height"
-            :initial-image="thumbnailLink"
-            :prevent-white-space="true"
-          />
-          <div class="flex">
-            <v-btn color="primary" @click="uploadImage">Upload</v-btn>
-            <v-btn color="error" @click="removeImage">Remove</v-btn>
-            <v-btn color="error" @click="activeModal = false">Close</v-btn>
-          </div>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+
+    <vs-dialog :value="activeModal" :loading="uploadPending" not-close>
+      <template #header>
+        <h4 class="not-margin">Image uploader</h4>
+      </template>
+      <croppa
+        v-model="image"
+        :width="width"
+        :height="height"
+        :initial-image="thumbnailLink"
+        :prevent-white-space="true"
+      />
+      <div class="flex">
+        <vs-button @click="uploadImage">Upload</vs-button>
+        <vs-button @click="removeImage" danger>Remove</vs-button>
+        <vs-button @click="activeModal = false" danger>Close</vs-button>
+      </div>
+    </vs-dialog>
   </div>
 </template>
 
