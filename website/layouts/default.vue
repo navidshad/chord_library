@@ -1,5 +1,5 @@
 <template>
-  <div class="rtl">
+  <v-app class="rtl">
     <!-- NAVBAR -->
     <vs-navbar>
       <vs-button
@@ -94,7 +94,7 @@
     </div>
 
     <dialog-presentor />
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -108,8 +108,7 @@ export default {
   created() {
     if (!this.isLogin) {
       this.pending = true;
-      this.$store.dispatch("auth/loginWithLastSession")
-      .finally((_) => {
+      this.$store.dispatch("auth/loginWithLastSession").finally((_) => {
         this.pending = false;
       });
     }
