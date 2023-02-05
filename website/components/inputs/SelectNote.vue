@@ -1,24 +1,12 @@
 <template>
   <div>
-    <vs-select
+    <v-select
       :loading="pending"
       :label="label"
       :placehoder="placehoder"
-      :block="block"
-      :value="'+++'+value"
-      @input="tempValue = $event"
-    >
-      <slot v-bind:list="list">
-        <vs-option
-          v-for="(item, i) in list"
-          :key="i"
-          :label="item"
-          :value="item"
-        >
-          {{ item }}
-        </vs-option>
-      </slot>
-    </vs-select>
+      :items="list"
+      v-model="tempValue"
+    />
   </div>
 </template>
 
@@ -26,40 +14,47 @@
 export default {
   props: {
     value: { default: () => [] },
-    block: Boolean,
+
     label: String,
     placehoder: String,
     pending: { type: Boolean, default: false },
   },
   data() {
     return {
-      tempValue: '',
+      tempValue: "",
       list: [
-        'C',
-        'D',
-        'E',
-        'F',
-        'G',
-        'A',
-        'B',
-        'C#',
-        'D#',
-        'E#',
-        'F#',
-        'G#',
-        'A#',
-        'B#',
-        'Eb',
-        'Ab',
-        'Bb',
-        'Db',
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "A",
+        "B",
+        "C#",
+        "D#",
+        "E#",
+        "F#",
+        "G#",
+        "A#",
+        "B#",
+        "Eb",
+        "Ab",
+        "Bb",
+        "Db",
       ],
-    }
+    };
   },
   watch: {
+    value: {
+      immediate: true,
+      handler(value) {
+        if (!value) return;
+        this.tempValue = value;
+      },
+    },
     tempValue(value) {
-      this.$emit('input', value)
+      this.$emit("input", value);
     },
   },
-}
+};
 </script>
