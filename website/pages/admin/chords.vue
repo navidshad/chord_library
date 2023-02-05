@@ -1,17 +1,17 @@
 <template>
   <div>
-    <v-btn-toggle block>
-      <v-btn depressed color="primary" :active-class="page == 'table'" @click="page = 'table'">{{
-        $t('chord.table')
+    <v-btn-toggle block v-model="page">
+      <v-btn value="table" depressed color="primary">{{
+        $t("chord.table")
       }}</v-btn>
-      <v-btn depressed color="primary" :active-class="page == 'type'" @click="page = 'type'">{{
-        $t('chord.type')
+      <v-btn value="type" depressed color="primary">{{
+        $t("chord.type")
       }}</v-btn>
-      <v-btn depressed color="primary" :active-class="page == 'chord'" @click="page = 'chord'">{{
-        $t('chord.chord')
+      <v-btn value="chord" depressed color="primary">{{
+        $t("chord.chord")
       }}</v-btn>
-      <v-btn depressed color="primary" :active-class="page == 'keySignature'" @click="page = 'keySignature'">{{
-        $t('chord.keySignature')
+      <v-btn value="keySignature" depressed color="primary">{{
+        $t("chord.keySignature")
       }}</v-btn>
     </v-btn-toggle>
 
@@ -52,49 +52,49 @@
 </template>
 
 <script>
-import SelectChordType from '../../components/inputs/SelectChordType'
+import SelectChordType from "../../components/inputs/SelectChordType";
 
 export default {
-  middleware: ['auth'],
+  middleware: ["auth"],
   data() {
     return {
-      page: 'table',
+      page: "table",
       typeFields: [
         {
-          key: 'title',
-          type: 'string',
+          key: "title",
+          type: "string",
         },
         {
-          key: 'description',
-          type: 'string',
+          key: "description",
+          type: "string",
         },
       ],
       chordFields: [
         {
-          key: 'title',
-          type: 'string',
+          key: "title",
+          type: "string",
         },
         {
-          key: 'type',
+          key: "type",
           inputComponent: SelectChordType,
           mutate: (row) => row.type.title,
         },
       ],
       keySignatureFields: [
         {
-          key: 'major',
-          type: 'string',
+          key: "major",
+          type: "string",
         },
         {
-          key: 'minor',
-          type: 'string',
+          key: "minor",
+          type: "string",
         },
         {
-          key: 'description',
-          type: 'string',
+          key: "description",
+          type: "string",
         },
       ],
-    }
+    };
   },
-}
+};
 </script>
