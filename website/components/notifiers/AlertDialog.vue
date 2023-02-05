@@ -5,16 +5,15 @@
       <p class="text-base text-gray-500">{{ description }}</p>
     </div>
     <div class="flex items-center justify-between">
-      <vs-button
+      <v-btn
         v-for="(action, i) in actions"
         :key="i"
         :loading="action.pending"
         v-bind="action.button"
-        block
         @click="onActionClicked(action)"
       >
         {{ action.label }}
-      </vs-button>
+      </v-btn>
     </div>
   </div>
 </template>
@@ -29,10 +28,10 @@ export default {
   },
   methods: {
     onActionClicked(action) {
-      this.$emit('actionClick', action)
+      this.$emit("actionClick", action);
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
