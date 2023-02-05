@@ -1,7 +1,14 @@
 <template>
   <div>
-    <vs-select
+    <v-select
+      :items="list"
+      :label="label"
       :loading="pending"
+      item-text="title"
+      item-value="_id"
+      v-model="tempValue"
+    />
+    <!-- <vs-select
       :key="list.length"
       :label="label"
       :placehoder="placehoder"
@@ -20,18 +27,17 @@
           {{ item.title }}
         </vs-option>
       </slot>
-    </vs-select>
+    </vs-select> -->
   </div>
 </template>
 
 <script>
-import { dataProvider } from '@modular-rest/client'
-import notifier from '../../utilities/notifier'
+import { dataProvider } from "@modular-rest/client";
+import notifier from "../../utilities/notifier";
 
 export default {
   props: {
     value: { default: () => [] },
-    block: Boolean,
     label: String,
     placehoder: String,
     list: { type: Array, default: () => [] },
@@ -39,8 +45,8 @@ export default {
   },
   data() {
     return {
-      tempValue: '',
-    }
+      tempValue: "",
+    };
   },
   watch: {
     // value: {
@@ -53,11 +59,11 @@ export default {
     tempValue(value) {
       if (this.multiple) {
         this.$emit(
-          'input',
+          "input",
           value.filter((item) => item.length > 0)
-        )
-      } else this.$emit('input', value)
+        );
+      } else this.$emit("input", value);
     },
   },
-}
+};
 </script>
