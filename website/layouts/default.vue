@@ -27,13 +27,6 @@
     <v-navigation-drawer v-if="user" v-model="activeSidebar" app absolute>
       <!-- Admin section -->
       <v-expansion-panel v-if="user && user.type === 'administrator'">
-        <v-expansion-panel-header>
-          <v-icon>mdi-terminal</v-icon>
-          <v-expansion-panel-content>
-            {{ $t("navbar.admin.title") }}
-          </v-expansion-panel-content>
-        </v-expansion-panel-header>
-
         <v-list>
           <v-list-item to="/admin/artists">
             <v-list-item-icon>
@@ -83,26 +76,27 @@
       </v-expansion-panel>
 
       <!-- Settings -->
-      <v-list v-if="user && user.type == 'administrator'">
-        <v-list-item-group>
-          <template #prepend>
-            <v-list-item>
-              <v-icon>mdi-terminal</v-icon>
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ $t("navbar.settings.title") }}
-                </v-list-item-title>
-              </v-list-item-content>
+      <v-expansion-panel v-if="user && user.type == 'administrator'">
+        <v-list v-if="user && user.type == 'administrator'">
+          <v-list-item-group>
+            <template #prepend>
+              <v-list-item>
+                <v-icon>mdi-terminal</v-icon>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ $t("navbar.settings.title") }}
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+
+            <!-- Backup -->
+            <v-list-item to="/settings/backup">
+              {{ $t("navbar.settings.backup") }}
             </v-list-item>
-          </template>
-
-          <!-- Backup -->
-          <v-list-item to="/settings/backup">
-            {{ $t("navbar.settings.backup") }}
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-
+          </v-list-item-group>
+        </v-list>
+      </v-expansion-panel>
       <v-list>
         <v-list-item to="/about-us">
           {{ $t("aboutus") }}
