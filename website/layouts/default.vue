@@ -1,92 +1,114 @@
 <template>
   <v-app class="rtl">
     <!-- NAVBAR -->
-    <vs-navbar>
-      <vs-button
-        slot="left"
-        flat
-        v-if="!isLogin"
-        :loading="pending"
-        to="/auth/login"
-      >
+    <v-app-bar app>
+      <v-btn v-if="!isLogin" :loading="pending" to="/auth/login">
         {{ $t("auth.sign-in") }}
-      </vs-button>
+      </v-btn>
 
-      <vs-button
-        slot="left"
-        v-if="isLogin"
-        @click="activeSidebar = !activeSidebar"
-        flat
-        icon
-      >
-        <i class="bx bx-menu"></i>
-      </vs-button>
+      <v-btn v-if="isLogin" @click="activeSidebar = !activeSidebar" icon>
+        <v-icon>mdi-menu</v-icon>
+      </v-btn>
 
-      <NuxtLink to="/search" class="mx-2">
+      <nuxt-link to="/search" class="mx-2">
         {{ $t("search.label") }}
-      </NuxtLink>
+      </nuxt-link>
 
-      <NuxtLink to="/artist/all" class="mx-2">
+      <nuxt-link to="/artist/all" class="mx-2">
         {{ $t("artist.artists") }}
-      </NuxtLink>
+      </nuxt-link>
 
-      <NuxtLink to="/" class="mx-2">
+      <nuxt-link to="/" class="mx-2">
         {{ $t("navbar.home") }}
-      </NuxtLink>
-    </vs-navbar>
+      </nuxt-link>
+    </v-app-bar>
 
     <!-- SIDEBAR -->
-    <vs-sidebar :open.sync="activeSidebar" absolute>
+    <v-navigation-drawer v-if="user" v-model="activeSidebar" app absolute>
       <!-- Admin section -->
-      <vs-sidebar-group v-if="user && user.type == 'administrator'">
-        <template #header>
-          <vs-sidebar-item arrow>
-            <template #icon>
-              <i class="bx bx-terminal"></i>
-            </template>
+      <v-expansion-panel v-if="user && user.type === 'administrator'">
+        <v-expansion-panel-header>
+          <v-icon>mdi-terminal</v-icon>
+          <v-expansion-panel-content>
             {{ $t("navbar.admin.title") }}
-          </vs-sidebar-item>
-        </template>
+          </v-expansion-panel-content>
+        </v-expansion-panel-header>
 
-        <vs-sidebar-item to="/admin/artists">
-          {{ $t("navbar.admin.artists") }}
-        </vs-sidebar-item>
+        <v-list>
+          <v-list-item to="/admin/artists">
+            <v-list-item-icon>
+              <v-icon>mdi-account-music</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ $t("navbar.admin.artists") }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
-        <vs-sidebar-item to="/admin/genres">
-          {{ $t("navbar.admin.genres") }}
-        </vs-sidebar-item>
+          <v-list-item to="/admin/genres">
+            <v-list-item-icon>
+              <v-icon>mdi-music-note</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ $t("navbar.admin.genres") }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
-        <vs-sidebar-item to="/admin/song/list">
-          {{ $t("navbar.admin.songs") }}
-        </vs-sidebar-item>
+          <v-list-item to="/admin/song/list">
+            <v-list-item-icon>
+              <v-icon>mdi-playlist-music</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ $t("navbar.admin.songs") }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
-        <!-- Chord Settings -->
-        <vs-sidebar-item to="/admin/chords">
-          {{ $t("navbar.admin.chords") }}
-        </vs-sidebar-item>
-      </vs-sidebar-group>
+          <!-- Chord Settings -->
+          <v-list-item to="/admin/chords">
+            <v-list-item-icon>
+              <v-icon>mdi-guitar-electric</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ $t("navbar.admin.chords") }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-expansion-panel>
 
       <!-- Settings -->
-      <vs-sidebar-group v-if="user && user.type == 'administrator'">
-        <template #header>
-          <vs-sidebar-item arrow>
-            <template #icon>
-              <i class="bx bx-terminal"></i>
-            </template>
-            {{ $t("navbar.settings.title") }}
-          </vs-sidebar-item>
-        </template>
+      <v-list v-if="user && user.type == 'administrator'">
+        <v-list-item-group>
+          <template #prepend>
+            <v-list-item>
+              <v-icon>mdi-terminal</v-icon>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ $t("navbar.settings.title") }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
 
-        <!-- Backup -->
-        <vs-sidebar-item to="/settings/backup">
-          {{ $t("navbar.settings.backup") }}
-        </vs-sidebar-item>
-      </vs-sidebar-group>
+          <!-- Backup -->
+          <v-list-item to="/settings/backup">
+            {{ $t("navbar.settings.backup") }}
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
 
-      <vs-sidebar-item to="/about-us">
-        {{ $t("aboutus") }}
-      </vs-sidebar-item>
-    </vs-sidebar>
+      <v-list>
+        <v-list-item to="/about-us">
+          {{ $t("aboutus") }}
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
     <!-- CONTENT -->
     <div class="page-content">
