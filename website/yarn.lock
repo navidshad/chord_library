@@ -1044,16 +1044,10 @@
     methods "^1.1.2"
     path-to-regexp "^6.1.0"
 
-"@modular-rest/client@../../modular-rest/packages/client/":
-  version "1.2.11"
-  dependencies:
-    axios "^0.21.0"
-    ts-bus "^2.3.1"
-
-"@modular-rest/client@^1.2.11":
-  version "1.2.11"
-  resolved "https://registry.yarnpkg.com/@modular-rest/client/-/client-1.2.11.tgz#185411b2edc7b88f0d55d15dcf9ca019299ef3e4"
-  integrity sha512-hbqdIKgUxj7TfiWZcfP6J8yL7BOuxtn+xxSIf9y9LQ6atT5fRE25/9N/kC385sBxzLVYK2FvQGLvXPEm/qzT9w==
+"@modular-rest/client@^1.2.23":
+  version "1.2.23"
+  resolved "https://registry.yarnpkg.com/@modular-rest/client/-/client-1.2.23.tgz#45eee3026c447b13401ce7613de8ae4f14449836"
+  integrity sha512-QGFzJwc9SKtTUClsjgA/oFWhJ1EY/RWVQ5yUMy33HDX2miFUZ4wAdS9QQZvUOW4Cy6MGFLz/OmcercGbUFqNEQ==
   dependencies:
     axios "^0.21.0"
     ts-bus "^2.3.1"
