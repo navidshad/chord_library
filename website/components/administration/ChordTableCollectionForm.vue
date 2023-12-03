@@ -16,92 +16,81 @@
     </div>
 
     <!-- Regular table -->
-    <vs-table class="mt-6">
-      <template #header>
-        <span>Regular Chords</span>
+    <v-simple-table class="mt-6">
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th colspan="1">Regular Chords</th>
+            <th v-for="(column, i) in columns" :key="i">{{ column }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(fieldsRow, rowIndex) in form.rows" :key="rowIndex">
+            <!-- Notes -->
+            <td>
+              <select-note
+                :pending="chordPending"
+                v-model="form.vocalRows[rowIndex]"
+              />
+            </td>
+            <!-- Chords -->
+            <td v-for="(column, columnIndex) in columns" :key="columnIndex">
+              <select-chord
+                :list="chords"
+                :pending="chordPending"
+                v-model="form.rows[rowIndex][column]"
+              />
+            </td>
+          </tr>
+        </tbody>
       </template>
-      <!-- THead -->
-      <template slot="thead">
-        <vs-tr>
-          <vs-th> Vocal Note </vs-th>
-          <vs-th v-for="(column, i) in columns" :key="i">
-            {{ column }}
-          </vs-th>
-        </vs-tr>
-      </template>
-
-      <!-- TBody -->
-      <template slot="tbody">
-        <vs-tr v-for="(fieldsRow, rowIndex) in form.rows" :key="rowIndex">
-          <!-- Notes -->
-          <vs-td>
-            <select-note
-              :pending="chordPending"
-              v-model="form.vocalRows[rowIndex]"
-            />
-          </vs-td>
-          <!-- Chords -->
-          <vs-td v-for="(column, columnIndex) in columns" :key="columnIndex">
-            <select-chord
-              :list="chords"
-              :pending="chordPending"
-              v-model="form.rows[rowIndex][column]"
-            />
-          </vs-td>
-        </vs-tr>
-      </template>
-    </vs-table>
+    </v-simple-table>
 
     <!-- Chromatic table -->
-    <vs-table class="mt-6">
-      <template #header>
-        <span>Chromatic Chords</span>
-      </template>
-      <!-- THead -->
-      <template slot="thead">
-        <vs-tr>
-          <vs-th>01</vs-th>
-          <vs-th>02</vs-th>
-          <vs-th>03</vs-th>
-          <vs-th>04</vs-th>
-        </vs-tr>
-      </template>
-
-      <!-- TBody -->
-      <template slot="tbody">
-        <vs-tr
-          v-for="(fieldsRow, rowIndex) in form.chromaticRows"
-          :key="rowIndex"
-        >
-          <vs-td
-            v-for="(column, columnIndex) in chromaticColumns"
-            :key="columnIndex"
+    <v-simple-table class="mt-6">
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th colspan="1">Chromatic Chords</th>
+            <th v-for="(column, i) in chromaticColumns" :key="i">
+              {{ column }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(fieldsRow, rowIndex) in form.chromaticRows"
+            :key="rowIndex"
           >
-            <select-chord
-              :list="chords"
-              :pending="chordPending"
-              :value="form.chromaticRows[rowIndex][column] || ''"
-              @input="form.chromaticRows[rowIndex][column] = $event"
-            />
-          </vs-td>
-        </vs-tr>
+            <td
+              v-for="(column, columnIndex) in chromaticColumns"
+              :key="columnIndex"
+            >
+              <select-chord
+                :list="chords"
+                :pending="chordPending"
+                v-model="form.chromaticRows[rowIndex][column]"
+              />
+            </td>
+          </tr>
+        </tbody>
       </template>
-    </vs-table>
+    </v-simple-table>
 
     <div class="mt-4">
-      <vs-button v-if="!edit" @click="create" :loading="pending">{{
-        $t('create')
-      }}</vs-button>
-      <vs-button v-else @click="update" :loading="pending">{{
-        $t('update')
-      }}</vs-button>
+      <v-btn v-if="!edit" @click="create" :loading="pending">
+        {{ $t("create") }}
+      </v-btn>
+      <v-btn v-else @click="update" :loading="pending">
+        {{ $t("update") }}
+      </v-btn>
     </div>
   </div>
 </template>
 
 <script>
-import { dataProvider } from '@modular-rest/client'
-import notifier from '../../utilities/notifier'
+import { dataProvider } from "@modular-rest/client";
+import notifier from "../../utilities/notifier";
 
 export default {
   props: {
@@ -122,18 +111,18 @@ export default {
   data() {
     return {
       form: {
-        type: '',
-        keySignature: '',
+        type: "",
+        keySignature: "",
         rows: this.createTableArray(),
-        vocalRows: ['-', '-', '-', '-', '-', '-', '-'],
+        vocalRows: ["-", "-", "-", "-", "-", "-", "-"],
         chromaticRows: this.createChromaticTableArray(),
       },
       chords: [],
       chordPending: false,
-      columns: ['major', 'naturalMinor', 'harmonicMinor', 'melodicMinor'],
-      chromaticColumns: ['one', 'two', 'three', 'four'],
+      columns: ["major", "naturalMinor", "harmonicMinor", "melodicMinor"],
+      chromaticColumns: ["one", "two", "three", "four"],
       pending: false,
-    }
+    };
   },
 
   watch: {
@@ -141,7 +130,7 @@ export default {
       immediate: true,
       handler(value) {
         if (this.edit) {
-          this.pending = true
+          this.pending = true;
           dataProvider
             .findOne({
               database: this.database,
@@ -149,55 +138,55 @@ export default {
               query: { _id: value },
             })
             .then((doc) => {
-              delete doc._id
-              this.form = doc
+              delete doc._id;
+              this.form = doc;
 
               if (!doc.rows.length) {
-                this.form.rows = this.createTableArray()
+                this.form.rows = this.createTableArray();
               }
               if (!doc.chromaticRows.length) {
-                this.form.chromaticRows = this.createChromaticTableArray()
+                this.form.chromaticRows = this.createChromaticTableArray();
               }
             })
-            .finally(() => (this.pending = false))
+            .finally(() => (this.pending = false));
         }
       },
     },
   },
 
   created() {
-    this.getChordList()
+    this.getChordList();
   },
 
   methods: {
     createTableArray(y = 7) {
-      let lines = []
+      let lines = [];
       for (let i = 0; i < y; i++) {
         lines.push({
-          major: '',
-          naturalMinor: '',
-          harmonicMinor: '',
-          melodicMinor: '',
-        })
+          major: "",
+          naturalMinor: "",
+          harmonicMinor: "",
+          melodicMinor: "",
+        });
       }
-      return lines
+      return lines;
     },
 
     createChromaticTableArray(y = 7) {
-      let lines = []
+      let lines = [];
       for (let i = 0; i < y; i++) {
         lines.push({
           one: null,
           two: null,
           three: null,
           four: null,
-        })
+        });
       }
-      return lines
+      return lines;
     },
 
     create() {
-      this.pending = true
+      this.pending = true;
       dataProvider
         .insertOne({
           database: this.database,
@@ -205,21 +194,21 @@ export default {
           doc: this.form,
         })
         .then(() => {
-          this.$emit('created')
-          this.$emit('close')
+          this.$emit("created");
+          this.$emit("close");
         })
         .catch((result) => {
           notifier.toast({
             label: `Create ${this.collection} error`,
             description: result.error,
-            type: 'error',
-          })
+            type: "error",
+          });
         })
-        .finally(() => (this.pending = false))
+        .finally(() => (this.pending = false));
     },
 
     update() {
-      this.pending = true
+      this.pending = true;
 
       dataProvider
         .updateOne({
@@ -229,36 +218,35 @@ export default {
           update: this.form,
         })
         .then(() => {
-          this.$emit('updated')
-          this.$emit('close')
+          this.$emit("updated");
+          this.$emit("close");
         })
         .catch((result) => {
           notifier.toast({
             label: `Update ${this.collection} error`,
             description: result.error,
-            type: 'error',
-          })
+            type: "error",
+          });
         })
-        .finally(() => (this.pending = false))
+        .finally(() => (this.pending = false));
     },
 
     getChordList() {
-      this.chordPending = true
+      this.chordPending = true;
       dataProvider
         .find({
-          database: 'chord',
-          collection: 'chord',
+          database: "chord",
+          collection: "chord",
           query: {},
           options: {
-            sort: 'title',
+            sort: "title",
           },
         })
         .then((list) => (this.chords = list))
-        .finally(() => (this.chordPending = false))
+        .finally(() => (this.chordPending = false));
     },
   },
-}
+};
 </script>
 
-<style>
-</style>
+<style></style>
