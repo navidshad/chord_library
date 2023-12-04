@@ -1,50 +1,52 @@
-  <template>
-  <div class="page">
-    <div class="container">
+<template>
+  <v-container class="page">
+    <v-container>
       <p>
-        By tapping opposit button a new backup will be generate, then will be
-        shown on the table.
+        By tapping opposite button, a new backup will be generated, then it will
+        be shown on the table.
       </p>
       <v-btn color="primary" :loading="pendingBackup" @click="createBackup"
         >Create new Backup</v-btn
       >
-    </div>
+    </v-container>
 
-    <div class="container w-full">
+    <v-container class="w-full">
       <BackupUploader @uploaded="getList" />
-    </div>
+    </v-container>
 
-    <vs-table :loading="loadingList">
-      <template #thead>
-        <vs-tr>
-          <vs-th> Title </vs-th>
-          <vs-th> Size </vs-th>
-          <vs-th> options </vs-th>
-        </vs-tr>
+    <v-simple-table :loading="loadingList">
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Size</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(file, i) in list" :key="i">
+            <td>
+              <a :href="getLink(file.title)">
+                {{ file.title }}
+              </a>
+            </td>
+            <td>
+              {{ file.size }}
+            </td>
+            <td class="flex">
+              <v-btn @click="restore(file.title)">Restore</v-btn>
+              <v-btn color="red" @click="removeBackup(file.title)" dark>
+                Remove
+              </v-btn>
+            </td>
+          </tr>
+        </tbody>
       </template>
-      <template #tbody>
-        <vs-tr :key="i" v-for="(file, i) in list">
-          <vs-td>
-            <a :href="getLink(file.title)">
-              {{ file.title }}
-            </a>
-          </vs-td>
-          <vs-td>
-            {{ file.size }}
-          </vs-td>
-          <vs-td class="flex">
-            <vs-button @click="restore(file.title)">Restore</vs-button>
-            <vs-button color="red" @click="removeBackup(file.title)" danger
-              >Remove</vs-button
-            >
-          </vs-td>
-        </vs-tr>
-      </template>
-    </vs-table>
-  </div>
+    </v-simple-table>
+  </v-container>
 </template>
 
-  <script>
+<script>
 import { is } from "@babel/types";
 import notifier from "~/utilities/notifier";
 
