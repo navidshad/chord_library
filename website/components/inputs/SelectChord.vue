@@ -8,26 +8,6 @@
       item-value="_id"
       v-model="tempValue"
     />
-    <!-- <vs-select
-      :key="list.length"
-      :label="label"
-      :placehoder="placehoder"
-      :block="block"
-      :value="value"
-      filter
-      @input="tempValue = $event"
-    >
-      <slot v-bind:list="list">
-        <vs-option
-          v-for="(item, i) in list"
-          :key="i"
-          :label="item.title"
-          :value="item._id"
-        >
-          {{ item.title }}
-        </vs-option>
-      </slot>
-    </vs-select> -->
   </div>
 </template>
 
