@@ -79,9 +79,5 @@ export default {
 .card-artist {
   /* width: 250px; */
   margin: 10px;
-
-  .vs-card {
-    background: none !important;
-  }
 }
 </style>
