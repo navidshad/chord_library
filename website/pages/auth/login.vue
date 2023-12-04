@@ -1,106 +1,82 @@
 <template>
   <div>
-    <card class="p-16">
-      <!-- <template>
-              <div class="text-muted text-center mb-3">
-                <small>Sign in with</small>
-              </div>
-              <div class="btn-wrapper text-center">
-                <base-button type="neutral">
-                  <img slot="icon" src="img/icons/common/github.svg" />
-                  Github
-                </base-button>
-
-                <base-button type="neutral">
-                  <img slot="icon" src="img/icons/common/google.svg" />
-                  Google
-                </base-button>
-              </div>
-            </template> -->
-      <template>
-        <div class="text-center text-muted mb-4">
-          <small>{{ $t('auth.with-credentials') }}</small>
-        </div>
-        <div>
-          <vs-input
-            alternative
-            class="mb-3"
-            addon-left-icon="ni ni-email-83"
-            :placeholder="$t('auth.accountID')"
+    <v-card class="p-16">
+      <v-row>
+        <v-col class="text-center text-muted mb-4">
+          <small>{{ $t("auth.with-credentials") }}</small>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-text-field
             v-model="form.id"
-          >
-            <template #icon>
-              <i class="bx bx-user" />
-            </template>
-          </vs-input>
-
-          <vs-input
-            alternative
-            type="password"
-            addon-left-icon="ni ni-lock-circle-open"
-            :placeholder="$t('auth.password')"
+            :label="$t('auth.accountID')"
+            prepend-icon="bx bx-user"
+            append-icon=""
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-text-field
             v-model="form.password"
-          >
-            <template #icon>
-              <i class="bx bx-lock-open-alt"></i>
-            </template>
-          </vs-input>
-
-          <!-- <base-checkbox v-model="rememberMe">
-            {{ $t('auth.remember-me') }}
-          </base-checkbox> -->
-          <div class="mt-4">
-            <vs-button block :loading="pending" @click="login">
-              {{ $t('auth.sign-in') }}
-            </vs-button>
-          </div>
-        </div>
-      </template>
-    </card>
-    <div class="flex flex-row-reverse justify-between items-end mt-2 px-2">
-      <div>
-        <NuxtLink to="/auth/forgot-password">
-          <small>{{ $t('auth.forgot-password') }}</small>
-        </NuxtLink>
-      </div>
-      <div>
-        <NuxtLink to="/auth/register">
-          <small>{{ $t('auth.create-new-account') }}</small>
-        </NuxtLink>
-      </div>
-    </div>
+            :label="$t('auth.password')"
+            prepend-icon="bx bx-lock-open-alt"
+            :type="'password'"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col class="mt-4">
+          <v-btn block :loading="pending" @click="login">
+            {{ $t("auth.sign-in") }}
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-card>
+    <v-row class="flex flex-row-reverse justify-between items-end mt-2 px-2">
+      <v-col>
+        <nuxt-link to="/auth/forgot-password">
+          <small>{{ $t("auth.forgot-password") }}</small>
+        </nuxt-link>
+      </v-col>
+      <v-col>
+        <nuxt-link to="/auth/register">
+          <small>{{ $t("auth.create-new-account") }}</small>
+        </nuxt-link>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Login',
-  layout: 'hero',
+  name: "Login",
+  layout: "hero",
   data() {
     return {
       form: {
-        idType: 'email',
-        id: '',
-        password: '',
+        idType: "email",
+        id: "",
+        password: "",
       },
       pending: false,
       rememberMe: false,
-    }
+    };
   },
   methods: {
     login() {
-      this.pending = true
+      this.pending = true;
 
       this.$store
-        .dispatch('auth/login', this.form)
+        .dispatch("auth/login", this.form)
         .then(() => {
-          this.$router.push('/')
+          this.$router.push("/");
         })
-        .finally(() => this.pending = false)
+        .finally(() => (this.pending = false));
     },
   },
-}
+};
 </script>
 
-<style>
-</style>
+<style></style>
