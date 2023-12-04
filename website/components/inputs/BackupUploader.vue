@@ -1,21 +1,30 @@
 <template>
   <div>
-    <vs-button @click="activeModal = true">Upload backup file</vs-button>
+    <v-btn @click="activeModal = true">Upload backup file</v-btn>
 
-    <vs-dialog :value="activeModal" :loading="uploadPending" not-close>
-      <template #header>
-        <h4 class="not-margin">Backup uploader</h4>
-      </template>
+    <v-dialog v-model="activeModal" :loading="uploadPending" persistent>
+      <v-card>
+        <v-card-title>
+          <h4 class="not-margin">Backup uploader</h4>
+        </v-card-title>
 
-      <p>Please select a zip file that you downloaded before from here</p>
+        <v-card-text>
+          <p>Please select a zip file that you downloaded before from here</p>
+          <input
+            :key="key"
+            accept="application/zip"
+            class="mt-2"
+            type="file"
+            ref="fileInput"
+          />
+        </v-card-text>
 
-      <input :key="key" accept="application/zip" class="mt-2" type="file" ref="fileInput" />
-
-      <div class="flex mt-4">
-        <vs-button @click="uploadFile">Upload</vs-button>
-        <vs-button @click="activeModal = false" danger>Close</vs-button>
-      </div>
-    </vs-dialog>
+        <v-card-actions class="flex mt-4">
+          <v-btn @click="uploadFile">Upload</v-btn>
+          <v-btn @click="activeModal = false" color="red">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -28,7 +37,7 @@ export default {
       activeModal: false,
       uploadPending: false,
       removePending: false,
-      key : new Date().getTime()
+      key: new Date().getTime(),
     };
   },
 
@@ -39,28 +48,23 @@ export default {
 
     uploadFile() {
       let [file] = this.getFiles();
-      debugger
-      if(!file) return;
+      debugger;
+      if (!file) return;
 
-      this.uploadPending = true
+      this.uploadPending = true;
 
       fileProvider
-        .uploadFileToURL(
-          '/backup',
-          file,
-          {},
-          (loaded) => {
-            console.log('uploading: ' + loaded)
-          },
-        )
+        .uploadFileToURL("/backup", file, {}, (loaded) => {
+          console.log("uploading: " + loaded);
+        })
         .then((fileDoc) => {
-          this.$emit('uploaded', fileDoc)
+          this.$emit("uploaded", fileDoc);
         })
         .finally(() => {
-          this.uploadPending = false
-          this.activeModal = false
-          this.key = new Date().getTime()
-        })
+          this.uploadPending = false;
+          this.activeModal = false;
+          this.key = new Date().getTime();
+        });
     },
   },
 };
