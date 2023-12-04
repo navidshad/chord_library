@@ -1,150 +1,162 @@
 <template>
   <div>
-    <SequencePresentor :slots="['email', 'code', 'password']" :active="page">
-      <card class="p-16" slot="email">
-        <div class="text-center text-muted mb-4">
-          <small>{{ $t('auth.recover-password') }}</small>
-        </div>
-        <div>
-          <vs-input
-            alternative
-            class="mb-3"
-            addon-left-icon="ni ni-email-83"
-            :placeholder="$t('auth.accountID')"
-            v-model="accountID"
-          >
-            <template #icon>
-              <i class="bx bx-user" />
-            </template>
-          </vs-input>
-          <div class="mt-4">
-            <vs-button block :loading="pending" @click="register">
-              {{ $t('auth.submit') }}
-            </vs-button>
-          </div>
-        </div>
-      </card>
+    <sequence-presentor :slots="['email', 'code', 'password']" :active="page">
+      <v-card class="p-16" slot="email">
+        <v-container>
+          <v-row>
+            <v-col class="text-center text-muted mb-4">
+              <small>{{ $t("auth.recover-password") }}</small>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="accountID"
+                :label="$t('auth.accountID')"
+                prepend-icon="bx bx-user"
+                append-icon=""
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col class="mt-4">
+              <v-btn block :loading="pending" @click="register">
+                {{ $t("auth.submit") }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card>
 
-      <card class="p-16" slot="code">
-        <div class="text-center text-muted mb-4">
-          <small>{{ $t('auth.verify-code') }}</small>
-        </div>
-        <div>
-          <vs-input
-            alternative
-            class="mb-3"
-            addon-left-icon="ni ni-email-83"
-            :placeholder="$t('auth.code')"
-            v-model="code"
-          />
-          <div class="mt-4">
-            <vs-button block :loading="pending" @click="verifyID">
-              {{ $t('auth.submit') }}
-            </vs-button>
-          </div>
-        </div>
-      </card>
+      <v-card class="p-16" slot="code">
+        <v-container>
+          <v-row>
+            <v-col class="text-center text-muted mb-4">
+              <small>{{ $t("auth.verify-code") }}</small>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="code"
+                :label="$t('auth.code')"
+                prepend-icon="bx bx-user"
+                append-icon=""
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col class="mt-4">
+              <v-btn block :loading="pending" @click="verifyID">
+                {{ $t("auth.submit") }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card>
 
-      <card class="p-16" slot="password">
-        <div class="text-center text-muted mb-4">
-          <small>{{ $t('auth.choose-password') }}</small>
-        </div>
-        <div>
-          <vs-input
-            alternative
-            type="password"
-            addon-left-icon="ni ni-lock-circle-open"
-            :placeholder="$t('auth.password')"
-            v-model="password"
-          >
-            <template #icon>
-              <i class="bx bx-lock-open-alt"></i>
-            </template>
-          </vs-input>
-          <div class="mt-4">
-            <vs-button block :loading="pending" @click="changePassword">
-              {{ $t('auth.submit') }}
-            </vs-button>
-          </div>
-        </div>
-      </card>
-    </SequencePresentor>
+      <v-card class="p-16" slot="password">
+        <v-container>
+          <v-row>
+            <v-col class="text-center text-muted mb-4">
+              <small>{{ $t("auth.choose-password") }}</small>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="password"
+                :label="$t('auth.password')"
+                prepend-icon="bx bx-lock-open-alt"
+                :type="'password'"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col class="mt-4">
+              <v-btn block :loading="pending" @click="changePassword">
+                {{ $t("auth.submit") }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card>
+    </sequence-presentor>
 
-    <div class="flex flex-row-reverse justify-between items-end mt-2 px-2">
-      <div>
-        <NuxtLink to="/">
-          <small>{{ $t('auth.forgot-password') }}</small>
-        </NuxtLink>
-      </div>
-      <div>
-        <NuxtLink to="/auth/login">
-          <small>{{ $t('auth.sign-in') }}</small>
-        </NuxtLink>
-      </div>
-    </div>
+    <v-row class="flex flex-row-reverse justify-between items-end mt-2 px-2">
+      <v-col>
+        <nuxt-link to="/">
+          <small>{{ $t("auth.forgot-password") }}</small>
+        </nuxt-link>
+      </v-col>
+      <v-col>
+        <nuxt-link to="/auth/login">
+          <small>{{ $t("auth.sign-in") }}</small>
+        </nuxt-link>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ForgotPassword',
-  layout: 'hero',
+  name: "ForgotPassword",
+  layout: "hero",
   data() {
     return {
-      accountID: '',
-      code: '',
-      password: '',
-      page: 'email',
+      accountID: "",
+      code: "",
+      password: "",
+      page: "email",
       pending: false,
       rememberMe: false,
-    }
+    };
   },
   methods: {
     register() {
-      this.pending = true
+      this.pending = true;
 
       this.$store
-        .dispatch('auth/submitIdentity', {
-          idType: 'email',
+        .dispatch("auth/submitIdentity", {
+          idType: "email",
           id: this.accountID,
         })
         .then(() => {
-          this.page = 'code'
+          this.page = "code";
         })
-        .finally(() => (this.pending = false))
+        .finally(() => (this.pending = false));
     },
 
     verifyID() {
-      this.pending = true
+      this.pending = true;
 
       this.$store
-        .dispatch('auth/verifyId', {
+        .dispatch("auth/verifyId", {
           id: this.accountID,
           code: this.code,
         })
         .then(() => {
-          this.page = 'password'
+          this.page = "password";
         })
-        .finally(() => (this.pending = false))
+        .finally(() => (this.pending = false));
     },
 
     changePassword() {
-      this.pending = true
+      this.pending = true;
 
       this.$store
-        .dispatch('auth/changePassword', {
+        .dispatch("auth/changePassword", {
           id: this.accountID,
           code: this.code,
           password: this.password,
         })
         .then(() => {
-          this.$router.push('/auth/login')
+          this.$router.push("/auth/login");
         })
-        .finally(() => (this.pending = false))
+        .finally(() => (this.pending = false));
     },
   },
-}
+};
 </script>
 
-<style>
-</style>
+<style></style>
