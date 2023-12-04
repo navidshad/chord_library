@@ -1,32 +1,36 @@
 <template>
   <div>
-    <div class="flex">
-      <div class="thumbnail bg-gray-300">
-        <img :src="thumbnailLink" />
-      </div>
-      <div>
-        <v-btn color="primary" @click="activeModal = true">Sellect Image</v-btn>
+    <v-row class="flex">
+      <v-col class="thumbnail bg-gray-300">
+        <v-img :src="thumbnailLink" />
+      </v-col>
+      <v-col>
+        <v-btn color="primary" @click="activeModal = true">Select Image</v-btn>
         <v-btn color="error" @click="removeImage">Remove</v-btn>
-      </div>
-    </div>
+      </v-col>
+    </v-row>
 
-    <vs-dialog :value="activeModal" :loading="uploadPending" not-close>
-      <template #header>
-        <h4 class="not-margin">Image uploader</h4>
-      </template>
-      <croppa
-        v-model="image"
-        :width="width"
-        :height="height"
-        :initial-image="thumbnailLink"
-        :prevent-white-space="true"
-      />
-      <div class="flex">
-        <vs-button @click="uploadImage">Upload</vs-button>
-        <vs-button @click="removeImage" danger>Remove</vs-button>
-        <vs-button @click="activeModal = false" danger>Close</vs-button>
-      </div>
-    </vs-dialog>
+    <v-dialog v-model="activeModal" :loading="uploadPending" persistent>
+      <v-card>
+        <v-card-title>
+          <h4 class="not-margin">Image uploader</h4>
+        </v-card-title>
+        <v-card-text>
+          <croppa
+            v-model="image"
+            :width="width"
+            :height="height"
+            :initial-image="thumbnailLink"
+            :prevent-white-space="true"
+          />
+        </v-card-text>
+        <v-card-actions class="flex">
+          <v-btn @click="uploadImage">Upload</v-btn>
+          <v-btn @click="removeImage" color="red">Remove</v-btn>
+          <v-btn @click="activeModal = false" color="red">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
