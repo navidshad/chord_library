@@ -33,6 +33,12 @@
         نظر خود را نیافتی به ما اطلاع بده تا در صورت تایید در برنامه تولید
         محتوای وبسایت قرارش بدیم.
       </p>
+
+      <p style="margin-top: 20px; color: blue">
+        <a target="_blank" href="https://forms.gle/nd6jY73D33Y3rBrW7"
+          ><span>فرم تماس با ما</span></a
+        >
+      </p>
     </card>
   </dir>
 </template>
@@ -47,7 +53,8 @@ export default {
         {
           hid: "about-us",
           name: "description",
-          content: "مرجع آکورد های کوردی است که با شور علاقه قلبی آن را طراحی کردیم",
+          content:
+            "مرجع آکورد های کوردی است که با شور علاقه قلبی آن را طراحی کردیم",
         },
       ],
     };
