@@ -1,21 +1,36 @@
-const { loadNuxt, build } = require('nuxt')
-
+const {
+  loadNuxt,
+  build
+} = require('nuxt')
+const {
+  createProxyMiddleware
+} = require('http-proxy-middleware');
 const app = require('express')()
+
 const isDev = process.env.NODE_ENV !== 'production'
 
 async function start() {
-    // We get Nuxt instance
-    const nuxt = await loadNuxt(isDev ? 'dev' : 'start')
+  // We get Nuxt instance
+  //
+  const nuxt = await loadNuxt(isDev ? 'dev' : 'start')
 
-    // Render every route with Nuxt.js
-    app.use(nuxt.render)
+  app.use('/api', createProxyMiddleware({
+    target: 'http://localhost:8081',
+    changeOrigin: true,
+    pathRewrite: (path, req) => path.replace('/api', ''),
+  }));
 
-    // Build only in dev mode with hot-reloading
-    if (isDev) {
-        build(nuxt)
-    }
+  // Render every route with Nuxt.js
+  //
+  app.use(nuxt.render)
 
-    app.listen(8080)
+  // Build only in dev mode with hot-reloading
+  //
+  if (isDev) {
+    build(nuxt)
+  }
+
+  app.listen(8080)
 }
 
 start()

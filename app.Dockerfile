@@ -2,6 +2,7 @@ FROM node:14.21.1-alpine
 
 # Install Tools
 #
+
 RUN apk add g++ make py3-pip
 RUN apk add zip
 RUN apk add --upgrade mongodb-tools
@@ -31,8 +32,7 @@ COPY .nuxt ./.nuxt
 VOLUME "/server/uploads"
 VOLUME "/server/backups"
 
-EXPOSE 80
-EXPOSE 81
+EXPOSE 8080
 
 COPY ecosystem.config.js ./
 CMD ["pm2-runtime", "ecosystem.config.js"]

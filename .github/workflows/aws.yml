@@ -8,11 +8,10 @@ on:
     branches:
       - master
 env:
-  AWS_REGION: us-east-1                           # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY_APP: goranee                     # set this to your Amazon ECR repository name
-  ECR_REPOSITORY_NGINX: goranee_nginx             # set this to your Amazon ECR repository name
-  ECS_SERVICE: goranee-service                    # set this to your Amazon ECS service name
-  ECS_CLUSTER: goranee-cluster                    # set this to your Amazon ECS cluster name
+  AWS_REGION: eu-central-1                        # set this to your preferred AWS region, e.g. us-west-1
+  ECR_REPOSITORY: goranee                         # set this to your Amazon ECR repository name
+  ECS_SERVICE: goranee-app-service                # set this to your Amazon ECS service name
+  ECS_CLUSTER: goranee                            # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: .aws/task-definition.json  # set this to the path to your Amazon ECS task definition
   CONTAINER_NAME: goranee-app                     # set this to the name of 
   
@@ -52,14 +51,9 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          
-          docker build -f app.Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY_APP:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY_APP:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_APP:$IMAGE_TAG" >> $GITHUB_OUTPUT
-
-          docker build -f nginx.Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY_NGINX:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY_NGINX:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_NGINX:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          docker build -f app.Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
@@ -76,4 +70,5 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
+
 

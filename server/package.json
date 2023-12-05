@@ -9,7 +9,7 @@
   "author": "Navid Shad",
   "license": "GPL-3.0",
   "dependencies": {
-    "@modular-rest/server": "^1.2.4",
+    "@modular-rest/server": "1.3.1",
     "dotenv": "^16.0.3",
     "nodemailer": "^6.4.18"
   }
