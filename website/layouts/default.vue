@@ -26,6 +26,10 @@
         {{ $t("search.label") }}
       </NuxtLink>
 
+      <NuxtLink to="/about-us" class="mx-2">
+        {{ $t("aboutus") }}
+      </NuxtLink>
+
       <NuxtLink to="/artist/all" class="mx-2">
         {{ $t("artist.artists") }}
       </NuxtLink>
@@ -108,8 +112,7 @@ export default {
   created() {
     if (!this.isLogin) {
       this.pending = true;
-      this.$store.dispatch("auth/loginWithLastSession")
-      .finally((_) => {
+      this.$store.dispatch("auth/loginWithLastSession").finally((_) => {
         this.pending = false;
       });
     }
