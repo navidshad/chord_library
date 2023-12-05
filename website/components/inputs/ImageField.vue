@@ -99,7 +99,9 @@ export default {
         });
     },
     async removeImage() {
-      this.uploadPending = true;
+      if(!this.fileDoc) return
+      
+      this.uploadPending = true
       fileProvider
         .removeFile(this.fileDoc._id)
         .then((fileDoc) => {
