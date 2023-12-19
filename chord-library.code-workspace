@@ -4,6 +4,9 @@
 			"path": "website"
 		},
 		{
+			"path": "website_nuxt3"
+		},
+		{
 			"path": "server"
 		},
 		{
