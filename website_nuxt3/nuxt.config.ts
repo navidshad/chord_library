@@ -3,7 +3,11 @@ dotenv.config({
   path: require('path').join(__dirname, '../.env')
 });
 
-export default {
+export default defineNuxtConfig({
+  // My Nuxt config
+})
+
+const temp ={
   env: {
     BASE_URL: process.env.VUE_APP_BASE_URL || 'https://goranee.ir/api/',
   },
@@ -146,5 +150,5 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 
-  buildDir: '../.nuxt'
+  // buildDir: '../.nuxt'
 }
