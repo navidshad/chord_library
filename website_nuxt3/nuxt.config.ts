@@ -1,21 +1,127 @@
+import { defineNuxtConfig } from '@nuxt/bridge';
+
 const dotenv = require('dotenv');
 dotenv.config({
   path: require('path').join(__dirname, '../.env')
 });
 
+// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  // My Nuxt config
+  devtools: { enabled: true },
+
+  server: {},
+
+  // Global page headers (https://go.nuxtjs.dev/config-head)
+  head: {
+    title: 'آکورد گورانی کوردی',
+    meta: [
+      {
+        charset: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'default',
+        name: 'description',
+        content: 'آرشیو آکورد آهنگ های کوردی'
+      }
+    ],
+    link: [{
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }]
+  },
+  
+  //router
+  hooks: {
+  
+     // middleware: ['init']
+    
+  },
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    //https://go.nuxtjs.dev/pwa
+    // '@nuxtjs/pwa',
+
+    //'@nuxtjs/google-gtag'
+
+    // [
+    //   'nuxt-i18n',
+    //   {
+    //     locales: [{
+    //       code: 'fa',
+    //       iso: 'fa-IR',
+    //       file: 'fa-IR.js'
+    //     }, ],
+    //     lazy: true,
+    //     langDir: 'lang/',
+    //     defaultLocale: 'fa'
+    //   }
+    // ],
+  ],
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  plugins: [
+    // @TODO: Install dependencies
+    // {
+    //   src: '@plugins/toaster.js',
+    //   mode: 'client'
+    // },
+    // {
+    //   src: '@plugins/boot.ts',
+    //   mode: 'client'
+    // },
+    // {
+    //   src: '@plugins/croppa.js',
+    //   mode: 'client'
+    // },
+  ],
+  //Components
+  components: [
+    // '~/components',
+    // {
+    //   path: '~/components/administration',
+    //   prefix: ''
+    // },
+    // {
+    //   path: '~/components/database',
+    //   prefix: ''
+    // },
+    // {
+    //   path: '~/components/inputs',
+    //   prefix: ''
+    // },
+    // {
+    //   path: '~/components/layouts',
+    //   prefix: ''
+    // },
+    // {
+    //   path: '~/components/materials',
+    //   prefix: ''
+    // },
+    // {
+    //   path: '~/components/notifiers',
+    //   prefix: ''
+    // },
+  ],
+
+  buildDir: '../.nuxt'
 })
 
 const temp ={
+  //@DONE
   env: {
     BASE_URL: process.env.VUE_APP_BASE_URL || 'https://goranee.ir/api/',
   },
 
+  //@DONE
   server: {
     // host: '0'
   },
 
+  //@DONE
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'آکورد گورانی کوردی',
@@ -45,9 +151,10 @@ const temp ={
     'vuesax/dist/vuesax.css'
   ],
 
+  //@DONE
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/vuesax',
+   
     {
       src: '@plugins/toaster.js',
       mode: 'client'
@@ -62,6 +169,7 @@ const temp ={
     },
   ],
 
+  //@DONE
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
     '~/components',
@@ -99,6 +207,7 @@ const temp ={
     '@nuxtjs/vuetify',
   ],
 
+  //@DONE
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
@@ -121,6 +230,7 @@ const temp ={
     ],
   ],
 
+  //@DONE
   router: {
     middleware: ['init']
   },
@@ -150,5 +260,6 @@ const temp ={
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 
-  // buildDir: '../.nuxt'
+  //@DONE
+  buildDir: '../.nuxt'
 }
