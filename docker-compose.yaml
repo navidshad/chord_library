@@ -16,7 +16,7 @@ services:
       - "mongo"
 
   mongo:
-    image: ghcr.io/navidshad/chord_library_mongodb:6.0.13-jammy
+    image: ghcr.io/navidshad/chord_library_mongodb:4.4.28
     ports:
       - "27017:27017"
     volumes:
