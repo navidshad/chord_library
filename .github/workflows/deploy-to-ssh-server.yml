@@ -55,14 +55,13 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Copy docker-compose file to EC2
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v0.1.4
         with:
           source: docker-compose.yaml
           target: .
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: 22
+          key: ${{ secrets.SSH_KEY }}
 
       # Deploy the Docker image to EC2 by SSH
       - name: Deploy the Docker image to EC2 by SSH
@@ -74,8 +73,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: 22
+          key: ${{ secrets.SSH_KEY }}
           envs: SERVER_IMAGE_NAME, SERVER_ADMIN_EMAIL, SERVER_ADMIN_PASSWORD
           script: |
             # Remove the previous version of the app, if exists
