@@ -3,8 +3,6 @@ name: Publish MongoDB to GitHub Package Registry
 on:
   # Trigger the workflow on push, or you can use other triggers as needed
   push:
-    branches: 
-      - main
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
