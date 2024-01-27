@@ -54,14 +54,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # - name: Copy docker-compose file to EC2
+      #   uses: appleboy/scp-action@v0.1.7
+      #   with:
+      #     source: docker-compose.yaml
+      #     target: .
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     key: ${{ secrets.SSH_KEY }}
+
       - name: Copy docker-compose file to EC2
-        uses: appleboy/scp-action@v0.1.7
+        uses: TwanLuttik/gh-action-scp
         with:
-          source: docker-compose.yaml
-          target: .
+          local: test/oof.txt
+          remote: scp/single/oof.txt
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          privateKey: ${{ secrets.SSH_KEY }}
 
       # Deploy the Docker image to EC2 by SSH
       - name: Deploy the Docker image to EC2 by SSH
