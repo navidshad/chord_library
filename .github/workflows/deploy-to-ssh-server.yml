@@ -67,7 +67,7 @@ jobs:
         uses: TwanLuttik/gh-action-scp@master
         with:
           local: docker-compose.yaml
-          remote: ~/docker-compose.yaml
+          remote: docker-compose.yaml
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           privateKey: ${{ secrets.SSH_KEY }}
