@@ -1,0 +1,24 @@
+services:
+  website:
+    image: navidshad/goranee.ir:${SERVER_IMAGE_NAME:-website:latest}
+    # build:
+    #   context: .
+    #   dockerfile: server.Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./public:/app/public/downloads
+    environment:
+      - ADMIN_EMAIL=${SERVER_ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD}
+    depends_on:
+      - "mongo"
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    restart: always
