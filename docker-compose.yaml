@@ -1,6 +1,6 @@
 services:
   website:
-    image: navidshad/goranee.ir:${SERVER_IMAGE_NAME:-website:latest}
+    image: ghcr.io/navidshad/chord_library:${SERVER_IMAGE_NAME:-website:latest}
     # build:
     #   context: .
     #   dockerfile: server.Dockerfile
@@ -16,7 +16,7 @@ services:
       - "mongo"
 
   mongo:
-    image: mongo:latest
+    image: ghcr.io/navidshad/chord_library:mongodb:6.0.13-jammy
     ports:
       - "27017:27017"
     volumes:

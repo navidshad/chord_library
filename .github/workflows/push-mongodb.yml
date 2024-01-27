@@ -1,0 +1,37 @@
+name: Publish MongoDB to GitHub Package Registry
+
+on:
+  # Trigger the workflow on push, or you can use other triggers as needed
+  push:
+    branches: 
+      - main
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}:mongodb
+  MONGODB_VERSION: 6.0.13-jammy
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull MongoDB Image from Docker Hub
+        run: docker pull mongo:${{ env.MONGODB_VERSION }}
+
+      - name: Tag the MongoDB Image
+        run: docker tag mongo:${{ env.MONGODB_VERSION }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MONGODB_VERSION }}
+
+      - name: Push the MongoDB Image to GitHub Container Registry
+        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.MONGODB_VERSION }}
