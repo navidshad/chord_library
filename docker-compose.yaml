@@ -10,8 +10,12 @@ services:
     volumes:
       - ./public:/app/public/downloads
     environment:
-      - ADMIN_EMAIL=${SERVER_ADMIN_EMAIL}
-      - ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD}
+      - ADMIN_EMAIL=${SERVER_ADMIN_EMAIL:-admin@mail.com}
+      - ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD:-admin}
+      - NODE_ENV=production
+      - VUE_APP_BASE_URL=https://goranee.ir/api/
+      - MONGODB_URL=mongodb://localhost:27017
+      - MONGODB_prefix=mrest_
     depends_on:
       - "mongo"
 
