@@ -7,7 +7,7 @@ import { dataProvider } from "@modular-rest/client";
 
 export default {
   async asyncData({}) {
-    const list = [];
+    let list = [];
 
     await dataProvider
       .find({
@@ -17,7 +17,9 @@ export default {
         populates: ["genres", { path: "artists", select: "name" }],
         options: { sort: "-_id" },
       })
-      .then((docs) => list.concat(docs))
+      .then((docs) => {
+        list = docs;
+      })
       .catch((err) => console.log(err));
 
     return {
