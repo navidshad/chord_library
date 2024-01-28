@@ -14,7 +14,7 @@ services:
       - ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD:-admin}
       - NODE_ENV=production
       - VUE_APP_BASE_URL=https://goranee.ir/api/
-      - MONGODB_URL=mongodb://localhost:27017
+      - MONGODB_URL=mongodb://mongo:27017
       - MONGODB_prefix=mrest_
     depends_on:
       - "mongo"
