@@ -86,14 +86,13 @@ export default {
           .find({
             database: "tab",
             collection: "artist",
-            query: { name: { $regex: this.phrase } },
+            query: { $text: { $search: this.phrase } },
             options: { sort: "-_id" },
           })
           // .then((docs) => this.filterSearchResultArtist(docs, this.phrase)),
           .then((docs) => (this.artists = docs)),
       ]).finally((_) => (this.pending = false));
 
-      
       this.$gtag("event", "search", {
         event_label: this.phrase,
       });
