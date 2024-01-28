@@ -1,13 +1,15 @@
+import { BASE_URL } from "@/config";
+
 export default {
   state() {
     return {
       list: [],
-    }
+    };
   },
 
   getters: {
     list(state) {
-      return state.list || []
+      return state.list || [];
     },
   },
 
@@ -19,63 +21,56 @@ export default {
     REMOVE_FROMlIST(state, fileName) {
       let index = state.list.findIndex(fileName);
       state.list.splice(index, 1);
-    }
+    },
   },
 
   actions: {
-    getList({
-      commit,
-      state
-    }, options = {
-      reload: false
-    }) {
-      let url = process.env.BASE_URL + '/backup/list'
+    getList(
+      { commit, state },
+      options = {
+        reload: false,
+      }
+    ) {
+      const url = BASE_URL + "/backup/list";
 
-      return fetch(url).then(async r => {
+      return fetch(url).then(async (r) => {
         let body = await r.json();
-        commit('SET_LIST', body.list)
+        commit("SET_LIST", body.list);
         return body;
-      })
+      });
     },
 
-    createNewBackup({
-      commit,
-      state
-    }) {
-      const url = process.env.BASE_URL + '/backup'
+    createNewBackup({ commit, state }) {
+      const url = BASE_URL + "/backup";
       return fetch(url);
     },
 
-    removeBackupfile({
-      commit,
-      state,
-    }, fileName) {
-      const url = process.env.BASE_URL + '/backup/' + fileName
+    removeBackupfile({ commit, state }, fileName) {
+      const url = BASE_URL + "/backup/" + fileName;
       return fetch(url, {
-          method: 'DELETE'
-        })
-        .then(() => commit('REMOVE_FROMlIST', fileName))
+        method: "DELETE",
+      }).then(() => commit("REMOVE_FROMlIST", fileName));
     },
 
     restoreBackupFile({}, fileName) {
-      const url = process.env.BASE_URL + '/backup/restore';
+      const url = BASE_URL + "/backup/restore";
 
       const body = JSON.stringify({
-        fileName
-      })
+        fileName,
+      });
 
       return fetch(url, {
-        method: 'POST',
+        method: "POST",
         body,
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(async res => {
+          "Content-Type": "application/json",
+        },
+      }).then(async (res) => {
         const body = res.json();
 
-        if(!res.ok) throw body
-        else return body
-      })
-    }
-  }
-}
+        if (!res.ok) throw body;
+        else return body;
+      });
+    },
+  },
+};

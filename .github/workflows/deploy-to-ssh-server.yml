@@ -22,10 +22,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-
+        
       - name: Build nuxt app
         run: |
           cd website
+          echo "VUE_APP_BASE_URL=/api" > .env
           npm install
           npm run build
 

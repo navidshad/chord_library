@@ -5,13 +5,15 @@ import "~/assets/style/style.scss";
 import "~/assets/style/fonts.css";
 import "boxicons/css/boxicons.min.css";
 
-export default async function() {
+import { BASE_URL } from "@/config";
+
+export default async function () {
   /**
    * Setup mrest-web module
    */
-  const baseUrl = process.env.BASE_URL || "";
+
   GlobalOptions.set({
-    host: baseUrl
+    host: BASE_URL as string,
   });
 
   localStorage.removeItem("token");

@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div class="page">
     <div class="container">
       <p>
@@ -44,8 +44,8 @@
   </div>
 </template>
 
-  <script>
-import { is } from "@babel/types";
+<script>
+import { BASE_URL } from "@/config";
 import notifier from "~/utilities/notifier";
 
 export default {
@@ -66,8 +66,7 @@ export default {
   },
   methods: {
     getLink(title) {
-      let url = process.env.BASE_URL + "/backup-files/" + title;
-      return url;
+      return BASE_URL + "/backup-files/" + title;
     },
     getList() {
       this.loadingList = true;

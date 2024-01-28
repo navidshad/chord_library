@@ -1,9 +1,9 @@
 services:
   website:
-    image: ghcr.io/navidshad/chord_library:${SERVER_IMAGE_NAME:-website:latest}
-    # build:
-    #   context: .
-    #   dockerfile: server.Dockerfile
+    # image: ghcr.io/navidshad/chord_library:${SERVER_IMAGE_NAME:-website:latest}
+    build:
+      context: .
+      dockerfile: app.Dockerfile
     restart: always
     ports:
       - "80:8080"
@@ -13,7 +13,7 @@ services:
       - ADMIN_EMAIL=${SERVER_ADMIN_EMAIL:-admin@mail.com}
       - ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD:-admin}
       - NODE_ENV=production
-      - VUE_APP_BASE_URL=https://goranee.ir/api/
+      - VUE_APP_BASE_URL=/api/
       - MONGODB_URL=mongodb://mongo:27017
       - MONGODB_prefix=mrest_
     depends_on:
