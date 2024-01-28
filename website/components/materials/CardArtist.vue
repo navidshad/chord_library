@@ -47,6 +47,7 @@
 
 <script>
 import { fileProvider } from "@modular-rest/client";
+import { BASE_URL } from "~/config";
 
 export default {
   name: "card-artist",
@@ -57,7 +58,7 @@ export default {
   },
   computed: {
     thumbnailLink() {
-      return fileProvider.getFileLink(this.artist.image);
+      return fileProvider.getFileLink(this.artist.image, BASE_URL);
     },
   },
   methods: {

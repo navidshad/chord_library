@@ -7,16 +7,7 @@
     </template>
     <template #text>
       <div
-        class="
-          flex flex-col
-          items-end
-          justify-between
-          h-32
-          w-32
-          md:w-40
-          lg:w-48
-          xl:w-48
-        "
+        class="flex flex-col items-end justify-between h-32 w-32 md:w-40 lg:w-48 xl:w-48"
       >
         <div class="flex flex-wrap">
           <span v-for="(artist, i) in song.artists" :key="i">{{
@@ -51,6 +42,7 @@
 
 <script>
 import { fileProvider } from "@modular-rest/client";
+import { BASE_URL } from "~/config";
 
 export default {
   name: "card-song",
@@ -61,7 +53,7 @@ export default {
   },
   computed: {
     thumbnailLink() {
-      return fileProvider.getFileLink(this.song.image);
+      return fileProvider.getFileLink(this.song.image, BASE_URL);
     },
   },
   methods: {

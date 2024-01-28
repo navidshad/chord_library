@@ -1,4 +1,4 @@
- <template>
+<template>
   <div>
     <section dir="rtl">
       <span class="font-bold text-lg">{{ $t("melody-uploader.title") }}</span>
@@ -61,9 +61,9 @@
 <script>
 import { fileProvider } from "@modular-rest/client";
 import notifier from "../../utilities/notifier";
+import { BASE_URL } from "~/config";
 
 export default {
-  
   model: {
     prop: "melodies",
   },
@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     getFileLink(file) {
-      return fileProvider.getFileLink(file)
+      return fileProvider.getFileLink(file, BASE_URL);
     },
     addNewMelody() {
       this.tempMelodies.push({
@@ -176,5 +176,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

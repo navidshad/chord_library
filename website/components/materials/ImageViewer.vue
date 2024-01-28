@@ -9,7 +9,8 @@
 </template>
 
 <script>
-import { fileProvider } from '@modular-rest/client'
+import { fileProvider } from "@modular-rest/client";
+import { BASE_URL } from "~/config";
 
 export default {
   props: {
@@ -17,10 +18,10 @@ export default {
   },
   computed: {
     thumbnailLink() {
-      return fileProvider.getFileLink(this.fileDoc || {})
+      return fileProvider.getFileLink(this.fileDoc || {}, BASE_URL);
     },
   },
-}
+};
 </script>
 
 <style lang="scss">

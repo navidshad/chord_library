@@ -9,7 +9,7 @@
         <vs-button @click="removeImage" danger>Remove</vs-button>
       </div>
     </div>
-    
+
     <vs-dialog :value="activeModal" :loading="uploadPending" not-close>
       <template #header>
         <h4 class="not-margin">Image uploader</h4>
@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import { fileProvider } from '@modular-rest/client'
-
+import { fileProvider } from "@modular-rest/client";
+import { BASE_URL } from "~/config";
 export default {
   props: {
     width: { type: Number, default: 256 },
@@ -41,7 +41,7 @@ export default {
     tag: String,
   },
   model: {
-    prop: 'fileDoc',
+    prop: "fileDoc",
   },
   data() {
     return {
@@ -49,11 +49,11 @@ export default {
       image: null,
       uploadPending: false,
       removePending: false,
-    }
+    };
   },
   computed: {
     thumbnailLink() {
-      return fileProvider.getFileLink(this.fileDoc || {})
+      return fileProvider.getFileLink(this.fileDoc || {}, BASE_URL);
     },
   },
   methods: {
@@ -61,53 +61,53 @@ export default {
       return new Promise((done) => {
         this.image.generateBlob(
           (blob) => {
-            done(blob)
+            done(blob);
           },
           // Extention
-          'image/jpeg',
+          "image/jpeg",
           // 80% compressed jpeg file
           0.8
-        )
-      })
+        );
+      });
     },
     async uploadImage() {
-      let file = await this.extractImage()
-      this.uploadPending = true
+      let file = await this.extractImage();
+      this.uploadPending = true;
 
       if (this.fileDoc != null) {
-        await this.removeImage()
+        await this.removeImage();
       }
 
       fileProvider
         .uploadFile(
           file,
           (loaded) => {
-            console.log('uploading: ' + loaded)
+            console.log("uploading: " + loaded);
           },
           this.tag
         )
         .then((fileDoc) => {
-          this.$emit('input', fileDoc)
+          this.$emit("input", fileDoc);
         })
         .finally(() => {
-          this.uploadPending = false
-          this.$emit('changed')
-        })
+          this.uploadPending = false;
+          this.$emit("changed");
+        });
     },
     async removeImage() {
-      if(!this.fileDoc) return
-      
-      this.uploadPending = true
+      if (!this.fileDoc) return;
+
+      this.uploadPending = true;
       fileProvider
         .removeFile(this.fileDoc._id)
         .then((fileDoc) => {
-          this.$emit('input', null)
-          this.$emit('changed')
+          this.$emit("input", null);
+          this.$emit("changed");
         })
-        .finally(() => (this.uploadPending = false))
+        .finally(() => (this.uploadPending = false));
     },
   },
-}
+};
 </script>
 
 <style lang="scss">
