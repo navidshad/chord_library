@@ -32,7 +32,7 @@
 
 <script>
 import { fileProvider } from "@modular-rest/client";
-import { BASE_URL } from "~/config";
+import { BASE_URL_ON_ClIENT } from "~/config";
 export default {
   props: {
     width: { type: Number, default: 256 },
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     thumbnailLink() {
-      return fileProvider.getFileLink(this.fileDoc || {}, BASE_URL);
+      return fileProvider.getFileLink(this.fileDoc || {}, BASE_URL_ON_ClIENT);
     },
   },
   methods: {

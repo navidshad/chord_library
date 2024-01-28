@@ -8,8 +8,7 @@ export default {
     // base url for client side to be used in axios
     BASE_URL: process.env.VUE_APP_BASE_URL,
     // base url for server side to be used in axios
-    BASE_URL_ON_SERVER:
-      process.env.VUE_APP_BASE_URL_ON_SERVER || "http://localhost:8081",
+    BASE_URL_ON_SERVER: process.env.VUE_APP_BASE_URL_ON_SERVER,
   },
 
   server: {

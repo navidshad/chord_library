@@ -1,14 +1,14 @@
 services:
   website:
-    image: ghcr.io/navidshad/chord_library:${SERVER_IMAGE_NAME:-website:latest}
-    # build:
-    #   context: .
-    #   dockerfile: app.Dockerfile
+    # image: ghcr.io/navidshad/chord_library:${SERVER_IMAGE_NAME:-website:latest}
+    build:
+      context: .
+      dockerfile: app.Dockerfile
     restart: always
     ports:
       - "80:8080"
     volumes:
-      - ./public:/app/public/downloads
+      - ./public_assets:/app/public/downloads
     environment:
       - ADMIN_EMAIL=${SERVER_ADMIN_EMAIL:-admin@mail.com}
       - ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD:-admin}
@@ -24,5 +24,5 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./data:/data/db
+      - ./database_data:/data/db
     restart: always

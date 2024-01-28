@@ -1,7 +1,7 @@
 function setBaseURL() {
   let baseURL = process.env.BASE_URL;
 
-  if (process.server) {
+  if (!process.client) {
     baseURL = process.env.BASE_URL_ON_SERVER;
     return baseURL;
   }
@@ -22,3 +22,4 @@ function setBaseURL() {
 }
 
 export const BASE_URL = setBaseURL();
+export const BASE_URL_ON_ClIENT = process.env.BASE_URL;

@@ -61,7 +61,7 @@
 <script>
 import { fileProvider } from "@modular-rest/client";
 import notifier from "../../utilities/notifier";
-import { BASE_URL } from "~/config";
+import { BASE_URL_ON_ClIENT } from "~/config";
 
 export default {
   model: {
@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     getFileLink(file) {
-      return fileProvider.getFileLink(file, BASE_URL);
+      return fileProvider.getFileLink(file, BASE_URL_ON_ClIENT);
     },
     addNewMelody() {
       this.tempMelodies.push({

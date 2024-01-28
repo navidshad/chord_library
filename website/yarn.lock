@@ -953,10 +953,10 @@
     methods "^1.1.2"
     path-to-regexp "^6.1.0"
 
-"@modular-rest/client@1.2.14":
-  version "1.2.14"
-  resolved "https://registry.yarnpkg.com/@modular-rest/client/-/client-1.2.14.tgz#85f4fd5ec5e6bb15a16d938af14e1a2266d321ce"
-  integrity sha512-8ZRHFAOote5rl62RFlHAyOJ9LJbfgvuJRSGdB4s+x3gLXd10985vrw+YdowhR1EqnX1OFJF1cPePHJl9rtlnEg==
+"@modular-rest/client@1.2.26":
+  version "1.2.26"
+  resolved "https://registry.yarnpkg.com/@modular-rest/client/-/client-1.2.26.tgz#28172cead639490494bf57fe86002534ec6af962"
+  integrity sha512-2Q25ap5oZ5DELro9TH2ZqtaH496x4wydDPRsCpPJhmx6coQPI3ATKbXYIN72ofs7LiqrzN7YZhkFgDrDIxmEdQ==
   dependencies:
     axios "^0.21.0"
     ts-bus "^2.3.1"
