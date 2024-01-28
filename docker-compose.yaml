@@ -8,7 +8,8 @@ services:
     ports:
       - "80:8080"
     volumes:
-      - ./public_assets:/app/public/downloads
+      - ./public_assets:/server/downloads
+      - ./backups:/server/backups
     environment:
       - ADMIN_EMAIL=${SERVER_ADMIN_EMAIL:-admin@mail.com}
       - ADMIN_PASSWORD=${SERVER_ADMIN_PASSWORD:-admin}
