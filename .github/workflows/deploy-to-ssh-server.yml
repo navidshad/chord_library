@@ -26,7 +26,8 @@ jobs:
       - name: Build nuxt app
         run: |
           cd website
-          echo "VUE_APP_BASE_URL=/api" > .env
+          echo "VUE_APP_BASE_URL=/api/" > .env
+          echo "VUE_APP_BASE_URL_ON_SERVER=http://localhost:8081/" >> .env
           npm install
           npm run build
 
