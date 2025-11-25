@@ -59,17 +59,18 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Copy docker-compose file to server
-        uses: TwanLuttik/gh-action-scp@master
+        uses: appleboy/scp-action@v0.1.7
         with:
-          local: docker-compose.yaml
-          remote: docker-compose.yaml
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          privateKey: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "docker-compose.yaml"
+          target: "."
+          timeout: 30s
       
 
       - name: Fetch the Docker images from server
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1
         env:
           SERVER_IMAGE_NAME: ${{ env.IMAGE_TAG_SERVER }}
           SERVER_ADMIN_EMAIL: ${{ vars.SERVER_ADMIN_EMAIL }}
