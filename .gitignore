@@ -4,3 +4,6 @@
 website/test.js
 data
 public_assets
+nginx/ssl/*.pem
+nginx/ssl/*.key
+nginx/certbot/*
