@@ -18,6 +18,42 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      nginx: ${{ steps.filter.outputs.nginx }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            nginx:
+              - 'nginx.Dockerfile'
+          list-files: shell
+
+  build-nginx:
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: needs.check-changes.outputs.nginx == 'true'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Nginx Image
+        run: |
+          docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}_nginx:latest -f nginx.Dockerfile .
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}_nginx:latest
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -54,7 +90,8 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, build-nginx, check-changes]
+    if: needs.build.result == 'success'
     steps:
       - uses: actions/checkout@v3
 
