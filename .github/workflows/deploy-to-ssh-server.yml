@@ -32,6 +32,7 @@ jobs:
         with:
           filters: |
             nginx:
+              - 'nginx/**'
               - 'nginx.Dockerfile'
           list-files: shell
 
